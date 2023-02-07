@@ -1,0 +1,20 @@
+digraph G{
+rankdir=LR;
+node[shape=Mrecord];
+
+1[label="a | 5 " ];
+2[label="b | 14 " ];
+3[label="copy " ];
+2->3;
+5[label="temp0 | 14 " ];
+3->5;
+6[label="+ " ];
+2->6;
+1->6;
+7[label="temp0 | 19 " ];
+6->7;
+8[label="copy " ];
+7->8;
+10[label="temp1 | 19 " ];
+8->10;
+}
