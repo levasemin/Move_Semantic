@@ -2,19 +2,25 @@ digraph G{
 rankdir=LR;
 node[shape=Mrecord];
 
-1[label="a | 5 " ];
-2[label="b | 14 " ];
-3[label="copy " ];
-2->3;
-5[label="temp0 | 14 " ];
-3->5;
-6[label="+ " ];
-2->6;
-1->6;
-7[label="temp0 | 19 " ];
+1[label=" name: a | value:5 | address: 140723970948896 " ];
+2[label=" name: b | value:14 | address: 140723970948976 " ];
+3[label=" name: c | value:20 | address: 140723970949056 " ];
+4[label="copy" color = "red"];
+1->4;
+6[label=" name: tmp0 | value:5 | address: 140723970948768 " ];
+4->6;
+7[label="+=" color = "black"];
 6->7;
-8[label="copy " ];
+2->7;
+8[label=" name: tmp0 | value:19 | address: 140723970948768 " ];
 7->8;
-10[label="temp1 | 19 " ];
-8->10;
+9[label="move" color = "green"];
+8->9;
+11[label=" name: tmp1 | value:19 | address: 140723970949136 " ];
+9->11;
+12[label="= (move)" color = "green"];
+3->12;
+11->12;
+13[label=" name: c | value:19 | address: 140723970949056 " ];
+12->13;
 }

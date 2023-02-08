@@ -1,8 +1,9 @@
-#include "SuperInt.hpp"
+#include "Tracker.hpp"
 
 int main()
 {
-    SuperInt<int> a(5, "a");
-    SuperInt<int> b(14, "b");
-    b + a;
+    SuperType<int> a(5, "a");
+    SuperType<int> b(14, "b");
+    SuperType<int> c(20, "c");
+    c = a + b;
 }
