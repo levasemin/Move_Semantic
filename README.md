@@ -5,6 +5,6 @@
 Флаг -fno-elide-constructors отключает эту оптимизацию и позволит более детально рассмотреть вызовы конструкторов копирования (перемещения) во всех случаях.
 
 <p>
-    <img src="images/graph_no_flag.png" alt="Фотография 1" width="120" height="120">
-    <img src="images/graph_flag.png" alt="Фотография 2" width="120" height="120">
-  </p>
+    <img src="images/graph_no_flag.png" alt="Фотография 1">
+    <img src="images/graph_flag.png" alt="Фотография 2">
+ </p>
