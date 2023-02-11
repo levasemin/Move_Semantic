@@ -4,9 +4,7 @@
 Оптимизации компилятора позволяют не создавать временный объект, который используется только для инициализации объекта такого же типа. 
 Флаг -fno-elide-constructors отключает эту оптимизацию и позволит более детально рассмотреть вызовы конструкторов копирования (перемещения) во всех случаях.
 
-![Иллюстрация к проекту](https://github.com/jon/coolproject/raw/master/image/image.png)
-
-![Image alt](https://github.com/{username}/{repository}/raw/{branch}/{path}/image.png)
+![Image alt](https://github.com/{levasemin}/{demo_int}/raw/{master}/{images}/graph_flag.png)
 
 {username} — ваш ник на ГитХабе;
 {repository} — репозиторий где хранятся картинки;
