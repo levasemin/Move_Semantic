@@ -5,16 +5,7 @@
 
 
 template<class T>
-SuperType<T> func1(SuperType<T> a, SuperType<T> b)
-{
-    start_function()
-    SuperType<int> c = a + b;
-    end_function()
-    return c;
-}
-
-template<class T>
-SuperType<T> func2(SuperType<T> a, SuperType<T> b)
+SuperType<T> func(SuperType<T> a, SuperType<T> b)
 {
     start_function()
     SuperType<int> c = a + b;
@@ -25,10 +16,13 @@ SuperType<T> func2(SuperType<T> a, SuperType<T> b)
 int main()
 {
     start_function();
-    SuperType<int> a(5, "a");
+    
+    SuperType<int> a(5,  "a");
     SuperType<int> b(14, "b");
-    SuperType<int> c1(func1(a, b), "c1");
-    SuperType<int> c2(func2(a, b), "c2");
-    SuperType<float> c3(0.5, "c3");
+    SuperType<int> c(20, "c");
+    SuperType<int> result(0, "result");
+    
+    result = func(a * c, b - c);
+    
     end_function();
 }

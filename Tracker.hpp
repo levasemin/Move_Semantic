@@ -17,9 +17,10 @@ public:
     }
 
     template <class T>
-    void print_operation(const SuperType<T> &first_object, const SuperType<T> &second_object, SuperType<T> &result, std::string operation, const std::string &color = "black")
+    void print_operation(const SuperType<T> &first_object, const SuperType<T> &second_object, SuperType<T> &result, std::string operation, 
+                         const std::string &color = "black", const std::string &style = "")
     {
-        print_oper(operation, color);
+        print_oper(operation, color, style);
         int operation_id = id;
 
         print_edge(first_object.id_, operation_id);
@@ -29,9 +30,9 @@ public:
     }
 
     template<class T>
-    int print_operation(SuperType<T> &first_object, std::string operation, const std::string &color = "black")
+    int print_operation(SuperType<T> &first_object, std::string operation, const std::string &color = "black", const std::string &style = "")
     {
-        int operation_id = print_oper(operation, color);;
+        int operation_id = print_oper(operation, color, style);
 
         print_edge(first_object.id_, operation_id);
         print_node(first_object);
@@ -53,7 +54,7 @@ public:
     void print_node(SuperType<T> &object)
     {
         object.id_ = ++id;
-        std::string string = std::to_string(object.id_) + "[label=\" name: " + object.name_ + " | value:" + std::to_string(object.value_) + " | address: " + std::to_string(uint64_t(&object)) + " \" ];";
+        std::string string = std::to_string(object.id_) + "[label=\"{ {name: " + object.name_ + "} | {value:" + std::to_string(object.value_) + "} | {address: " + std::to_string(uint64_t(&object)) + "}} \" ];";
         file_ << string << std::endl;
     }
 
@@ -82,14 +83,13 @@ public:
         std::ofstream file;
 
         file_.open(file_name);
-        file_ << "digraph G{\nrankdir=LR;\nnode[shape=Mrecord];\n" << std::endl;
+        file_ << "digraph G{\ntrankdir=HR;\nnode[shape=Mrecord];\n" << std::endl;
     }
 
     void close_file()
     {         
         file_ << "}";
         file_.close();
-        std::cout << "dot -T png " + file_name_ + ".dot > " + file_name_  + ".png";
         system(("dot -T png " + file_name_ + ".dot > " + file_name_  + ".png").c_str());
     }
 

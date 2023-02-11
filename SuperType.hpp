@@ -76,8 +76,8 @@ public:
     SuperType<T>(const SuperType<T> &that, const std::string &name = "");    
     SuperType<T> &operator= (const SuperType<T> &that);
 
-    SuperType<T>(SuperType<T> &&that, const std::string &name = "");
-    SuperType<T> &operator= (SuperType<T> &&that);
+    // SuperType<T>(SuperType<T> &&that, const std::string &name = "");
+    // SuperType<T> &operator= (SuperType<T> &&that);
 
     ~SuperType<T>();
 
@@ -182,57 +182,57 @@ SuperType<T> &SuperType<T>::operator= (const SuperType<T> &that)
         Tracker &tracker = Tracker::getInstance();
 
         std::cout << "Operator = " << name_ << std::endl; 
-        tracker.print_operation(*this, that, *this, "= (copy)", "red");
+        tracker.print_operation(*this, that, *this, "= (copy)", "red", "filled");
     }
 
     return *this;
 }
 
 
-template<class T>
-SuperType<T>::SuperType(SuperType<T> &&that, const std::string &name): 
-    value_(that.value_), 
-    name_(name)
-{
-    if (!name_.size())
-    {
-        name_ = "tmp" + std::to_string(number_);
-        number_++;
-    }
+// template<class T>
+// SuperType<T>::SuperType(SuperType<T> &&that, const std::string &name): 
+//     value_(that.value_), 
+//     name_(name)
+// {
+//     if (!name_.size())
+//     {
+//         name_ = "tmp" + std::to_string(number_);
+//         number_++;
+//     }
 
-    if (log_)
-    {
-        std::cout << "Copy constructor " << name_ << std::endl; 
+//     if (log_)
+//     {
+//         std::cout << "Copy constructor " << name_ << std::endl; 
 
-        Tracker &tracker = Tracker::getInstance();
+//         Tracker &tracker = Tracker::getInstance();
 
-        int operation_id = tracker.print_oper("move", "green", "filled");;
+//         int operation_id = tracker.print_oper("move", "green", "filled");;
 
-        tracker.print_edge(that.id_, operation_id);
-        tracker.print_node(*this);
-        tracker.print_edge(operation_id, id_);
-    }
-}
+//         tracker.print_edge(that.id_, operation_id);
+//         tracker.print_node(*this);
+//         tracker.print_edge(operation_id, id_);
+//     }
+// }
 
-template<class T>
-SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
-{
-    if (this != &that)
-    {
-        this->value_ = that.value_;
+// template<class T>
+// SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
+// {
+//     if (this != &that)
+//     {
+//         this->value_ = that.value_;
         
-        if (log_)
-        {
-            std::cout << "Operator = " << name_ << std::endl; 
+//         if (log_)
+//         {
+//             std::cout << "Operator = " << name_ << std::endl; 
 
-            Tracker &tracker = Tracker::getInstance();
+//             Tracker &tracker = Tracker::getInstance();
 
-            tracker.print_operation(*this, that, *this, "= (move)", "green");
-        }
-    }
+//             tracker.print_operation(*this, that, *this, "= (move)", "green", "filled");
+//         }
+//     }
 
-    return *this;
-}
+//     return *this;
+// }
 
 
 template<class T>

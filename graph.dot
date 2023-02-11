@@ -1,54 +1,65 @@
 digraph G{
-rankdir=LR;
+trankdir=HR;
 node[shape=Mrecord];
 
 subgraph "cluster_0" {
 label = main;
 color = "0.0,1,1";
-1[label=" name: a | value:5 | address: 140725712754416 " ];
-2[label=" name: b | value:14 | address: 140725712754496 " ];
-3[label="copy" color = "red" style = "filled"];
-2->3;
-4[label=" name: tmp0 | value:14 | address: 140725712754816 " ];
-3->4;
-5[label="copy" color = "red" style = "filled"];
-1->5;
-6[label=" name: tmp1 | value:5 | address: 140725712754736 " ];
+1[label="{ {name: a} | {value:5} | {address: 140729504332704}} " ];
+2[label="{ {name: b} | {value:14} | {address: 140729504332784}} " ];
+3[label="{ {name: c} | {value:20} | {address: 140729504332864}} " ];
+4[label="{ {name: result} | {value:0} | {address: 140729504332944}} " ];
+5[label="-" color = "black" style = ""];
+2->5;
+3->5;
+6[label="{ {name: tmp0} | {value:-6} | {address: 140729504332512}} " ];
 5->6;
-subgraph "cluster_1" {
-label = func1;
-color = "0.15,1,1";
-7[label="+" color = "black" style = ""];
+7[label="copy" color = "red" style = "filled"];
 6->7;
-4->7;
-8[label=" name: tmp2 | value:19 | address: 140725712754896 " ];
+8[label="{ {name: tmp1} | {value:-6} | {address: 140729504333104}} " ];
 7->8;
-}
-9[label="move" color = "green" style = "filled"];
+9[label="copy" color = "red" style = "filled"];
 8->9;
-10[label=" name: c1 | value:19 | address: 140725712754576 " ];
+10[label="{ {name: tmp2} | {value:-6} | {address: 140729504333264}} " ];
 9->10;
-11[label="copy" color = "red" style = "filled"];
-2->11;
-12[label=" name: tmp3 | value:14 | address: 140725712754816 " ];
+11[label="*" color = "black" style = ""];
+1->11;
+3->11;
+12[label="{ {name: tmp3} | {value:100} | {address: 140729504332512}} " ];
 11->12;
 13[label="copy" color = "red" style = "filled"];
-1->13;
-14[label=" name: tmp4 | value:5 | address: 140725712754736 " ];
+12->13;
+14[label="{ {name: tmp4} | {value:100} | {address: 140729504333024}} " ];
 13->14;
-subgraph "cluster_2" {
-label = func2;
-color = "0.30,1,1";
-15[label="+" color = "black" style = ""];
+15[label="copy" color = "red" style = "filled"];
 14->15;
-12->15;
-16[label=" name: tmp5 | value:19 | address: 140725712754896 " ];
+16[label="{ {name: tmp5} | {value:100} | {address: 140729504333184}} " ];
 15->16;
-}
-17[label="move" color = "green" style = "filled"];
+subgraph "cluster_1" {
+label = func;
+color = "0.15,1,1";
+17[label="+" color = "black" style = ""];
 16->17;
-18[label=" name: c2 | value:19 | address: 140725712754656 " ];
+10->17;
+18[label="{ {name: tmp6} | {value:94} | {address: 140729504332240}} " ];
 17->18;
-19[label=" name: c3 | value:0.500000 | address: 140725712754896 " ];
+19[label="copy" color = "red" style = "filled"];
+18->19;
+20[label="{ {name: tmp7} | {value:94} | {address: 140729504332512}} " ];
+19->20;
+21[label="copy" color = "red" style = "filled"];
+20->21;
+22[label="{ {name: tmp8} | {value:94} | {address: 140729504332432}} " ];
+21->22;
+}
+23[label="copy" color = "red" style = "filled"];
+22->23;
+24[label="{ {name: tmp9} | {value:94} | {address: 140729504333344}} " ];
+23->24;
+25[label="= (copy)" color = "red" style = "filled"];
+4->25;
+24->25;
+26[label="{ {name: result} | {value:94} | {address: 140729504332944}} " ];
+25->26;
 }
 }
