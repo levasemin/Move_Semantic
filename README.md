@@ -6,5 +6,5 @@
 
 <p>
     <img src="images/graph_no_flag.png" alt="Фотография 1" width="400" height="400" class="up-img>
-    <img src="images/graph_flag.png"    alt="Фотография 2" width="400" height="800">
+    <img src="images/graph_flag.png"    alt="Фотография 2" width="400" height="800" class="up-img">
 </p>
