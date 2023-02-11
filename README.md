@@ -6,8 +6,8 @@
 
 <table>
 <tr>
-<td><a href="images/graph_no_flag.png "_blank"><img title="Описание" src="ссылка картинки" alt=""width="150" height="100"/></a> </td>
-<td><a href="images/graph_flag.png "_blank"><img title="Описание" src="ссылка картинки" alt=""width="150" height="100"/></a></td>
+<td><a href="images/graph_no_flag.png "_blank"><img title="Описание" src="ссылка картинки" alt=""width="400" height="400"/></a> </td>
+<td><a href="images/graph_flag.png "_blank"><img title="Описание" src="ссылка картинки" alt=""width="400" height="800"/></a></td>
 </tr>
 </table>
 
