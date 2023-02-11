@@ -22,7 +22,8 @@ int main()
     SuperType<int> c(20, "c");
     SuperType<int> result(0, "result");
     
-    result = func(a * c, b - c);
+    result = c;
+    result = func(a, b * c);
     
     end_function();
 }

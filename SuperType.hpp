@@ -164,7 +164,7 @@ SuperType<T>::SuperType(const SuperType<T> &that, const std::string &name):
         
         Tracker &tracker = Tracker::getInstance();
         
-        int operation_id = tracker.print_oper("copy", "red", "filled");
+        int operation_id = tracker.print_oper("copy", "", "filled");
 
         tracker.print_edge(that.id_, operation_id);
         tracker.print_node(*this);
@@ -182,7 +182,7 @@ SuperType<T> &SuperType<T>::operator= (const SuperType<T> &that)
         Tracker &tracker = Tracker::getInstance();
 
         std::cout << "Operator = " << name_ << std::endl; 
-        tracker.print_operation(*this, that, *this, "= (copy)", "red", "filled");
+        tracker.print_operation(*this, that, *this, "= (copy)", "", "filled");
     }
 
     return *this;
