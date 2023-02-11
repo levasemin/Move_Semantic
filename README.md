@@ -5,4 +5,4 @@
 Флаг -fno-elide-constructors отключает эту оптимизацию и позволит более детально рассмотреть вызовы конструкторов копирования (перемещения) во всех случаях.
 
  ![](https://github.com/levasemin/demo_int/blob/master/images/graph_no_flag.png "Блок схема без флага.")
- !["sdf"](https://github.com/levasemin/demo_int/blob/master/images/graph_flag.png "Блок схема с флагом.")
+ ![](https://github.com/levasemin/demo_int/blob/master/images/graph_flag.png "Блок схема с флагом.")
