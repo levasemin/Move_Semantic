@@ -52,7 +52,6 @@ SuperType<T> &operator oper (const SuperType<T> &that)                          
     return *this;                                                                               \
 }
 
-
 template<class T>
 class SuperType
 {

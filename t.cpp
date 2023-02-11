@@ -10,6 +10,15 @@ class SuperType;
 class Tracker
 {
 public:
+
+    enum class MOD
+    {
+        SINGLE,
+        MULTI
+    };
+    
+    MOD mod_ = MOD::MULTI;
+
     static Tracker &getInstance()
     {
         static Tracker tracker;
@@ -44,7 +53,7 @@ public:
     {
         ++id;
         std::string string = std::to_string(id) + "[label=\"" + operation + "\"" + " color = \"" + color + "\" " + "style = " + "\"" + style + "\"];";
-        file_ << string << std::endl;
+        files_.top() << string << std::endl;
 
         return id;
     }
@@ -54,19 +63,24 @@ public:
     {
         object.id_ = ++id;
         std::string string = std::to_string(object.id_) + "[label=\" name: " + object.name_ + " | value:" + std::to_string(object.value_) + " | address: " + std::to_string(uint64_t(&object)) + " \" ];";
-        file_ << string << std::endl;
+        files_.top() << string << std::endl;
     }
 
     void print_edge(int id1, int id2) 
     {
-        file_ << std::to_string(id1) + "->" + std::to_string(id2) + ";" << std::endl;
+        files_.top() << std::to_string(id1) + "->" + std::to_string(id2) + ";" << std::endl;
     }
     
     void print_open_func(const std::string &name)
     {
-        file_ << "subgraph " << "\"cluster_" << func_id << "\" {" << std::endl;
-        file_ << "label = " << name << ";" << std::endl; 
-        file_ << "color = " << "\"" << std::to_string(int(func_color_)) << "." << std::to_string(int(func_color_ * 100) % 100) << ",1,1\"" << ";" << std::endl;
+        if (mod_ == MOD::MULTI)
+        {
+            create_file(name + ".dot");
+        }
+
+        files_.top() << "subgraph " << "\"cluster_" << func_id << "\" {" << std::endl;
+        files_.top() << "label = " << name << ";" << std::endl; 
+        files_.top() << "color = " << "\"" << std::to_string(int(func_color_)) << "." << std::to_string(int(func_color_ * 100) % 100) << ",1,1\"" << ";" << std::endl;
 
         func_id++;
         func_color_ = func_color_ + 0.15 > 1 ? 0 : func_color_ + 0.15;
@@ -74,41 +88,60 @@ public:
 
     void print_close_func(const std::string &name)
     {
-        file_ << "}" << std::endl;
+        files_.top() << "}" << std::endl;
+        
+        if (mod_ == MOD::MULTI)
+        {
+            close_file();
+        }
     }
 
     void create_file(const std::string &file_name)
     {   
         std::ofstream file;
+        files_.push(std::move(file));
+        file_names_.push(file_name);
 
-        file_.open(file_name);
-        file_ << "digraph G{\nrankdir=LR;\nnode[shape=Mrecord];\n" << std::endl;
+        files_.top().open(file_name);
+        files_.top() << "digraph G{\nrankdir=LR;\nnode[shape=Mrecord];\n" << std::endl;
     }
 
     void close_file()
-    {         
-        file_ << "}";
-        file_.close();
+    {
+        std::cout << "Stack size : " << files_.size() << std::endl;
+        
+        std::string file_name = file_names_.top(); 
+
+        files_.top() << "}";
+        files_.top().close();
+        files_.pop();
+        file_names_.pop();
+
+        file_name.erase(file_name.end() - 3, file_name.end());
+        std::cout << "dot -T png " + file_name + "dot > " + file_name  + "png" << std::endl;
+        system(("dot -T png " + file_name + "dot > " + file_name  + "png").c_str());
     }
 
 private:
 
-    std::ofstream file_;
+    std::stack<std::ofstream> files_;
+    std::stack<std::string> file_names_;
 
     int func_id = 0;
     int id = 0;
 
     float func_color_ = 0;
     Tracker(const std::string &file_name = "graph.dot") : 
-        file_()
+        files_()
     {
-        create_file(file_name);
+        if (mod_ == MOD::SINGLE)
+        {
+            create_file(file_name);
+        }
     }
 
     ~Tracker()
     {
-        file_ << "}";
-        file_.close();
     }
 
     Tracker(const Tracker&);
