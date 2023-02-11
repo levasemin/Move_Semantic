@@ -89,26 +89,30 @@ public:
     {         
         file_ << "}";
         file_.close();
+        std::cout << "dot -T png " + file_name_ + ".dot > " + file_name_  + ".png";
+        system(("dot -T png " + file_name_ + ".dot > " + file_name_  + ".png").c_str());
     }
 
 private:
 
     std::ofstream file_;
+    std::string file_name_;
 
     int func_id = 0;
     int id = 0;
 
     float func_color_ = 0;
     Tracker(const std::string &file_name = "graph.dot") : 
+        file_name_(file_name),
         file_()
     {
+        file_name_.erase(file_name_.end()-4, file_name_.end());
         create_file(file_name);
     }
 
     ~Tracker()
     {
-        file_ << "}";
-        file_.close();
+        close_file();
     }
 
     Tracker(const Tracker&);
