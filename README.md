@@ -103,3 +103,5 @@ SuperType<T> &operator= (const SuperType<T> &&that);
     <img src="diagrams/graph_move.png" alt="Фотография 1" width="500" height="1000">
     <img src="diagrams/graph_const_move.png"    alt="Фотография 2" width="500" height="1000">
 </p>
+# Резюмируем
+На первый взгляд семантика перемещения может показаться over engineering, так как она 
