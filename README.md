@@ -40,7 +40,7 @@ int main()
 
 <p>
     <img src="diagrams/graph_no_flag.png" alt="Фотография 1" width="500" height="500" class="">
-    <img src="diagrams/graph_flag.png"    alt="Фотография 2" width="450" height="900">
+    <img src="diagrams/graph_flag.png"    alt="Фотография 2" width="50" height="1000">
 </p>
 
 # Конструктор и оператор копирования 
