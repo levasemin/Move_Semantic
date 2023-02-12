@@ -76,7 +76,7 @@ const SuperType<int> c(20, "c");
 SuperType<int> result(c);
 ```
 мы получим ошибку вида 
-![]()
+![](diagrams/copy_constructor_error.png)
 которая является вполне логичной, тк объект с не является константным. 
 Аналогично с кодом 
 ```
@@ -86,7 +86,7 @@ SuperType<int> result(0, "result");
 result = c;
 ```
 мы получим 
-![]()
+![](diagrams/copy_operator_error.png)
 
 Копирующая семантика обычно выглядит так 
 ```
