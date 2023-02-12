@@ -85,7 +85,7 @@ SuperType<int> result(0, "result");
     
 result = c;
 ```
-мы получим 
+мы получим           
 ![](diagrams/copy_operator_error.png)
 
 Копирующая семантика обычно выглядит так 
