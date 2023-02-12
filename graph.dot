@@ -5,37 +5,12 @@ node[shape=Mrecord];
 subgraph "cluster_0" {
 label = main;
 color = "0.0,1,1";
-1[label="{ {name: a} | {value:5} | {address: 140732258255424}} " ];
-2[label="{ {name: b} | {value:14} | {address: 140732258255504}} " ];
-3[label="{ {name: c} | {value:20} | {address: 140732258255584}} " ];
-4[label="{ {name: result} | {value:0} | {address: 140732258255664}} " ];
-5[label="= (copy)" color = "" style = "filled"];
-4->5;
-3->5;
-6[label="{ {name: result} | {value:20} | {address: 140732258255664}} " ];
-5->6;
-7[label="*" color = "black" style = ""];
-2->7;
-3->7;
-8[label="{ {name: tmp0} | {value:280} | {address: 140732258255744}} " ];
-7->8;
-9[label="copy" color = "" style = "filled"];
-1->9;
-10[label="{ {name: tmp1} | {value:5} | {address: 140732258255824}} " ];
-9->10;
-subgraph "cluster_1" {
-label = func;
-color = "0.15,1,1";
-11[label="+" color = "black" style = ""];
-10->11;
-8->11;
-12[label="{ {name: tmp2} | {value:285} | {address: 140732258255904}} " ];
-11->12;
-}
-13[label="= (copy)" color = "" style = "filled"];
-6->13;
-12->13;
-14[label="{ {name: result} | {value:285} | {address: 140732258255664}} " ];
-13->14;
+1[label="{ {name: a} | {value:5} | {address: 140728589808256}} " ];
+2[label="{ {name: c} | {value:20} | {address: 140728589808336}} " ];
+3[label="+" color = "black" style = ""];
+2->3;
+1->3;
+4[label="{ {name: tmp0} | {value:25} | {address: 140728589808416}} " ];
+3->4;
 }
 }
