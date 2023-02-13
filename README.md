@@ -92,15 +92,6 @@ SuperType<int> result(c);
 ## Странные методы перемещения
 
 Аналогично с кодом для семантики перемещения.
-```
-const SuperType<int> c(20, "c");
-SuperType<int> result(0, "result");
-    
-result = c;
-```
-мы получим           
-![](diagrams/copy_operator_error.png)
-
 Копирующая семантика обычно выглядит так 
 ```
 SuperType<T>(SuperType<T> &&that, const std::string &name = "");
@@ -111,6 +102,16 @@ SuperType<T> &operator= (SuperType<T> &&that);
 SuperType<T>(const SuperType<T> &&that, const std::string &name = "");
 SuperType<T> &operator= (const SuperType<T> &&that);
 ```
+Попробуем запустить нечто подобное.
+```
+const SuperType<int> c(20, "c");
+SuperType<int> result(0, "result");
+    
+result = c;
+```
+мы получим           
+![](diagrams/copy_operator_error.png)
+
 Код скомпилируется, однако вся магия семантики перемещения улетучится и мы вернемся обратно во времена с++98/03, когда всем миром правила семантика копировани. Причиной станет константность, котороая не позволит выполнить обмен полями и перемещение превратится в копирования. Блок схема в таком случае преобразится.
 <p>
     <img src="diagrams/graph_move.png" alt="Фотография 1" width="500" height="1000">
