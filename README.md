@@ -86,7 +86,9 @@ const SuperType<int> c(20, "c");
 SuperType<int> result(c);
 ```
 мы получим ошибку вида 
+
 ![](diagrams/copy_constructor_error.png)
+
 которая является вполне логичной, тк объект с не является константным. 
 Попробовав запустить 
 ```
