@@ -55,22 +55,7 @@ SuperType<T> &operator oper (const SuperType<T> &that)                          
 template<class T>
 class SuperType
 {
-    T value_;
-    int id_ = 0; 
-    int current_ADD_ = 0; 
-    int current_SUB_ = 0;
-    int current_MUL_ = 0;
-    int current_DIV_ = 0;
-    int current_DEGREE_ = 0;
-    int current_BIT_AND_ = 0;
-    int current_BIT_OR_ = 0;
-    int current_MOD_ = 0;
-
-    static bool log_;
-
 public:
-    std::string name_;
-
     SuperType<T>(const T &value, const std::string &name = "");
     
     SuperType<T>(const SuperType<T> &that, const std::string &name = "");    
@@ -127,6 +112,22 @@ public:
     SuperType<T> &operator[] (size_t index) = delete;
 
     friend Tracker;
+
+private:
+    T value_;
+    std::string name_;
+
+    int id_ = 0; 
+    int current_ADD_ = 0; 
+    int current_SUB_ = 0;
+    int current_MUL_ = 0;
+    int current_DIV_ = 0;
+    int current_DEGREE_ = 0;
+    int current_BIT_AND_ = 0;
+    int current_BIT_OR_ = 0;
+    int current_MOD_ = 0;
+
+    static bool log_;
 };      
 
 template<class T>
@@ -331,7 +332,6 @@ SuperType<T>::~SuperType<T>()
 {
     std::cout << "Destructor " << name_ << std::endl;
 }    
-
 
 template<class T>
 void *SuperType<T>::operator new (size_t bytes, bool log_mode)
