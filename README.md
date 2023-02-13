@@ -88,6 +88,15 @@ SuperType<int> result(c);
 мы получим ошибку вида 
 ![](diagrams/copy_constructor_error.png)
 которая является вполне логичной, тк объект с не является константным. 
+Попробовав запустить 
+```
+const SuperType<int> c(20, "c");
+SuperType<int> result(0, "result");
+    
+result = c;
+```
+мы получим           
+![](diagrams/copy_operator_error.png)
 
 ## Странные методы перемещения
 
@@ -102,15 +111,6 @@ SuperType<T> &operator= (SuperType<T> &&that);
 SuperType<T>(const SuperType<T> &&that, const std::string &name = "");
 SuperType<T> &operator= (const SuperType<T> &&that);
 ```
-Попробуем запустить нечто подобное.
-```
-const SuperType<int> c(20, "c");
-SuperType<int> result(0, "result");
-    
-result = c;
-```
-мы получим           
-![](diagrams/copy_operator_error.png)
 
 Код скомпилируется, однако вся магия семантики перемещения улетучится и мы вернемся обратно во времена с++98/03, когда всем миром правила семантика копировани. Причиной станет константность, котороая не позволит выполнить обмен полями и перемещение превратится в копирования. Блок схема в таком случае преобразится.
 <p>
