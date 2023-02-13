@@ -92,7 +92,7 @@ SuperType<int> result(c);
 ## Странные методы перемещения
 
 Аналогично с кодом для семантики перемещения.
-Копирующая семантика обычно выглядит так 
+Перемещающие методы обычно выглядят так 
 ```
 SuperType<T>(SuperType<T> &&that, const std::string &name = "");
 SuperType<T> &operator= (SuperType<T> &&that);
