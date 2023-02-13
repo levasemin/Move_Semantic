@@ -40,7 +40,7 @@ int main()
 
 <p>
     <img src="diagrams/graph_no_flag.png" alt="Фотография 1" width="500" height="500">
-    <img src="diagrams/graph_flag.png"    alt="Фотография 2" width="500" height="1000">
+    <img src="diagrams/graph_flag.png"    alt="Фотография 2" width="499" height="1000">
 </p>
 
 # Конструктор и оператор копирования 
@@ -86,7 +86,9 @@ const SuperType<int> c(20, "c");
 SuperType<int> result(c);
 ```
 мы получим ошибку вида 
+
 ![](diagrams/copy_constructor_error.png)
+
 которая является вполне логичной, тк объект с не является константным. 
 Попробовав запустить 
 ```
