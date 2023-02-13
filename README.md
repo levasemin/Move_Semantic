@@ -87,7 +87,7 @@ SuperType<int> result(c);
 ```
 мы получим ошибку вида 
 
-![](diagrams/copy_constructor_error.png)
+![](diagrams/copy_сonstructor_error.png)
 
 которая является вполне логичной, тк объект с не является константным. 
 Попробовав запустить 
