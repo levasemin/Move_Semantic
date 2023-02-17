@@ -1,3 +1,6 @@
+//TODO: 
+//check type of object for choose his color, solution is not ""
+
 #include "SuperType.hpp"
           
 #define start_function() Tracker::getInstance().print_open_func(__func__);
@@ -9,6 +12,7 @@ SuperType<T> func(SuperType<T> a, SuperType<T> b)
 {
     start_function()
     SuperType<int> c = a + b;
+    // c.rename("c");
     end_function()
     return c;
 }

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "limits.hpp"
 #include "Tracker.hpp"
 #include <iostream>
 #include <string>
+
 
 static int number_ = 0;
 
@@ -12,11 +12,6 @@ SuperType<T> operator oper (const SuperType<T> &that)                           
 {                                                                                               \
     log_ = false;                                                                               \
                                                                                                 \
-    if (type##_LIMIT > current_##type##_)                                                       \
-    {                                                                                           \
-        std::cout << "Operator " << name_ << " " << #oper << " " <<  that.name_ << std::endl;   \
-    }                                                                                           \
-                                                                                                \
     SuperType<T> new_that(*this);                                                               \
     new_that oper##= that;                                                                      \
                                                                                                 \
@@ -24,7 +19,7 @@ SuperType<T> operator oper (const SuperType<T> &that)                           
                                                                                                 \
     Tracker &tracker = Tracker::getInstance();                                                  \
                                                                                                 \
-    tracker.print_operation(*this, that, new_that, #oper);                                      \
+    tracker.print_operation(*this, that, new_that, type);                \
                                                                                                 \
     return new_that;                                                                            \
 }                                                                               
@@ -32,21 +27,14 @@ SuperType<T> operator oper (const SuperType<T> &that)                           
 #define mono_operator(oper, type)                                                               \
 SuperType<T> &operator oper (const SuperType<T> &that)                                          \
 {                                                                                               \
-    if (type##_LIMIT < current_##type##_)                                                       \
-    {                                                                                           \
-        std::cout << "Please buy license" << std::endl;                                         \
-                                                                                                \
-        return *this;                                                                           \
-    }                                                                                           \
                                                                                                 \
     value_ oper that.value_;                                                                    \
-    current_##type##_++;                                                                        \
                                                                                                 \
     if (log_ == true)                                                                           \
     {                                                                                           \
         Tracker &tracker = Tracker::getInstance();                                              \
         std::cout << "Operator " << name_ << " " << #oper << " "<<  that.name_ << std::endl;    \
-        tracker.print_operation(*this, that, *this, #oper);                                     \
+        tracker.print_operation(*this, that, *this, type);                                     \
     }                                                                                           \
                                                                                                 \
     return *this;                                                                               \
@@ -72,23 +60,23 @@ public:
 
     ~SuperType<T>();
 
-    mono_operator(+=, ADD)
-    mono_operator(-=, SUB)
-    mono_operator(/=, DIV)
-    mono_operator(*=, MUL)
-    mono_operator(%=, MOD)
-    mono_operator(&=, BIT_AND)
-    mono_operator(|=, BIT_OR)
-    mono_operator(^=, DEGREE)
+    mono_operator(+=, MONO_ADD)
+    mono_operator(-=, MONO_SUB)
+    mono_operator(/=, MONO_DIV)
+    mono_operator(*=, MONO_MUL)
+    mono_operator(%=, MONO_MOD)
+    mono_operator(&=, MONO_AND)
+    mono_operator(|=, MONO_OR)
+    mono_operator(^=, MONO_DEGREE)
 
-    binary_operator(+, ADD)
-    binary_operator(-, SUB)
-    binary_operator(/, DIV)
-    binary_operator(*, MUL)
-    binary_operator(%, MOD)
-    binary_operator(&, BIT_AND)
-    binary_operator(|, BIT_OR)
-    binary_operator(^, DEGREE)
+    binary_operator(+, BIN_ADD)
+    binary_operator(-, BIN_SUB)
+    binary_operator(/, BIN_DIV)
+    binary_operator(*, BIN_MUL)
+    binary_operator(%, BIN_MOD)
+    binary_operator(&, BIN_BIT_AND)
+    binary_operator(|, BIN_BIT_OR)
+    binary_operator(^, BIN_DEGREE)
 
     void *operator new   (size_t bytes, bool log_mode);
     void *operator new[] (size_t bytes, bool log_mode);
@@ -107,27 +95,32 @@ public:
     {
         return value_;
     }
+    
+    void rename(const std::string &name)
+    {
+        name_ = name;
+        color_ = "";
+        style_ = "";
+        
+        Tracker &tracker = Tracker::getInstance();
+        tracker.print_node(*this);
+    }
 
     const SuperType<T> &operator[] (size_t index) const = delete;
     SuperType<T> &operator[] (size_t index) = delete;
 
     friend Tracker;
-
+    
 private:
     T value_;
     std::string name_;
 
-    int id_ = 0; 
-    int current_ADD_ = 0; 
-    int current_SUB_ = 0;
-    int current_MUL_ = 0;
-    int current_DIV_ = 0;
-    int current_DEGREE_ = 0;
-    int current_BIT_AND_ = 0;
-    int current_BIT_OR_ = 0;
-    int current_MOD_ = 0;
+    int id_ = -1; 
 
     static bool log_;
+
+    std::string color_ = "";
+    std::string style_ = "";
 };      
 
 template<class T>
@@ -142,8 +135,11 @@ SuperType<T>::SuperType(const T &value, const std::string &name):
     {
         name_ = "tmp" + std::to_string(number_);
         number_++;
+        
+        style_ = "filled";
+        color_ = "#EC7063";
     }
-
+    
     if (log_)
     {
         std::cout << "Constructor " << name_ << std::endl;
@@ -163,6 +159,9 @@ SuperType<T>::SuperType(const SuperType<T> &that, const std::string &name):
     {
         name_ = "tmp" + std::to_string(number_);
         number_++;
+
+        style_ = "filled";
+        color_ = "#EC7063";
     }
 
     if (log_)
@@ -171,7 +170,7 @@ SuperType<T>::SuperType(const SuperType<T> &that, const std::string &name):
         
         Tracker &tracker = Tracker::getInstance();
         
-        int operation_id = tracker.print_oper("copy", "red", "filled");
+        int operation_id = tracker.print_oper(CONSTRUCTOR_COPY, "#EC7063", "filled");
 
         tracker.print_edge(that.id_, operation_id);
         tracker.print_node(*this);
@@ -184,12 +183,13 @@ SuperType<T> &SuperType<T>::operator= (const SuperType<T> &that)
 {
     this->value_ = that.value_;
 
+
     if (log_)
     {
         Tracker &tracker = Tracker::getInstance();
 
         std::cout << "Operator = " << name_ << std::endl; 
-        tracker.print_operation(*this, that, *this, "= (copy)", "red", "filled");
+        tracker.print_operation(*this, that, *this, EQ_COPY, "#EC7063", "filled");
     }
 
     return *this;
@@ -205,6 +205,9 @@ SuperType<T>::SuperType(SuperType<T> &&that, const std::string &name):
     {
         name_ = "tmp" + std::to_string(number_);
         number_++;
+
+        style_ = "filled";
+        color_ = "#58D68D";
     }
 
     if (log_)
@@ -213,7 +216,7 @@ SuperType<T>::SuperType(SuperType<T> &&that, const std::string &name):
 
         Tracker &tracker = Tracker::getInstance();
 
-        int operation_id = tracker.print_oper("move", "green", "filled");;
+        int operation_id = tracker.print_oper(CONSTRUCTOR_MOVE, "#58D68D", "filled");;
 
         tracker.print_edge(that.id_, operation_id);
         tracker.print_node(*this);
@@ -234,7 +237,7 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
 
             Tracker &tracker = Tracker::getInstance();
 
-            tracker.print_operation(*this, that, *this, "= (move)", "green", "filled");
+            tracker.print_operation(*this, that, *this, EQ_MOVE, "#58D68D", "filled");
         }
     }
 
@@ -258,7 +261,7 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
         
 //         Tracker &tracker = Tracker::getInstance();
         
-//         int operation_id = tracker.print_oper(" copy", "red", "filled");
+//         int operation_id = tracker.print_oper(" copy", "#EC7063", "filled");
 
 //         tracker.print_edge(that.id_, operation_id);
 //         tracker.print_node(*this);
@@ -276,7 +279,7 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
 //         Tracker &tracker = Tracker::getInstance();
 
 //         std::cout << "Operator = " << name_ << std::endl; 
-//         tracker.print_operation(*this, that, *this, "= (copy)", "red", "filled");
+//         tracker.print_operation(*this, that, *this, "= (copy)", "#EC7063", "filled");
 //     }
 
 //     return *this;
@@ -299,7 +302,7 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
 
 //         Tracker &tracker = Tracker::getInstance();
 
-//         int operation_id = tracker.print_oper("const move", "red", "filled");;
+//         int operation_id = tracker.print_oper("const move", "#EC7063", "filled");;
 
 //         tracker.print_edge(that.id_, operation_id);
 //         tracker.print_node(*this);
@@ -320,7 +323,7 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
 
 //             Tracker &tracker = Tracker::getInstance();
 
-//             tracker.print_operation(*this, that, *this, "const = (move)", "red", "filled");
+//             tracker.print_operation(*this, that, *this, "const = (move)", "#EC7063", "filled");
 //         }
 //     }
 
