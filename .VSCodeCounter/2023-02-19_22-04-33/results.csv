@@ -1,0 +1,11 @@
+"filename", "language", "Makefile", "C++", "Markdown", "comment", "blank", "total"
+"/home/levce/projectsDED/demo_int/Makefile", "Makefile", 20, 0, 0, 0, 11, 31
+"/home/levce/projectsDED/demo_int/README.md", "Markdown", 0, 0, 98, 0, 28, 126
+"/home/levce/projectsDED/demo_int/SuperType.hpp", "C++", 0, 359, 0, 0, 111, 470
+"/home/levce/projectsDED/demo_int/Tracker.hpp", "C++", 0, 175, 0, 0, 51, 226
+"/home/levce/projectsDED/demo_int/main.cpp", "C++", 0, 48, 0, 0, 15, 63
+"/home/levce/projectsDED/demo_int/t.cpp", "C++", 0, 47, 0, 0, 11, 58
+"/home/levce/projectsDED/demo_int/test_move_forward.hpp", "C++", 0, 24, 0, 0, 8, 32
+"/home/levce/projectsDED/demo_int/test_move_semantic.hpp", "C++", 0, 27, 0, 0, 5, 32
+"/home/levce/projectsDED/demo_int/test_wrong_copy_semantic.hpp", "C++", 0, 12, 0, 0, 4, 16
+"Total", "-", 20, 692, 98, 0, 244, 1054

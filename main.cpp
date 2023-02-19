@@ -1,33 +1,54 @@
-//TODO: 
-//check type of object for choose his color, solution is not ""
+#include "test_move_forward.hpp"
+#include "test_move_semantic.hpp"
+#include "test_wrong_copy_semantic.hpp"
 
-#include "SuperType.hpp"
-          
-#define start_function() Tracker::getInstance().print_open_func(__func__);
-#define end_function()   Tracker::getInstance().print_close_func(__func__);
-
-
-template<class T>
-SuperType<T> func(SuperType<T> a, SuperType<T> b)
+void start_test(const char *type)
 {
-    start_function()
-    SuperType<int> c = a + b;
-    // c.rename("c");
-    end_function()
-    return c;
+    if (type == std::string("test_move_semantic"))
+    {
+        test_move_semantic();
+    }
+
+    else if (type == std::string("test_move_forward"))
+    {
+        test_move_forward();
+    }
 }
 
-int main()
-{
-    start_function();
-    
-    SuperType<int> a(5);
-    SuperType<int> b(14);
-    SuperType<int> c(20);
-    SuperType<int> result(0, "result");
-    
-    result = c;
-    result = func(a, b * c);
-    
-    end_function();
+int main(int argc, char *argv[])
+{   
+    switch(argc)
+    {
+        case 2:
+        {
+            Tracker &tracker = Tracker::getInstance();
+            tracker.open_file("graph.dot");
+
+            start_test(argv[1]);            
+
+            break;
+        }
+
+        case 3:        
+        {
+            Tracker &tracker = Tracker::getInstance();
+            tracker.open_file(argv[2]);
+            
+            start_test(argv[1]);
+            
+            break;
+        }
+
+        default:
+        {
+            Tracker &tracker = Tracker::getInstance();
+            tracker.open_file("graph.dot");
+            
+            test_move_semantic();
+            
+            break;
+        }
+    }
+
+
 }

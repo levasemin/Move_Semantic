@@ -1,11 +1,14 @@
 #pragma once
+
 #include <iostream>
 #include <fstream>
 #include <stack>
 #include <vector>
+
+#define start_function() Tracker::getInstance().print_open_func(__func__);
+#define end_function()   Tracker::getInstance().print_close_func();
+
 template <class T>
-
-
 class SuperType;
 
 enum operations_
@@ -70,16 +73,16 @@ public:
     
     void print_open_func(const std::string &name);
 
-    void print_close_func(const std::string &name);
+    void print_close_func();
 
-    void create_file(const std::string &file_name);
+    void open_file(const std::string &file_name);
 
     void close_file();
 
 private:
 
+    std::string file_name_ = "";
     std::ofstream file_;
-    std::string file_name_;
 
     int func_id = 0;
     int id = 0;
@@ -87,12 +90,8 @@ private:
     int copy_count_ = 0;
     int move_count_ = 0;
     
-    Tracker(const std::string &file_name = "graph.dot") : 
-        file_name_(file_name),
-        file_()
+    Tracker() : file_()
     {
-        file_name_.erase(file_name_.end()-4, file_name_.end());
-        create_file(file_name);
     }
 
     ~Tracker()
@@ -114,7 +113,10 @@ void Tracker::print_operation(const SuperType<T> &first_object, const SuperType<
 
     style_params style_edge = {"", "", std::to_string(step_number_)};
 
-    print_edge(first_object.id_, operation_id, style_edge);
+    if (style.label_ != operations_[CONSTRUCTOR_COPY] && style.label_ != operations_[CONSTRUCTOR_MOVE])
+    {
+        print_edge(first_object.id_, operation_id, style_edge);
+    }
 
     if (style.label_ == operations_[EQ_COPY] || style.label_ == operations_[EQ_MOVE])
     {
@@ -196,16 +198,23 @@ std::string Tracker::get_operation_name(int operation)
     return operations_[operation];
 }
 
-void Tracker::print_close_func(const std::string &name)
+void Tracker::print_close_func()
 {
     file_ << "}" << std::endl;
 }
 
-void Tracker::create_file(const std::string &file_name)
+void Tracker::open_file(const std::string &file_name)
 {   
-    std::ofstream file;
+    if (file_name_ != "")
+    {
+        close_file();
+    }
+
+    file_name_ = file_name;
+    file_name_.erase(file_name_.end()-4, file_name_.end());
 
     file_.open(file_name);
+
     file_ << "digraph G{\ntrankdir=HR;\nnode[shape=Mrecord];\n" << std::endl;
 }
 
