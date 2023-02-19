@@ -2,21 +2,29 @@ digraph G{
 trankdir=HR;
 node[shape=Mrecord];
 
+1[label="{ {name: tmp0} | {value:5} | {address: 140725065317952}} " color="#EC7063"style="filled"];
+1[label="{ {name: a} | {value:5} | {address: 140725065317952}} " color=""style=""];
+2[label="{ {name: tmp1} | {value:10} | {address: 140725065318064}} " color="#EC7063"style="filled"];
+2[label="{ {name: b} | {value:10} | {address: 140725065318064}} " color=""style=""];
 subgraph "cluster_0" {
-label = main;
+label = swap;
 style= filled
 color = "#00000010";
-1[label="{ {name: a} | {value:5} | {address: 140733706273664}} " color=""style=""];
-2[label="{ {name: b} | {value:6} | {address: 140733706273776}} " color=""style=""];
-subgraph "cluster_1" {
-label = func;
-style= filled
-color = "#00000010";
-3[label="copy" color = "#EC7063" style = "filled"];
-1->3;
-4[label="{ {name: tmp0} | {value:5} | {address: 140733706273456}} " color="#EC7063"style="filled"];
-3->4;
+3[label="move" color = "#58D68D" style = "filled"];
+edge[style = "dashed" color = ""label = ""]1->3;
+4[label="{ {name: tmp2} | {value:5} | {address: 140725065317760}} " color="#58D68D"style="filled"];
+edge[style = "" color = ""label = ""]3->4;
+4[label="{ {name: temp} | {value:5} | {address: 140725065317760}} " color=""style=""];
+5[label="= (move)" color = "#58D68D" style = "filled"];
+edge[style = "" color = ""label = "1"]1->5;
+edge[style = "dashed" color = ""label = "1"]2->5;
+6[label="{ {name: a} | {value:10} | {address: 140725065317952}} " color=""style=""];
+edge[style = "" color = ""label = "1"]5->6;
+7[label="= (move)" color = "#58D68D" style = "filled"];
+edge[style = "" color = ""label = "2"]2->7;
+edge[style = "dashed" color = ""label = "2"]4->7;
+8[label="{ {name: b} | {value:5} | {address: 140725065318064}} " color=""style=""];
+edge[style = "" color = ""label = "2"]7->8;
 }
-}
-label="Count of copy operation: 1
-Count of move operation: 0"}
+label="Count of copy operation: 0
+Count of move operation: 3"}

@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 
-
 static int number_ = 0;
 
 #define binary_operator(oper, type)                                                             \
@@ -19,7 +18,7 @@ SuperType<T> operator oper (const SuperType<T> &that)                           
                                                                                                 \
     Tracker &tracker = Tracker::getInstance();                                                  \
                                                                                                 \
-    tracker.print_operation(*this, that, new_that, type);                \
+    tracker.print_operation(*this, that, new_that, type);                                       \
                                                                                                 \
     return new_that;                                                                            \
 }                                                                               
@@ -33,8 +32,8 @@ SuperType<T> &operator oper (const SuperType<T> &that)                          
     if (log_ == true)                                                                           \
     {                                                                                           \
         Tracker &tracker = Tracker::getInstance();                                              \
-        std::cout << "Operator " << name_ << " " << #oper << " "<<  that.name_ << std::endl;    \
-        tracker.print_operation(*this, that, *this, type);                                     \
+        std::cout << "Operator " << style_.label_ << " " << #oper << " "<<  that.style_.label_ << std::endl;    \
+        tracker.print_operation(*this, that, *this, type);                                      \
     }                                                                                           \
                                                                                                 \
     return *this;                                                                               \
@@ -44,18 +43,18 @@ template<class T>
 class SuperType
 {
 public:
-    SuperType<T>(const T &value, const std::string &name = "");
+    SuperType<T>(const T &value);
     
-    SuperType<T>(const SuperType<T> &that, const std::string &name = "");    
+    SuperType<T>(const SuperType<T> &that);    
     SuperType<T> &operator= (const SuperType<T> &that);
 
-    SuperType<T>(SuperType<T> &&that, const std::string &name = "");
+    SuperType<T>(SuperType<T> &&that);
     SuperType<T> &operator= (SuperType<T> &&that);
 
-    // SuperType<T>(SuperType<T> &that, const std::string &name = "");
+    // SuperType<T>(SuperType<T> &that);
     // SuperType<T> &operator= (SuperType<T> &that);
 
-    // SuperType<T>(const SuperType<T> &&that, const std::string &name = "");
+    // SuperType<T>(const SuperType<T> &&that);
     // SuperType<T> &operator= (const SuperType<T> &&that);
 
     ~SuperType<T>();
@@ -98,9 +97,9 @@ public:
     
     void rename(const std::string &name)
     {
-        name_ = name;
-        color_ = "";
-        style_ = "";
+        style_.label_ = name;
+        style_.color_ = "";
+        style_.style_ = "";
         
         Tracker &tracker = Tracker::getInstance();
         tracker.print_node(*this);
@@ -110,39 +109,34 @@ public:
     SuperType<T> &operator[] (size_t index) = delete;
 
     friend Tracker;
-    
+
 private:
     T value_;
-    std::string name_;
 
     int id_ = -1; 
 
     static bool log_;
 
-    std::string color_ = "";
-    std::string style_ = "";
+    style_params style_;
 };      
 
 template<class T>
 bool SuperType<T>::log_(true);
 
 template<class T>
-SuperType<T>::SuperType(const T &value, const std::string &name): 
-    value_(value), 
-    name_(name)
+SuperType<T>::SuperType(const T &value): 
+    value_(value)
 {
-    if (!name.size())
-    {
-        name_ = "tmp" + std::to_string(number_);
-        number_++;
-        
-        style_ = "filled";
-        color_ = "#EC7063";
-    }
     
+    style_.label_ = "tmp" + std::to_string(number_);
+    number_++;
+        
+    style_.style_ = "filled";
+    style_.color_ = "#EC7063";
+
     if (log_)
     {
-        std::cout << "Constructor " << name_ << std::endl;
+        std::cout << "Constructor " << style_.label_ << std::endl;
 
         Tracker &tracker = Tracker::getInstance();
         tracker.print_node(*this);
@@ -151,28 +145,26 @@ SuperType<T>::SuperType(const T &value, const std::string &name):
 
 
 template<class T>
-SuperType<T>::SuperType(const SuperType<T> &that, const std::string &name): 
-    value_(that.value_), 
-    name_(name)
+SuperType<T>::SuperType(const SuperType<T> &that): 
+    value_(that.value_)
 {
-    if (!name_.size())
-    {
-        name_ = "tmp" + std::to_string(number_);
-        number_++;
+    style_.label_ = "tmp" + std::to_string(number_);
+    number_++;
 
-        style_ = "filled";
-        color_ = "#EC7063";
-    }
+    style_.style_ = "filled";
+    style_.color_ = "#EC7063";
 
     if (log_)
     {
-        std::cout << "Copy constructor " << name_ << std::endl; 
+        std::cout << "Copy constructor " << style_.label_ << std::endl; 
         
         Tracker &tracker = Tracker::getInstance();
         
-        int operation_id = tracker.print_oper(CONSTRUCTOR_COPY, "#EC7063", "filled");
+        style_params operation_style = {"#EC7063", "filled", tracker.get_operation_name(CONSTRUCTOR_COPY)};
 
-        tracker.print_edge(that.id_, operation_id);
+        int operation_id = tracker.print_oper(operation_style);
+
+        tracker.print_edge(that.id_, operation_id, {"", "dashed"});
         tracker.print_node(*this);
         tracker.print_edge(operation_id, id_);
     }
@@ -183,13 +175,14 @@ SuperType<T> &SuperType<T>::operator= (const SuperType<T> &that)
 {
     this->value_ = that.value_;
 
-
     if (log_)
     {
         Tracker &tracker = Tracker::getInstance();
 
-        std::cout << "Operator = " << name_ << std::endl; 
-        tracker.print_operation(*this, that, *this, EQ_COPY, "#EC7063", "filled");
+        style_params operation_style = {"#EC7063", "filled", tracker.get_operation_name(EQ_COPY)};
+
+        std::cout << "Operator = " << style_.label_ << std::endl; 
+        tracker.print_operation(*this, that, *this, operation_style);
     }
 
     return *this;
@@ -197,28 +190,25 @@ SuperType<T> &SuperType<T>::operator= (const SuperType<T> &that)
 
 
 template<class T>
-SuperType<T>::SuperType(SuperType<T> &&that, const std::string &name): 
-    value_(that.value_), 
-    name_(name)
-{
-    if (!name_.size())
-    {
-        name_ = "tmp" + std::to_string(number_);
-        number_++;
+SuperType<T>::SuperType(SuperType<T> &&that): 
+    value_(that.value_)
+{    
+    style_.label_ = "tmp" + std::to_string(number_);
+    number_++;
 
-        style_ = "filled";
-        color_ = "#58D68D";
-    }
+    style_.style_ = "filled";
+    style_.color_ = "#58D68D";
 
     if (log_)
     {
-        std::cout << "Copy constructor " << name_ << std::endl; 
+        std::cout << "Copy constructor " << style_.label_ << std::endl; 
 
         Tracker &tracker = Tracker::getInstance();
+        
+        style_params operation_style = {"#58D68D", "filled", tracker.get_operation_name(CONSTRUCTOR_MOVE)};
+        int operation_id = tracker.print_oper(operation_style);
 
-        int operation_id = tracker.print_oper(CONSTRUCTOR_MOVE, "#58D68D", "filled");;
-
-        tracker.print_edge(that.id_, operation_id);
+        tracker.print_edge(that.id_, operation_id, {"", "dashed"});
         tracker.print_node(*this);
         tracker.print_edge(operation_id, id_);
     }
@@ -233,11 +223,11 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
         
         if (log_)
         {
-            std::cout << "Operator = " << name_ << std::endl; 
+            std::cout << "Operator = " << style_.label_ << std::endl; 
 
             Tracker &tracker = Tracker::getInstance();
-
-            tracker.print_operation(*this, that, *this, EQ_MOVE, "#58D68D", "filled");
+            style_params operation_style = {"#58D68D", "filled", tracker.get_operation_name(EQ_MOVE)};
+            tracker.print_operation(*this, that, *this, operation_style);
         }
     }
 
@@ -245,25 +235,26 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
 }
 
 // template<class T>
-// SuperType<T>::SuperType(SuperType<T> &that, const std::string &name): 
-//     value_(that.value_), 
-//     name_(name)
+// SuperType<T>::SuperType(SuperType<T> &that): 
+//     value_(that.value_)
 // {
-//     if (!name_.size())
-//     {
-//         name_ = "tmp" + std::to_string(number_);
-//         number_++;
-//     }
+//     style_.label_ = "tmp" + std::to_string(number_);
+//     number_++;
+
+//     style_.style_ = "filled";
+//     style_.color_ = "#EC7063";
 
 //     if (log_)
 //     {
-//         std::cout << "Copy constructor " << name_ << std::endl; 
+//         std::cout << "Copy constructor " << style_.label_ << std::endl; 
         
 //         Tracker &tracker = Tracker::getInstance();
         
-//         int operation_id = tracker.print_oper(" copy", "#EC7063", "filled");
+//         style_params operation_style = {"#EC7063", "filled"};
 
-//         tracker.print_edge(that.id_, operation_id);
+//         int operation_id = tracker.print_oper(CONSTRUCTOR_COPY, operation_style);
+
+//         tracker.print_edge(that.id_, operation_id, {"", "dashed"});
 //         tracker.print_node(*this);
 //         tracker.print_edge(operation_id, id_);
 //     }
@@ -278,40 +269,42 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
 //     {
 //         Tracker &tracker = Tracker::getInstance();
 
-//         std::cout << "Operator = " << name_ << std::endl; 
-//         tracker.print_operation(*this, that, *this, "= (copy)", "#EC7063", "filled");
+//         style_params operation_style = {"#EC7063", "filled"};
+
+//         std::cout << "Operator = " << style_.label_ << std::endl; 
+//         tracker.print_operation(*this, that, *this, EQ_COPY, operation_style);
 //     }
 
 //     return *this;
 // }
 
 // template<class T>
-// SuperType<T>::SuperType(const SuperType<T> &&that, const std::string &name): 
-//     value_(that.value_), 
-//     name_(name)
-// {
-//     if (!name_.size())
-//     {
-//         name_ = "tmp" + std::to_string(number_);
-//         number_++;
-//     }
+// SuperType<T>::SuperType(SuperType<T> &&that): 
+//     value_(that.value_)
+// {    
+//     style_.label_ = "tmp" + std::to_string(number_);
+//     number_++;
+
+//     style_.style_ = "filled";
+//     style_.color_ = "#58D68D";
 
 //     if (log_)
 //     {
-//         std::cout << "Copy constructor " << name_ << std::endl; 
+//         std::cout << "Copy constructor " << style_.label_ << std::endl; 
 
 //         Tracker &tracker = Tracker::getInstance();
+        
+//         style_params operation_style = {"#58D68D", "filled"};
+//         int operation_id = tracker.print_oper(CONSTRUCTOR_MOVE, operation_style);
 
-//         int operation_id = tracker.print_oper("const move", "#EC7063", "filled");;
-
-//         tracker.print_edge(that.id_, operation_id);
+//         tracker.print_edge(that.id_, operation_id, {"", "dashed"});
 //         tracker.print_node(*this);
 //         tracker.print_edge(operation_id, id_);
 //     }
 // }
 
 // template<class T>
-// SuperType<T> &SuperType<T>::operator= (const SuperType<T> &&that)
+// SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
 // {
 //     if (this != &that)
 //     {
@@ -319,11 +312,11 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
         
 //         if (log_)
 //         {
-//             std::cout << "Operator = " << name_ << std::endl; 
+//             std::cout << "Operator = " << style_.label_ << std::endl; 
 
 //             Tracker &tracker = Tracker::getInstance();
-
-//             tracker.print_operation(*this, that, *this, "const = (move)", "#EC7063", "filled");
+//             style_params operation_style = {"#58D68D", "filled"};
+//             tracker.print_operation(*this, that, *this, EQ_MOVE, operation_style);
 //         }
 //     }
 
@@ -333,7 +326,7 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
 template<class T>
 SuperType<T>::~SuperType<T>()
 {
-    std::cout << "Destructor " << name_ << std::endl;
+    std::cout << "Destructor " << style_.label_ << std::endl;
 }    
 
 template<class T>
@@ -442,7 +435,7 @@ const SuperType<T>& SuperType<T>::operator++(int)
 
     Tracker &tracker = Tracker::getInstance();
 
-    tracker.print_operation(*this, "++");
+    tracker.print_operation(*this, INC);
     
     return *this;
 }
@@ -455,7 +448,7 @@ const SuperType<T> SuperType<T>::operator++()
 
     Tracker &tracker = Tracker::getInstance();
 
-    tracker.print_operation(*this, "++");
+    tracker.print_operation(*this, INC);
 
     return oldValue;
 }
@@ -468,7 +461,7 @@ const SuperType<T> SuperType<T>::operator--()
 
     Tracker &tracker = Tracker::getInstance();
 
-    tracker.print_operation(*this, "--");
+    tracker.print_operation(*this, DEC);
     
     return oldValue;
 }
@@ -480,7 +473,7 @@ const SuperType<T>& SuperType<T>::operator--(int)
 
     Tracker &tracker = Tracker::getInstance();
 
-    tracker.print_operation(*this, "--");
+    tracker.print_operation(*this, DEC);
     
     return *this;
 }

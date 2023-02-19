@@ -21,9 +21,9 @@ int main()
 {
     start_function();
     
-    SuperType<int> a(5,  "a");
-    SuperType<int> b(14, "b");
-    SuperType<int> c(20, "c");
+    SuperType<int> a(5);
+    SuperType<int> b(14);
+    SuperType<int> c(20);
     SuperType<int> result(0, "result");
     
     result = c;

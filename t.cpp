@@ -2,6 +2,7 @@
 #include <string>
 #include <boost/type_index.hpp> 
 
+template <class T>
 class Object
 {
 public:
@@ -14,21 +15,8 @@ public:
     }
 };
 
-template<typename T>
-void doSomething(T&& this_) 
-{
-    if(std::is_rvalue_reference<T&&>::value) 
-    {
-        std::cout << "YEAH" << std::endl;
-    }
-    else
-    {
-        std::cout << "No" << std::endl;
-    }
-}
-
 template<class T1, class T2>
-Object &operator +=(T1&& object1, T2&& object2)
+std::remove_reference_t<T1> &operator +=(T1&& object1, T2&& object2)
 {
     object1.value_ += object2.value_;
 
@@ -36,24 +24,24 @@ Object &operator +=(T1&& object1, T2&& object2)
 }
 
 template<class T1, class T2>
-Object operator +(T1&& object1, T2&& object2)
+std::remove_reference_t<T1> operator +(T1&& object1, T2&& object2)
 {
     if(std::is_rvalue_reference<T1&&>::value) 
     {
-        std::cout << "YEAH" << std::endl;
+        std::cout << "Object1 is rvalue" << std::endl;
     }
     else
     {
-        std::cout << "No" << std::endl;
+        std::cout << "Object1 is lvalue" << std::endl;
     }
 
     if(std::is_rvalue_reference<T2&&>::value) 
     {
-        std::cout << "YEAH" << std::endl;
+        std::cout << "Object2 is rvalue" << std::endl;
     }
     else
     {
-        std::cout << "No" << std::endl;
+        std::cout << "Object2 is lvalue" << std::endl;
     }
 
     std::remove_reference_t<T2> result = object1;
@@ -64,6 +52,6 @@ Object operator +(T1&& object1, T2&& object2)
 
 int main()
 {
-    Object c(5);
-    c + Object(6);
+    Object<int> c(5);
+    c + Object<int>(6);
 }

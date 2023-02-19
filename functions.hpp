@@ -8,10 +8,14 @@
 
 template<class T>
 void swap(T &&object1, T &&object2)
-{
-
+{    
     start_function();
-    std::remove_reference_t<T> temp(object1);
+    using T_ = std::remove_reference_t<T>;
+
+    T_ temp(std::forward<T_>(object1));
+    temp.rename("temp");
+    object1 = std::forward<T_>(object2);
+    object2 = std::move(temp);
     end_function();
 }
 

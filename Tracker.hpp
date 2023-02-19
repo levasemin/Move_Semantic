@@ -8,7 +8,7 @@ template <class T>
 
 class SuperType;
 
- enum OPERATIONS
+enum operations_
 {
     MONO_ADD,
     MONO_SUB,
@@ -26,10 +26,19 @@ class SuperType;
     BIN_BIT_AND,
     BIN_BIT_OR,
     BIN_DEGREE,
+    INC,
+    DEC,
     EQ_COPY,
     EQ_MOVE,
     CONSTRUCTOR_COPY,
     CONSTRUCTOR_MOVE
+};
+
+struct style_params
+{
+    std::string color_ = "";
+    std::string style_ = "";
+    std::string label_ = "";
 };
 
 class Tracker
@@ -41,21 +50,23 @@ public:
         return tracker;
     }
 
-    std::vector<std::string> operations_ = {"+=", "-=", "*=", "/=", "%=", "&=", "|=", "^=", "+", "-", "*", "/", "%", "&", "|", "^", "= (copy)", "= (move)", "copy", "move"};
+    int step_number_ = 1;
+    std::vector<std::string> operations_ = {"+=", "-=", "*=", "/=", "%=", "&=", "|=", "^=", "+", "-", "*", "/", "%", "&", "|", "^", "++", "--", "= (copy)", "= (move)", "copy", "move"};
+    
+    std::string get_operation_name(int operation);
 
     template <class T>
-    void print_operation(const SuperType<T> &first_object, const SuperType<T> &second_object, SuperType<T> &result, OPERATIONS operation, 
-                         const std::string &color = "black", const std::string &style = "");
+    void print_operation(const SuperType<T> &first_object, const SuperType<T> &second_object, SuperType<T> &result, const style_params &style = {});
 
     template<class T>
-    int print_operation(SuperType<T> &first_object, OPERATIONS operation, const std::string &color = "black", const std::string &style = "");
+    int print_operation(SuperType<T> &first_object, const style_params &style = {});
 
-    int print_oper(OPERATIONS operation, const std::string &color = "black", const std::string &style = "");
+    int print_oper(const style_params &style = {});
 
     template<class T>
     void print_node(SuperType<T> &object);
 
-    void print_edge(int id1, int id2);
+    void print_edge(int id1, int id2, const style_params &style = {});
     
     void print_open_func(const std::string &name);
 
@@ -96,47 +107,57 @@ private:
 
 
 template <class T>
-void Tracker::print_operation(const SuperType<T> &first_object, const SuperType<T> &second_object, SuperType<T> &result, OPERATIONS operation, 
-                        const std::string &color, const std::string &style)
+void Tracker::print_operation(const SuperType<T> &first_object, const SuperType<T> &second_object, SuperType<T> &result, const style_params &style)
 {
-    print_oper(operation, color, style);
+    print_oper(style);
     int operation_id = id;
 
-    print_edge(first_object.id_, operation_id);
-    print_edge(second_object.id_, operation_id);
+    style_params style_edge = {"", "", std::to_string(step_number_)};
+
+    print_edge(first_object.id_, operation_id, style_edge);
+
+    if (style.label_ == operations_[EQ_COPY] || style.label_ == operations_[EQ_MOVE])
+    {
+        style_edge.style_ = "dashed";
+    }
+
+    print_edge(second_object.id_, operation_id, style_edge);
     result.id_ = -1;
     print_node(result);
-    print_edge(operation_id, result.id_);
+    
+    print_edge(operation_id, result.id_, {"", "", std::to_string(step_number_++)});
 }
 
 template<class T>
-int Tracker::print_operation(SuperType<T> &first_object, OPERATIONS operation, const std::string &color, const std::string &style)
+int Tracker::print_operation(SuperType<T> &first_object, const style_params &style)
 {
-    int operation_id = print_oper(operation, color, style);
-
+    int operation_id = print_oper(style);
+    
+    style_params style_edge = {"", "", std::to_string(step_number_++)};
     print_edge(first_object.id_, operation_id);
     first_object.id_ = -1;
     print_node(first_object);
-    print_edge(operation_id, first_object.id_);
+    style_edge.label_ = std::to_string(step_number_++);
+    print_edge(operation_id, first_object.id_, style_edge);
 
     return operation_id;
 }
 
-int Tracker::print_oper(OPERATIONS operation, const std::string &color, const std::string &style)
+int Tracker::print_oper(const style_params &style)
 {
-    if (operation == OPERATIONS::EQ_COPY || operation == OPERATIONS::CONSTRUCTOR_COPY)
+    if (style.label_ == operations_[operations_::EQ_COPY] || style.label_ == operations_[operations_::CONSTRUCTOR_COPY])
     {
         copy_count_ ++;
     }
 
-    else if (operation == OPERATIONS::EQ_MOVE || operation == OPERATIONS::CONSTRUCTOR_MOVE)
+    else if (style.label_ == operations_[operations_::EQ_MOVE] || style.label_ == operations_[operations_::CONSTRUCTOR_MOVE])
     {
 
         move_count_ ++;
     }
 
     ++id;
-    std::string string = std::to_string(id) + "[label=\"" + operations_[int(operation)] + "\"" + " color = \"" + color + "\" " + "style = " + "\"" + style + "\"];";
+    std::string string = std::to_string(id) + "[label=\"" + style.label_ + "\"" + " color = \"" + style.color_ + "\" " + "style = " + "\"" + style.style_ + "\"];";
     file_ << string << std::endl;
 
     return id;
@@ -150,24 +171,29 @@ void Tracker::print_node(SuperType<T> &object)
         object.id_ = ++id;
     }
     
-    std::string string = std::to_string(object.id_) + "[label=\"{ {name: " + object.name_ + "} | {value:" + std::to_string(object.value_) + "} | {address: " + std::to_string(uint64_t(&object)) + "}} \" " + 
-                                                    + "color=" + "\"" + object.color_ + "\"" + "style=" + "\"" + object.style_ + "\"" + "];";
+    std::string string = std::to_string(object.id_) + "[label=\"{ {name: " + object.style_.label_ + "} | {value:" + std::to_string(object.value_) + "} | {address: " + std::to_string(uint64_t(&object)) + "}} \" " + 
+                                                    + "color=" + "\"" + object.style_.color_ + "\"" + "style=" + "\"" + object.style_.style_ + "\"" + "];";
     file_ << string << std::endl;
 }
 
-void Tracker::print_edge(int id1, int id2) 
+void Tracker::print_edge(int id1, int id2, const style_params &style) 
 {
-    file_ << std::to_string(id1) + "->" + std::to_string(id2) + ";" << std::endl;
+    file_ << "edge[style = \"" << style.style_ << "\" " << "color = \"" << style.color_  << "\"" << "label = \"" + style.label_ + "\"" << "]" << std::to_string(id1) + "->" + std::to_string(id2) + ";" << std::endl;
 }
 
 void Tracker::print_open_func(const std::string &name)
 {
     file_ << "subgraph " << "\"cluster_" << func_id << "\" {" << std::endl;
     file_ << "label = " << name << ";" << std::endl; 
-    file_  << "style= filled" << std::endl;
+    file_ << "style= filled" << std::endl;
     file_ << "color = " << "\"" << "#00000010" << "\";" << std::endl;
 
     func_id++;
+}
+
+std::string Tracker::get_operation_name(int operation)
+{
+    return operations_[operation];
 }
 
 void Tracker::print_close_func(const std::string &name)
