@@ -167,8 +167,8 @@ void swap(T &&object1, T &&object2)
 }
 ```
 Казалось бы, исследуя мир семантики перемещения и её законов, мы можем решить, что все будет основанно на перемещениях, ибо аргументы функции rvalue. 
-
 ![](diagrams/simple_swap.png)
+
 Однако реальность сурова и это не так, но в чем проблема? Где наше волшебство, почему мы снова в мире маглов, а волшебного мира как-бдуто и не было? 
 Проблема заключается в том, что аргументы функции ссылки на rvalue, но самими rvalue они не являются. Как же быть? 
 Ранее я определил move и forward, и кажется, что наиболее очевидное определение move должно подойти, сняв маску с аргументов.
@@ -188,25 +188,66 @@ void swap(T &&object1, T &&object2)
 }
 ```
 
-![](diagrams/simple_swap.png)
-О чудо! Мы снова волшебники и все работает так, как мы и хотели. Move, кажется, грубой силой, ее инструмент дубинка и под её влиянием любой станет rvalue. Страшно представить, что будет если мы отдадим функции/
-Однако остается вопрос, что такое функция forward? Попробуем применить.
-
+![](diagrams/move_swap.png)
+О чудо! Мы снова волшебники, и все работает так, как мы и хотели. Move, кажется, сторонник грубой силы, ее инструмент, волшебная палочка, больше похожа на дубинку и под её влиянием любой станет rvalue. В то же время, написав мини класс Beast с функцией set_lifestyle(), можно подумать, что если натравливать move на все и вся, то везде будет волшебство и счастье.
 ```
-template<class T>
-void swap(T &&object1, T &&object2)
-{    
-    start_function();
-    using T_ = std::remove_reference_t<T>;
+class Beast
+{
+public:
+    SuperType<std::string> lifestyle_;
 
-    T_ temp(forward<T_>(object1));
-    temp.rename("temp");
-    object1 = forward<T_>(object2);
-    object2 = forward<T_>(temp);
+    Beast() : lifestyle_("not_exist") {}
+
+    template<class T>
+    void set_lifestyle(T&& lifestyle)
+    {
+        lifestyle.rename("lifestyle_");
+        lifestyle_ = move(lifestyle);
+    }
+};
+```
+Однако так ли это? Что будет, если мы напишем вот так?
+```
+void test_move_forward()
+{
+    start_function();
+
+    Beast lion;
+    lion.set_lifestyle(SuperType<std::string>("predator"));
+
+    SuperType<std::string> victim("victim");
+    
+    Beast sheep;
+    sheep.set_lifestyle(victim);
+    Beast cow;
+    cow.set_lifestyle(victim);
+
     end_function();
 }
 ```
+Вжух! 
+![](diagrams/move_beast.png)
+И мы разбились о собственное мировоззрение, кажется, что move переборщивает с прибабахом. Неужели придется запереть move до лучших времен очевидного swap, а самим сидеть в скучном мире копирования...
+И тут из леса выходит новый зверь, forward...
+Однако остается вопрос, что такое функция forward? Ранее было сказано, что у нее какое-то условное приведение и блаблабла.
+```
+class Beast
+{
+public:
+    SuperType<std::string> lifestyle_;
 
-О чудо! Мы остались волшебниками и всё работает так, как мы... Хотели? Да, мы этого хотели, но кто такой forward, и почему он нам помог? Оказывается, что forawrd приводит условное приведение, rvalue к rvalue, lvalue к lvalue. 
+    Beast() : lifestyle_("not_exist") {
+        lifestyle_.rename("lifestyle_");
+    }
+
+    template<class T>
+    void set_lifestyle(T&& lifestyle)
+    {
+        lifestyle_ = std::forward(lifestyle);
+    }
+};
+```
+![](diagrams/forward_beast.png)
+О чудо! Мы остались волшебниками и всё работает так, как мы... Хотели? Да, мы этого хотели, но кто такой forward, и почему он нам помог? Оказывается, что forward приводит условное приведение, rvalue к rvalue, lvalue к lvalue. 
 В таком случае может показаться, что мы нашли универсальный способ решения всех наших проблем, быть может, это наш философский камень. С технической точки зрения ответ утвердительный: forward может сделать все, необходимости в move нет.
 
