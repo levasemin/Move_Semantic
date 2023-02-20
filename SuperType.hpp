@@ -190,7 +190,7 @@ SuperType<T> &SuperType<T>::operator= (const SuperType<T> &that)
 
 #if defined(MOVE_SEMANTIC)
 template<class T>
-SuperType<T>::SuperType(SuperType<T> &&that): value_(that.value_), style_({})
+SuperType<T>::SuperType(SuperType<T> &&that): value_(std::move(that.value_)), style_({})
 {    
     style_.label_ = "tmp" + std::to_string(number_);
     number_++;
@@ -214,7 +214,7 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
 {
     if (this != &that)
     {
-        this->value_ = that.value_;
+        this->value_ = std::move(that.value_);
         
         if (log_)
         {

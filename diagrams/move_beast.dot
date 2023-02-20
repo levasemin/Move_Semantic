@@ -1,0 +1,49 @@
+digraph G{
+trankdir=HR;
+node[shape=Mrecord];
+
+subgraph "cluster_0" {
+label = test_beast;
+style= filled
+color = "#00000010";
+1[label="{ {name: tmp0} | {value:victim} | {address: 140736408356928}} " color=""style=""];
+2[label="{ {name: tmp1} | {value:not_exist} | {address: 140736408357072}} " color=""style=""];
+2[label="{ {name: lifestyle_} | {value:not_exist} | {address: 140736408357072}} " color=""style=""];
+3[label="{ {name: tmp2} | {value:predator} | {address: 140736408357360}} " color=""style=""];
+subgraph "cluster_1" {
+label = set_lifestyle;
+style= filled
+color = "#00000010";
+4[label="= (move)" color = "#58D68D" style = "filled"];
+edge[style = "" color = ""label = "1"]2->4;
+edge[style = "dashed" color = ""label = "1"]3->4;
+5[label="{ {name: lifestyle_} | {value:predator} | {address: 140736408357072}} " color=""style=""];
+edge[style = "" color = ""label = "1"]4->5;
+}
+6[label="{ {name: tmp3} | {value:not_exist} | {address: 140736408357216}} " color=""style=""];
+6[label="{ {name: lifestyle_} | {value:not_exist} | {address: 140736408357216}} " color=""style=""];
+subgraph "cluster_2" {
+label = set_lifestyle;
+style= filled
+color = "#00000010";
+7[label="= (move)" color = "#58D68D" style = "filled"];
+edge[style = "" color = ""label = "2"]6->7;
+edge[style = "dashed" color = ""label = "2"]1->7;
+8[label="{ {name: lifestyle_} | {value:victim} | {address: 140736408357216}} " color=""style=""];
+edge[style = "" color = ""label = "2"]7->8;
+}
+9[label="{ {name: tmp4} | {value:not_exist} | {address: 140736408357360}} " color=""style=""];
+9[label="{ {name: lifestyle_} | {value:not_exist} | {address: 140736408357360}} " color=""style=""];
+subgraph "cluster_3" {
+label = set_lifestyle;
+style= filled
+color = "#00000010";
+10[label="= (move)" color = "#58D68D" style = "filled"];
+edge[style = "" color = ""label = "3"]9->10;
+edge[style = "dashed" color = ""label = "3"]1->10;
+11[label="{ {name: lifestyle_} | {value:} | {address: 140736408357360}} " color=""style=""];
+edge[style = "" color = ""label = "3"]10->11;
+}
+}
+label="Count of copy operation: 0
+Count of move operation: 3"}

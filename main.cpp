@@ -1,6 +1,7 @@
-#include "test_move_forward.hpp"
 #include "test_move_semantic.hpp"
 #include "test_wrong_copy_semantic.hpp"
+#include "test_swap.hpp"
+#include "test_beast.hpp"
 
 void start_test(const char *type)
 {
@@ -9,9 +10,14 @@ void start_test(const char *type)
         test_move_semantic();
     }
 
-    else if (type == std::string("test_move_forward"))
+    else if (type == std::string("test_swap"))
     {
-        test_move_forward();
+        test_swap();
+    }
+
+    else if (type == std::string("test_beast"))
+    {
+        test_beast();
     }
 }
 

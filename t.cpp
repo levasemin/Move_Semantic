@@ -2,56 +2,20 @@
 #include <string>
 #include <boost/type_index.hpp> 
 
-template <class T>
-class Object
-{
-public:
-    
-    int value_;
-
-    Object(int value)
-    {
-        value_ = value;
-    }
-};
-
-template<class T1, class T2>
-std::remove_reference_t<T1> &operator +=(T1&& object1, T2&& object2)
-{
-    object1.value_ += object2.value_;
-
-    return object1;
-}
-
-template<class T1, class T2>
-std::remove_reference_t<T1> operator +(T1&& object1, T2&& object2)
-{
-    if(std::is_rvalue_reference<T1&&>::value) 
-    {
-        std::cout << "Object1 is rvalue" << std::endl;
-    }
-    else
-    {
-        std::cout << "Object1 is lvalue" << std::endl;
-    }
-
-    if(std::is_rvalue_reference<T2&&>::value) 
-    {
-        std::cout << "Object2 is rvalue" << std::endl;
-    }
-    else
-    {
-        std::cout << "Object2 is lvalue" << std::endl;
-    }
-
-    std::remove_reference_t<T2> result = object1;
-    result += object2;
-
-    return result;
-}
-
 int main()
 {
-    Object<int> c(5);
-    c + Object<int>(6);
+    std::string a = "12345";
+    using boost::typeindex::type_id_with_cvr;
+    std::cout << "T ; "<< type_id_with_cvr<decltype(a)>().pretty_name() << '\n';
+
+    std::cout <<"param ; "<<type_id_with_cvr<decltype (std::forward<decltype(a)>(a))>().pretty_name()<< '\n' ;
+    
+    std::string b = std::forward<decltype(a)>(a);
+
+    static_assert(!std::is_rvalue_reference< decltype(std::forward<decltype(a)>(a)) >::value);
+    
+    std::string c = a;
+
+    std::cout << "c" << c << std::endl;
+    std::cout << "b" << b;
 }

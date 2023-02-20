@@ -173,9 +173,8 @@ void Tracker::print_node(SuperType<T> &object)
         object.id_ = ++id;
     }
     
-    std::string string = std::to_string(object.id_) + "[label=\"{ {name: " + object.style_.label_ + "} | {value:" + std::to_string(object.value_) + "} | {address: " + std::to_string(uint64_t(&object)) + "}} \" " + 
-                                                    + "color=" + "\"" + object.style_.color_ + "\"" + "style=" + "\"" + object.style_.style_ + "\"" + "];";
-    file_ << string << std::endl;
+    file_ << object.id_ << "[label=\"{ {name: " << object.style_.label_ << "} | {value:" << object.value_ << "} | {address: " << uint64_t(&object) << "}} \" " << 
+                           "color=" << "\"" << object.style_.color_ << "\"" << "style=" << "\"" << object.style_.style_ << "\"" << "];" << std::endl;
 }
 
 void Tracker::print_edge(int id1, int id2, const style_params &style) 

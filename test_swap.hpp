@@ -7,21 +7,24 @@
 
 #include "SuperType.hpp"
 
+#ifdef SWAP_MOVE
 template<class T>
-void forward_swap(T &&object1, T &&object2)
+void swap(T &&object1, T &&object2)
 {    
     start_function();
     using T_ = std::remove_reference_t<T>;
 
-    T_ temp(forward<T_>(object1));
+    T_ temp(move(object1));
     temp.rename("temp");
-    object1 = forward<T_>(object2);
-    object2 = forward<T_>(temp);
+    object1 = move(object2);
+    object2 = move(temp);
     end_function();
 }
+#endif
 
+#ifndef SWAP_MOVE
 template<class T>
-void simple_swap(T &&object1, T &&object2)
+void swap(T &&object1, T &&object2)
 {    
     start_function();
     using T_ = std::remove_reference_t<T>;
@@ -32,8 +35,9 @@ void simple_swap(T &&object1, T &&object2)
     object2 = temp;
     end_function();
 }
+#endif
 
-void test_move_forward()
+void test_swap()
 {
     start_function();
 
@@ -42,7 +46,7 @@ void test_move_forward()
     SuperType<int> b(20);
     b.rename("b");
 
-    simple_swap(a, b);
+    swap(a, b);
 
     end_function();
 }
