@@ -196,15 +196,17 @@ class Beast
 public:
     SuperType<std::string> lifestyle_;
 
-    Beast() : lifestyle_("not_exist") {}
+    Beast() : lifestyle_("not exist") {
+        lifestyle_.rename("lifestyle_");
+    }
 
     template<class T>
     void set_lifestyle(T&& lifestyle)
     {
-        lifestyle.rename("lifestyle_");
         lifestyle_ = move(lifestyle);
     }
 };
+
 ```
 Однако так ли это? Что будет, если мы напишем вот так?
 ```
@@ -236,7 +238,7 @@ class Beast
 public:
     SuperType<std::string> lifestyle_;
 
-    Beast() : lifestyle_("not_exist") {
+    Beast() : lifestyle_("not exist") {
         lifestyle_.rename("lifestyle_");
     }
 
