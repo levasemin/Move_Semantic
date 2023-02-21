@@ -5,9 +5,12 @@
 #include <stack>
 #include <vector>
 
-#define start_function() Tracker::getInstance().print_open_func(__func__);
-#define end_function()   Tracker::getInstance().print_close_func();
+#define start_function() SL::Tracker::getInstance().print_open_func(__func__);
+#define end_function()   SL::Tracker::getInstance().print_close_func();
 
+namespace SL
+{
+    
 template <class T>
 class SuperType;
 
@@ -251,3 +254,5 @@ void Tracker::close_file()
         system(("dot -T png " + file_name_ + ".dot > " + file_name_  + ".png").c_str());
     }
 }
+
+};

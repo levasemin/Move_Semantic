@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include "SuperType.hpp"
+#include "../SuperType/SuperType.hpp"
 
 
 template<class T>
@@ -23,12 +23,12 @@ void test_swap_default()
 {
     start_function();
 
-    SuperType<int> a(10);
+    SL::SuperType<int> a(10);
     a.rename("a");
-    SuperType<int> b(20);
+    SL::SuperType<int> b(20);
     b.rename("b");
     
-    swap_default(dynamic_cast<SuperType<int> &&>(a), dynamic_cast<SuperType<int> &&>(b));
+    swap_default(dynamic_cast<SL::SuperType<int> &&>(a), dynamic_cast<SL::SuperType<int> &&>(b));
 
     end_function();
 }

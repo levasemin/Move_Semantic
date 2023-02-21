@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
     {
         case 3:        
         {
-            Tracker &tracker = Tracker::getInstance();
+            SL::Tracker &tracker = SL::Tracker::getInstance();
             tracker.open_file(argv[2]);
             
             start_test(argv[1]);

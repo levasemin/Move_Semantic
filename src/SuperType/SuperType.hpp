@@ -5,6 +5,8 @@
 
 #include "Tracker.hpp"
 
+namespace SL
+{
 
 static int number_ = 0;
 
@@ -464,3 +466,5 @@ SuperType<T> SuperType<T>::operator--(int)
     
     return *this;
 }
+
+};

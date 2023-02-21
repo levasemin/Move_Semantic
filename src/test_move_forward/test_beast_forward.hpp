@@ -1,12 +1,14 @@
+#pragma once
+
 #include <iostream>
 #include <string>
 
-#include "SuperType.hpp"
-#include "SuperType/forward.hpp"
+#include "../SuperType/SuperType.hpp"
+#include "../SuperType/SL.hpp"
 class Beast_2
 {
 public:
-    SuperType<std::string> lifestyle_;
+    SL::SuperType<std::string> lifestyle_;
 
     Beast_2() : lifestyle_("not_exist") {
         lifestyle_.rename("lifestyle_");
@@ -16,7 +18,7 @@ public:
     void set_lifestyle(T&& lifestyle)
     {
         start_function()
-        lifestyle_ = forward<T>(lifestyle);
+        lifestyle_ = std::forward<T>(lifestyle);
         end_function()
     }
 };
@@ -25,10 +27,10 @@ void test_beast_forward()
 {
     start_function();
 
-    SuperType<std::string> victim("victim");
+    SL::SuperType<std::string> victim("victim");
 
     Beast_2 lion;
-    lion.set_lifestyle(SuperType<std::string>("predator"));
+    lion.set_lifestyle(SL::SuperType<std::string>("predator"));
 
     Beast_2 sheep;
     sheep.set_lifestyle(victim);

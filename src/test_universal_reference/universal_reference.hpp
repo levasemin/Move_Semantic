@@ -2,7 +2,7 @@
 #include <string>
 #include <boost/type_index.hpp>
 
-#include "SuperType/SuperType.hpp"
+#include "../SuperType/SuperType.hpp"
 
 template <typename T>
 void func(T &&param, const std::string &param_name)
@@ -16,8 +16,8 @@ void func(T &&param, const std::string &param_name)
 
 void test_universal_reference()
 {
-    SuperType<int> object_1(100500);
+    SL::SuperType<int> object_1(100500);
 
     func(object_1, "object_1");
-    func(SuperType<int>(100500), "object_2");
+    func(SL::SuperType<int>(100500), "object_2");
 }

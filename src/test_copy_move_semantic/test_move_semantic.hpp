@@ -1,14 +1,16 @@
+#pragma once
+
 #include <iostream>
 
-#include "src/SuperType/SuperType.hpp"
+#include "../SuperType/SuperType.hpp"
 
 template<class T>
-SuperType<T> func(SuperType<T> a, SuperType<T> b)
+SL::SuperType<T> func(SL::SuperType<T> a, SL::SuperType<T> b)
 {
     a.rename("func_a");
     b.rename("func_b");
     start_function()
-    SuperType<int> c = a + b;
+    SL::SuperType<int> c = a + b;
     c.rename("c");
     end_function()
     return c;
@@ -18,13 +20,13 @@ void test_move_semantic()
 {
     start_function();
     
-    SuperType<int> a(5);
+    SL::SuperType<int> a(5);
     a.rename("a");
-    SuperType<int> b(14);
+    SL::SuperType<int> b(14);
     b.rename("b");
-    SuperType<int> c(20);
+    SL::SuperType<int> c(20);
     c.rename("c");
-    SuperType<int> result(0);
+    SL::SuperType<int> result(0);
     result.rename("result");
 
     result = c;
