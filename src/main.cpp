@@ -1,6 +1,6 @@
 #include "test_copy_move_semantic/test_move_semantic.hpp"
 #include "test_copy_move_semantic/test_wrong_copy_semantic.hpp"
-#include "test_move_forward/test_swap_default.hpp"
+#include "test_move_forward/test_swap_simple.hpp"
 #include "test_move_forward/test_swap_move.hpp"
 #include "test_move_forward/test_beast_move.hpp"
 #include "test_move_forward/test_beast_forward.hpp"
@@ -13,9 +13,9 @@ void start_test(const std::string &type)
         test_move_semantic();
     }
 
-    else if (type == "test_swap_deafult")
+    else if (type == "test_swap_simple")
     {
-        test_swap_default();
+        test_swap_simple();
     }
 
     else if (type == "test_swap_move")

@@ -7,7 +7,7 @@
 
 
 template<class T>
-void swap_default(T &&object1, T &&object2)
+void swap_simple(T &&object1, T &&object2)
 {    
     start_function();
     using T_ = std::remove_reference_t<T>;
@@ -19,7 +19,7 @@ void swap_default(T &&object1, T &&object2)
     end_function();
 }
 
-void test_swap_default()
+void test_swap_simple()
 {
     start_function();
 
@@ -28,7 +28,7 @@ void test_swap_default()
     SL::SuperType<int> b(20);
     b.rename("b");
     
-    swap_default(dynamic_cast<SL::SuperType<int> &&>(a), dynamic_cast<SL::SuperType<int> &&>(b));
+    swap_simple(dynamic_cast<SL::SuperType<int> &&>(a), dynamic_cast<SL::SuperType<int> &&>(b));
 
     end_function();
 }

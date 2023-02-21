@@ -63,7 +63,7 @@ public:
 #endif
 
 #ifdef WRONG_COPY_SEMANTIC
-    SuperType<T>(SuperType<T> &that);
+    SuperType<T>(SuperType<T> &that);    
     SuperType<T> &operator= (SuperType<T> &that);
 #endif
 
@@ -126,10 +126,12 @@ public:
 private:
     T value_;
     int id_ = -1; 
-    bool log_ = true;
+    static bool log_;
     style_params style_;
 };      
 
+template<class T>
+bool SuperType<T>::log_ = true;
 
 template<class T>
 SuperType<T>::SuperType(const T &value): value_(value), style_({})
@@ -231,7 +233,7 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
 
 #ifdef WRONG_COPY_SEMANTIC
 template<class T>
-SuperType<T>::SuperType(SuperType<T> &that): value_(that.value_)
+SuperType<T>::SuperType(SuperType<T> &that): value_(that.value_), style_({})
 {
     style_.label_ = "tmp" + std::to_string(number_);
     number_++;
@@ -244,7 +246,7 @@ SuperType<T>::SuperType(SuperType<T> &that): value_(that.value_)
         
         Tracker &tracker = Tracker::getInstance();
         
-        style_params operation_style = {red, "filled"};
+        style_params operation_style = {red, "filled", tracker.get_operation_name(CONSTRUCTOR_COPY)};
 
         tracker.print_operation(*this, that, *this, operation_style);
     }
@@ -259,10 +261,10 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &that)
     {
         Tracker &tracker = Tracker::getInstance();
 
-        style_params operation_style = {red, "filled"};
+        style_params operation_style = {red, "filled", tracker.get_operation_name(EQ_COPY)};
 
         //std::cout << "Operator = " << style_.label_ << std::endl; 
-        tracker.print_operation(*this, that, *this, EQ_COPY, operation_style);
+        tracker.print_operation(*this, that, *this, operation_style);
     }
 
     return *this;

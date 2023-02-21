@@ -1,3 +1,4 @@
+./main test_move_semantic ../diagrams/graph_move.dot
 digraph G{
 trankdir=HR;
 node[shape=Mrecord];
@@ -6,34 +7,34 @@ subgraph "cluster_0" {
 label = test_move_semantic;
 style= filled
 color = "#00000010";
-1[label="{ {name: tmp0} | {value:5} | {address: 140727372241072}} " color=""style=""];
-1[label="{ {name: a} | {value:5} | {address: 140727372241072}} " color=""style=""];
-2[label="{ {name: tmp1} | {value:14} | {address: 140727372241184}} " color=""style=""];
-2[label="{ {name: b} | {value:14} | {address: 140727372241184}} " color=""style=""];
-3[label="{ {name: tmp2} | {value:20} | {address: 140727372241296}} " color=""style=""];
-3[label="{ {name: c} | {value:20} | {address: 140727372241296}} " color=""style=""];
-4[label="{ {name: tmp3} | {value:0} | {address: 140727372241408}} " color=""style=""];
-4[label="{ {name: result} | {value:0} | {address: 140727372241408}} " color=""style=""];
+1[label="{ {name: tmp0} | {value:5} | {address: 140728338147696}} " color=""style=""];
+1[label="{ {name: a} | {value:5} | {address: 140728338147696}} " color=""style=""];
+2[label="{ {name: tmp1} | {value:14} | {address: 140728338147808}} " color=""style=""];
+2[label="{ {name: b} | {value:14} | {address: 140728338147808}} " color=""style=""];
+3[label="{ {name: tmp2} | {value:20} | {address: 140728338147920}} " color=""style=""];
+3[label="{ {name: c} | {value:20} | {address: 140728338147920}} " color=""style=""];
+4[label="{ {name: tmp3} | {value:0} | {address: 140728338148032}} " color=""style=""];
+4[label="{ {name: result} | {value:0} | {address: 140728338148032}} " color=""style=""];
 5[label="= (copy)" color = "#EC7063" style = "filled"];
 edge[style = "" color = ""label = "1"]4->5;
 edge[style = "dashed" color = ""label = "1"]3->5;
-6[label="{ {name: result} | {value:20} | {address: 140727372241408}} " color=""style=""];
+6[label="{ {name: result} | {value:20} | {address: 140728338148032}} " color=""style=""];
 edge[style = "" color = ""label = "1"]5->6;
 7[label="*" color = "" style = ""];
 edge[style = "" color = ""label = "2"]2->7;
 edge[style = "" color = ""label = "2"]3->7;
-8[label="{ {name: tmp4} | {value:280} | {address: 140727372240912}} " color=""style="filled"];
+8[label="{ {name: tmp4} | {value:280} | {address: 140728338147536}} " color=""style="filled"];
 edge[style = "" color = ""label = "2"]7->8;
 9[label="copy" color = "#EC7063" style = "filled"];
 edge[style = "" color = ""label = "3"]8->9;
-10[label="{ {name: tmp5} | {value:280} | {address: 140727372241520}} " color=""style="filled"];
+10[label="{ {name: tmp5} | {value:280} | {address: 140728338148144}} " color=""style="filled"];
 edge[style = "" color = ""label = "3"]9->10;
 11[label="copy" color = "#EC7063" style = "filled"];
 edge[style = "" color = ""label = "4"]1->11;
-12[label="{ {name: tmp6} | {value:5} | {address: 140727372241632}} " color=""style="filled"];
+12[label="{ {name: tmp6} | {value:5} | {address: 140728338148256}} " color=""style="filled"];
 edge[style = "" color = ""label = "4"]11->12;
-12[label="{ {name: func_a} | {value:5} | {address: 140727372241632}} " color=""style="filled"];
-10[label="{ {name: func_b} | {value:280} | {address: 140727372241520}} " color=""style="filled"];
+12[label="{ {name: func_a} | {value:5} | {address: 140728338148256}} " color=""style="filled"];
+10[label="{ {name: func_b} | {value:280} | {address: 140728338148144}} " color=""style="filled"];
 subgraph "cluster_1" {
 label = func;
 style= filled
@@ -41,22 +42,22 @@ color = "#00000010";
 13[label="+" color = "" style = ""];
 edge[style = "" color = ""label = "5"]12->13;
 edge[style = "" color = ""label = "5"]10->13;
-14[label="{ {name: tmp7} | {value:285} | {address: 140727372240688}} " color=""style="filled"];
+14[label="{ {name: tmp7} | {value:285} | {address: 140728338147312}} " color=""style="filled"];
 edge[style = "" color = ""label = "5"]13->14;
 15[label="copy" color = "#EC7063" style = "filled"];
 edge[style = "" color = ""label = "6"]14->15;
-16[label="{ {name: tmp8} | {value:285} | {address: 140727372240912}} " color=""style="filled"];
+16[label="{ {name: tmp8} | {value:285} | {address: 140728338147536}} " color=""style="filled"];
 edge[style = "" color = ""label = "6"]15->16;
-16[label="{ {name: c} | {value:285} | {address: 140727372240912}} " color=""style="filled"];
+16[label="{ {name: c} | {value:285} | {address: 140728338147536}} " color=""style="filled"];
 }
 17[label="copy" color = "#EC7063" style = "filled"];
 edge[style = "" color = ""label = "7"]16->17;
-18[label="{ {name: tmp9} | {value:285} | {address: 140727372241744}} " color=""style="filled"];
+18[label="{ {name: tmp9} | {value:285} | {address: 140728338148368}} " color=""style="filled"];
 edge[style = "" color = ""label = "7"]17->18;
 19[label="= (copy)" color = "#EC7063" style = "filled"];
 edge[style = "" color = ""label = "8"]6->19;
 edge[style = "dashed" color = ""label = "8"]18->19;
-20[label="{ {name: result} | {value:285} | {address: 140727372241408}} " color=""style=""];
+20[label="{ {name: result} | {value:285} | {address: 140728338148032}} " color=""style=""];
 edge[style = "" color = ""label = "8"]19->20;
 }
 label="Count of copy operation: 6
