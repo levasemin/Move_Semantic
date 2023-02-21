@@ -59,6 +59,7 @@ void test_move_semantic()
 </p>
 
 Команды для запуска эксперимента 
+
 Без флага:
 ``` 
  make default
