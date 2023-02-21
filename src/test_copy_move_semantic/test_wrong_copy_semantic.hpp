@@ -1,4 +1,8 @@
+#include <iostream>
+#include <string>
+
 #include "SuperType.hpp"
+
 
 void test_wrong_copy_constructor()
 {

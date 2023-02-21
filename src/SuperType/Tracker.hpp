@@ -96,7 +96,10 @@ private:
 
     ~Tracker()
     {
-        file_ << "label=\"Count of copy operation: " << copy_count_ << "\n" << "Count of move operation: " << move_count_ << "\"";
+        if (file_name_.size())
+        {
+            file_ << "label=\"Count of copy operation: " << copy_count_ << "\n" << "Count of move operation: " << move_count_ << "\"";
+        }
         close_file();
     }
 
@@ -160,7 +163,11 @@ int Tracker::print_oper(const style_params &style)
 
     ++id;
     std::string string = std::to_string(id) + "[label=\"" + style.label_ + "\"" + " color = \"" + style.color_ + "\" " + "style = " + "\"" + style.style_ + "\"];";
-    file_ << string << std::endl;
+    
+    if (file_name_.size())
+    {
+        file_ << string << std::endl;
+    }
 
     return id;
 }
@@ -173,21 +180,30 @@ void Tracker::print_node(SuperType<T> &object)
         object.id_ = ++id;
     }
     
-    file_ << object.id_ << "[label=\"{ {name: " << object.style_.label_ << "} | {value:" << object.value_ << "} | {address: " << uint64_t(&object) << "}} \" " << 
-                           "color=" << "\"" << object.style_.color_ << "\"" << "style=" << "\"" << object.style_.style_ << "\"" << "];" << std::endl;
+    if (file_name_.size())
+    {
+        file_ << object.id_ << "[label=\"{ {name: " << object.style_.label_ << "} | {value:" << object.value_ << "} | {address: " << uint64_t(&object) << "}} \" " << 
+                               "color=" << "\"" << object.style_.color_ << "\"" << "style=" << "\"" << object.style_.style_ << "\"" << "];" << std::endl;
+    }
 }
 
 void Tracker::print_edge(int id1, int id2, const style_params &style) 
 {
-    file_ << "edge[style = \"" << style.style_ << "\" " << "color = \"" << style.color_  << "\"" << "label = \"" + style.label_ + "\"" << "]" << std::to_string(id1) + "->" + std::to_string(id2) + ";" << std::endl;
+    if (file_name_.size())
+    {
+        file_ << "edge[style = \"" << style.style_ << "\" " << "color = \"" << style.color_  << "\"" << "label = \"" + style.label_ + "\"" << "]" << std::to_string(id1) + "->" + std::to_string(id2) + ";" << std::endl;
+    }
 }
 
 void Tracker::print_open_func(const std::string &name)
 {
-    file_ << "subgraph " << "\"cluster_" << func_id << "\" {" << std::endl;
-    file_ << "label = " << name << ";" << std::endl; 
-    file_ << "style= filled" << std::endl;
-    file_ << "color = " << "\"" << "#00000010" << "\";" << std::endl;
+    if (file_name_.size())
+    {
+        file_ << "subgraph " << "\"cluster_" << func_id << "\" {" << std::endl;
+        file_ << "label = " << name << ";" << std::endl; 
+        file_ << "style= filled" << std::endl;
+        file_ << "color = " << "\"" << "#00000010" << "\";" << std::endl;
+    }
 
     func_id++;
 }
@@ -199,7 +215,10 @@ std::string Tracker::get_operation_name(int operation)
 
 void Tracker::print_close_func()
 {
-    file_ << "}" << std::endl;
+    if (file_name_.size())
+    {
+        file_ << "}" << std::endl;
+    }
 }
 
 void Tracker::open_file(const std::string &file_name)
@@ -214,12 +233,21 @@ void Tracker::open_file(const std::string &file_name)
 
     file_.open(file_name);
 
-    file_ << "digraph G{\ntrankdir=HR;\nnode[shape=Mrecord];\n" << std::endl;
+    if (file_name.size())
+    {
+        if (file_name_.size())
+        {
+            file_ << "digraph G{\ntrankdir=HR;\nnode[shape=Mrecord];\n" << std::endl;
+        }
+    }
 }
 
 void Tracker::close_file()
 {         
-    file_ << "}";
-    file_.close();
-    system(("dot -T png " + file_name_ + ".dot > " + file_name_  + ".png").c_str());
+    if (file_name_.size())
+    {
+        file_ << "}";
+        file_.close();
+        system(("dot -T png " + file_name_ + ".dot > " + file_name_  + ".png").c_str());
+    }
 }

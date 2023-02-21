@@ -1,6 +1,8 @@
+#include <iostream>
+#include <string>
+
 #include "SuperType.hpp"
-
-#ifndef BEAST_FORWARD
+#include "SuperType/move.hpp"
 class Beast
 {
 public:
@@ -14,33 +16,13 @@ public:
     void set_lifestyle(T&& lifestyle)
     {
         start_function()
-        lifestyle_ = std::move(lifestyle);
+        lifestyle_ = move(lifestyle);
         end_function()
     }
 };
-#endif 
 
-#ifdef BEAST_FORWARD
-class Beast
-{
-public:
-    SuperType<std::string> lifestyle_;
 
-    Beast() : lifestyle_("not_exist") {
-        lifestyle_.rename("lifestyle_");
-    }
-
-    template<class T>
-    void set_lifestyle(T&& lifestyle)
-    {
-        start_function()
-        lifestyle_ = std::forward<T>(lifestyle);
-        end_function()
-    }
-};
-#endif 
-
-void test_beast()
+void test_beast_move()
 {
     start_function();
 

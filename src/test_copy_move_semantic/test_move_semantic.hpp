@@ -1,4 +1,6 @@
-#include "SuperType.hpp"
+#include <iostream>
+
+#include "src/SuperType/SuperType.hpp"
 
 template<class T>
 SuperType<T> func(SuperType<T> a, SuperType<T> b)

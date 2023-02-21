@@ -1,8 +1,10 @@
 #pragma once
 
-#include "Tracker.hpp"
 #include <iostream>
 #include <string>
+
+#include "Tracker.hpp"
+
 
 static int number_ = 0;
 
@@ -36,7 +38,6 @@ SuperType<T> &operator oper (const SuperType<T> &that)                          
     if (log_ == true)                                                                                           \
     {                                                                                                           \
         Tracker &tracker = Tracker::getInstance();                                                              \
-        std::cout << "Operator " << style_.label_ << " " << #oper << " "<<  that.style_.label_ << std::endl;    \
         tracker.print_operation(*this, that, *this, {"", "", tracker.get_operation_name(type)});                \
     }                                                                                                           \
                                                                                                                 \
@@ -122,16 +123,11 @@ public:
 
 private:
     T value_;
-
     int id_ = -1; 
-
-    static bool log_;
-
+    bool log_ = true;
     style_params style_;
 };      
 
-template<class T>
-bool SuperType<T>::log_(true);
 
 template<class T>
 SuperType<T>::SuperType(const T &value): value_(value), style_({})
@@ -141,7 +137,7 @@ SuperType<T>::SuperType(const T &value): value_(value), style_({})
         
     if (log_)
     {
-        std::cout << "Constructor " << style_.label_ << std::endl;
+        //std::cout << "Constructor " << style_.label_ << std::endl;
 
         Tracker &tracker = Tracker::getInstance();
         tracker.print_node(*this);
@@ -159,7 +155,7 @@ SuperType<T>::SuperType(const SuperType<T> &that): value_(that.value_), style_({
 
     if (log_)
     {
-        std::cout << "Copy constructor " << style_.label_ << std::endl; 
+        //std::cout << "Copy constructor " << style_.label_ << std::endl; 
         
         Tracker &tracker = Tracker::getInstance();
         
@@ -180,7 +176,7 @@ SuperType<T> &SuperType<T>::operator= (const SuperType<T> &that)
 
         style_params operation_style = {red, "filled", tracker.get_operation_name(EQ_COPY)};
 
-        std::cout << "Operator = " << style_.label_ << std::endl; 
+        //std::cout << "Operator = " << style_.label_ << std::endl; 
         tracker.print_operation(*this, that, *this, operation_style);
     }
 
@@ -199,7 +195,7 @@ SuperType<T>::SuperType(SuperType<T> &&that): value_(std::move(that.value_)), st
 
     if (log_)
     {
-        std::cout << "MOVE constructor " << style_.label_ << std::endl; 
+        //std::cout << "MOVE constructor " << style_.label_ << std::endl; 
 
         Tracker &tracker = Tracker::getInstance();
         
@@ -218,7 +214,7 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
         
         if (log_)
         {
-            std::cout << "Operator = " << style_.label_ << std::endl; 
+            //std::cout << "Operator = " << style_.label_ << std::endl; 
 
             Tracker &tracker = Tracker::getInstance();
             style_params operation_style = {green, "filled", tracker.get_operation_name(EQ_MOVE)};
@@ -242,7 +238,7 @@ SuperType<T>::SuperType(SuperType<T> &that): value_(that.value_)
 
     if (log_)
     {
-        std::cout << "Copy constructor " << style_.label_ << std::endl; 
+        //std::cout << "Copy constructor " << style_.label_ << std::endl; 
         
         Tracker &tracker = Tracker::getInstance();
         
@@ -263,7 +259,7 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &that)
 
         style_params operation_style = {red, "filled"};
 
-        std::cout << "Operator = " << style_.label_ << std::endl; 
+        //std::cout << "Operator = " << style_.label_ << std::endl; 
         tracker.print_operation(*this, that, *this, EQ_COPY, operation_style);
     }
 
@@ -283,7 +279,7 @@ SuperType<T>::SuperType(const SuperType<T> &&that): value_(that.value_), style_(
 
     if (log_)
     {
-        std::cout << "Copy constructor " << style_.label_ << std::endl; 
+        //std::cout << "Copy constructor " << style_.label_ << std::endl; 
 
         Tracker &tracker = Tracker::getInstance();
         
@@ -301,7 +297,7 @@ SuperType<T> &SuperType<T>::operator= (const SuperType<T> &&that)
         
         if (log_)
         {
-            std::cout << "Operator = " << style_.label_ << std::endl; 
+            //std::cout << "Operator = " << style_.label_ << std::endl; 
 
             Tracker &tracker = Tracker::getInstance();
             style_params operation_style = {red, "filled", tracker.get_operation_name(EQ_MOVE)};
@@ -317,7 +313,7 @@ SuperType<T> &SuperType<T>::operator= (const SuperType<T> &&that)
 template<class T>
 SuperType<T>::~SuperType<T>()
 {
-    std::cout << "Destructor " << style_.label_ << std::endl;
+    //std::cout << "Destructor " << style_.label_ << std::endl;
 }    
 
 template<class T>
@@ -325,7 +321,7 @@ void *SuperType<T>::operator new (size_t bytes, bool log_mode)
 {
     if (log_mode)
     {
-        std::cout << "Allocated " << bytes << " bytes by new" << std::endl;
+        //std::cout << "Allocated " << bytes << " bytes by new" << std::endl;
     }
 
     void *place = calloc(1, bytes);
@@ -344,7 +340,7 @@ void *SuperType<T>::operator new[] (size_t bytes, bool log_mode)
 {
     if (log_mode)
     {
-        std::cout << "Allocated " << bytes << " bytes by new[]" << std::endl;
+        //std::cout << "Allocated " << bytes << " bytes by new[]" << std::endl;
     }
     
     void *place = calloc(1, bytes);
@@ -363,7 +359,7 @@ void *SuperType<T>::operator new (size_t bytes, void *place, bool log_mode)
 {
     if (log_mode)
     {
-        std::cout << "Replacemented " << bytes << " bytes by new" << std::endl;
+        //std::cout << "Replacemented " << bytes << " bytes by new" << std::endl;
     }
 
     if (place == nullptr)
@@ -380,7 +376,7 @@ void *SuperType<T>::operator new[] (size_t bytes, void *place, bool log_mode)
 {
     if (log_mode)
     {
-        std::cout << "Replacemented " << bytes << " bytes by new[]" << std::endl;
+        //std::cout << "Replacemented " << bytes << " bytes by new[]" << std::endl;
     }
 
     if (place == nullptr)
@@ -399,7 +395,7 @@ void SuperType<T>::operator delete (void *pointer, size_t bytes)
 
     if (log_mode)
     {
-        std::cout << "Deallocated " << bytes << " bytes by delete" << std::endl;
+        //std::cout << "Deallocated " << bytes << " bytes by delete" << std::endl;
     }
 
     free(pointer);   
@@ -412,7 +408,7 @@ void SuperType<T>::operator delete[] (void *pointer, size_t bytes)
 
     if (log_mode)
     {
-        std::cout << "Deallocated " << bytes << " bytes by delete[]" << std::endl;
+        //std::cout << "Deallocated " << bytes << " bytes by delete[]" << std::endl;
     }
 
     free(pointer);
