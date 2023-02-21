@@ -62,10 +62,7 @@ SL::SuperType<int> a = c + b;
     <img src="diagrams/graph_no_flag.png" alt="Фотография 1" width="500" height="500">
     <img src="diagrams/graph_flag.png"    alt="Фотография 2" width="499" height="1000">
 </p>
-
-Команды для запуска эксперимента 
-
-Без флага:
+Без флага
 ``` 
  make default
  ./main test_move_semantic ../diagrams/graph_no_flag.dot
@@ -75,6 +72,7 @@ SL::SuperType<int> a = c + b;
  make default_flag
  ./main test_move_semantic ../diagrams/graph_flag.dot
 ```
+
  
 # Конструктор и оператор копирования 
 &nbsp;&nbsp;&nbsp;&nbsp;Если писать следуя стандартам с++98/03, то мы будем располагать лишь копирующими конструкторами, суть которых заключается в полном копировании классов с их атрибутами.
@@ -82,13 +80,12 @@ SL::SuperType<int> a = c + b;
 <p> 
     <img src="diagrams/graph_copy.png" alt="Фотография 2" width="500" height="1000">
 </p>
-
-Полное копирование является ресурсоемкой операцией, поэтому в блок схеме она выделена красным, как нежелательные блоки в программе, хотя в некоторых случаях их избежать нельзя.
-
  ```
  make default_flag
  ./main test_move_semantic ../diagrams/graph_copy.dot
 ```
+
+Полное копирование является ресурсоемкой операцией, поэтому в блок схеме она выделена красным, как нежелательные блоки в программе, хотя в некоторых случаях их избежать нельзя.
 
 # Конструктор и оператор перемещения
 &nbsp;&nbsp;&nbsp;&nbsp;В c++11/14 появились понятия rvalue и lvalue ссылок, которые указывают на объекты с разной памятью.
@@ -102,8 +99,6 @@ SL::SuperType<int> a = c + b;
 <p>    
     <img src="diagrams/graph_move.png"    alt="Фотография 2" width="500" height="1000">
 </p>  
-
- Команды для эксперимента
  ```
  make move_semantic_flag
  ./main test_move_semantic ../diagrams/graph_move.dot
@@ -151,8 +146,8 @@ object_2 = object_1;
 мы получим           
 ![](diagrams/copy_operator_error.png)
 
- Команды для эксперимента:
- ```
+Команды для эксперимента
+```
  make wrong_copy_semantic_flag
  ./main test_move_semantic ../diagrams/graph_wrong_copy.dot
  ```
@@ -177,11 +172,9 @@ SuperType<T> &operator= (const SuperType<T> &&that);
     <img src="diagrams/graph_move.png" alt="Фотография 1" width="500" height="1000">
     <img src="diagrams/graph_wrong_move.png"    alt="Фотография 2" width="500" height="1000">
  </p>
- 
-Команды для эксперимента:
  ```
- make wrong_move_semantic_flag
- ./main test_move_semantic ../diagrams/graph_wrong_move.dot
+  make wrong_move_semantic_flag
+  ./main test_move_semantic ../diagrams/graph_wrong_move.dot
  ```
  
 # Резюмируем
@@ -213,14 +206,12 @@ int main()
  ```
  
  И не возникнет удивления, если в консоли мы увидим лог о двух rvalue ссылках. Но так не будет, консоль покажет нам:
- ![]()
- Её поведение объясняется на примере флюгера, чье положение зависит от направления ветра. Ссылка становится lvalue или rvalue в зависимости от того, какие параметры ей придут.
- 
- Команды для эксперимента:
+ ![](diagrams/universal_reference.png)
  ```
  make move_semantic_flag
  ./main test_universal_reference
  ```
+Её поведение объясняется на примере флюгера, чье положение зависит от направления ветра. Ссылка становится lvalue или rvalue в зависимости от того, какие параметры ей придут.
  
  # Move vs Forward. Часть третья.
 &nbsp;&nbsp;&nbsp;&nbsp;Вот мы и добрались до фантастических тварей, пришедших вместе с новым миром: move и forward. Главное, что о них стоит сейчас понять, что они ничего не делают.
@@ -253,7 +244,7 @@ T&& forward(std::remove_reference_t<T>& x) noexcept
 Разберем простейший пример функции swap.
 ```
 template<class T>
-void swap_default(T &&object1, T &&object2)
+void swap_simple(T &&object1, T &&object2)
 {    
     start_function();
     using T_ = std::remove_reference_t<T>;
@@ -268,19 +259,6 @@ void swap_default(T &&object1, T &&object2)
 &nbsp;&nbsp;&nbsp;&nbsp;Казалось бы, исследуя мир семантики перемещения и её законов, мы можем решить, что все будет основанно на перемещениях. Если только... Если только мы передаем в функцию аргументы в стиле rvalue, так как универсальная ссылка будет rvalue только при них. Хорошо, сделаем так, как просят того от нас законы мира волшебства, и да прибудет с нами сила перемещения...
  
 ```
-template<class T>
-void swap_simple(T &&object1, T &&object2)
-{    
-    start_function();
-    using T_ = std::remove_reference_t<T>;
-
-    T_ temp(object1);
-    temp.rename("temp");
-    object1 = object2;
-    object2 = temp;
-    end_function();
-}
-
 void test_swap_simple()
 {
     start_function();
@@ -294,17 +272,14 @@ void test_swap_simple()
 
     end_function();
 }
-```
- 
+``` 
 ![](diagrams/simple_swap.png)
-
-&nbsp;&nbsp;&nbsp;&nbsp;Однако никакого перемещения с нами не прибыло, только руки все в чем... хм, запах копирования. Но в чем проблема? Где наше перемещение, почему мы снова в мире маглов, а волшебного мира как-будто и не было?
-
-Команды для эксперимента
 ```
 make move_semantic_flag
 ./main test_swap_simple ../diagrams/simple_swap.dot
 ```
+
+&nbsp;&nbsp;&nbsp;&nbsp;Однако никакого перемещения с нами не прибыло, только руки все в чем... хм, запах копирования. Но в чем проблема? Где наше перемещение, почему мы снова в мире маглов, а волшебного мира как-будто и не было?
 
 &nbsp;&nbsp;&nbsp;&nbsp;Проблема заключается в том, что аргументы функции ссылки rvalue, но самими rvalue они не являются, у них же есть свои имена (отличительная особенность lvalue). Что тогда делать? Ранее были определены move и forward, и кажется, что наиболее очевидная функция move должна подойти, сняв личину с аргументов.
 
@@ -323,7 +298,6 @@ void swap_move(T &&object1, T &&object2)
 }
 ```
 ![](diagrams/move_swap.png)
-Команды для эксперимента
 ```
 make move_semantic_flag
 ./main test_swap_move ../diagrams/move_swap.dot
@@ -370,7 +344,6 @@ void test_move_forward()
 ```
 &nbsp;&nbsp;&nbsp;&nbsp;Вжух! 
 ![](diagrams/move_beast.png)
-Команды для эксперимента
 ```
 make move_semantic_flag 
 ./main test_beast_move ../diagrams/move_beast.dot
@@ -399,8 +372,9 @@ public:
 };
 ```
 ![](diagrams/forward_beast.png)
-Команды для эксперимента
 ```
+ make move_semantic_flag
+ ./main test_beast_forward ../diagrams/forward_beast.png
 ```
 &nbsp;&nbsp;&nbsp;&nbsp;О чудо! Сила перемещения переполняет нас, и всё работает так, как мы... Хотели? Да, мы этого хотели, но кто такой forward, и почему он нам помог? Оказывается, что forward приводит условное приведение, rvalue к rvalue, lvalue к lvalue. 
 
