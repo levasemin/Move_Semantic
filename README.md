@@ -269,7 +269,7 @@ void swap_default(T &&object1, T &&object2)
  
 ```
 template<class T>
-void swap_default(T &&object1, T &&object2)
+void swap_simple(T &&object1, T &&object2)
 {    
     start_function();
     using T_ = std::remove_reference_t<T>;
@@ -281,16 +281,16 @@ void swap_default(T &&object1, T &&object2)
     end_function();
 }
 
-void test_swap_default()
+void test_swap_simple()
 {
     start_function();
 
-    SuperType<int> a(10);
+    SL::SuperType<int> a(10);
     a.rename("a");
-    SuperType<int> b(20);
+    SL::SuperType<int> b(20);
     b.rename("b");
     
-    swap_default(std::dynamic_cast<SuperType &&>(a), std::dynamic_cast<SuperType<int> &&>(b));
+    swap_simple(dynamic_cast<SL::SuperType<int> &&>(a), dynamic_cast<SL::SuperType<int> &&>(b));
 
     end_function();
 }
@@ -299,6 +299,12 @@ void test_swap_default()
 ![](diagrams/simple_swap.png)
 
 &nbsp;&nbsp;&nbsp;&nbsp;Однако никакого перемещения с нами не прибыло, только руки все в чем... хм, запах копирования. Но в чем проблема? Где наше перемещение, почему мы снова в мире маглов, а волшебного мира как-будто и не было?
+
+Команды для эксперимента
+```
+make move_semantic_flag
+./main test_swap_simple ../diagrams/simple_swap.dot
+```
 
 &nbsp;&nbsp;&nbsp;&nbsp;Проблема заключается в том, что аргументы функции ссылки rvalue, но самими rvalue они не являются, у них же есть свои имена (отличительная особенность lvalue). Что тогда делать? Ранее были определены move и forward, и кажется, что наиболее очевидная функция move должна подойти, сняв личину с аргументов.
 
@@ -309,15 +315,19 @@ void swap_move(T &&object1, T &&object2)
     start_function();
     using T_ = std::remove_reference_t<T>;
 
-    T_ temp(move(object1));
+    T_ temp(SL::move(object1));
     temp.rename("temp");
-    object1 = move(object2);
-    object2 = move(temp);
+    object1 = SL::move(object2);
+    object2 = SL::move(temp);
     end_function();
 }
 ```
-
 ![](diagrams/move_swap.png)
+Команды для эксперимента
+```
+make move_semantic_flag
+./main test_swap_move ../diagrams/move_swap.dot
+```
 О чудо! Сила перемещения снова с нами, и все работает так, как мы и хотели. Move, кажется, сторонник грубой силы, ее инструмент, волшебная палочка, больше похожа на дубинку, и под её влиянием любой станет rvalue. Любой станет rvalue? И везде воцарится перемещение, наш граф будет гореть зеленым, а мы будем покруче Гарри Поттера, ибо волшебство будет всегда с нами, да ещё какое...
 
 &nbsp;&nbsp;&nbsp;&nbsp;Ну что ж, сейчас мы сделаем "красиво", написав мини класс Beast с функцией set_lifestyle(), можно подумать, натравим move на все и вся, пусть везде будет волшебство и счастье.
@@ -360,6 +370,12 @@ void test_move_forward()
 ```
 &nbsp;&nbsp;&nbsp;&nbsp;Вжух! 
 ![](diagrams/move_beast.png)
+Команды для эксперимента
+```
+make move_semantic_flag 
+./main test_beast_move ../diagrams/move_beast.dot
+```
+
 &nbsp;&nbsp;&nbsp;&nbsp;И мы разбились о собственное мировоззрение, кажется, что move переборщивает с прибабахом. Ранее перемещение объяснялось на примере мертвых, и это не спроста. Приведение к rvalue это подстать убийству, rvalue это мертвый объект, которому в этом мире ничего уже не надо, это "мародерство". То, чем мы занимаемся, это "грабеж средь бела дня" без задней мысли о том, что будет с тем, у кого мы украли. Неужели придется запереть move до лучших времен очевидного swap, а самим сидеть в скучном мире копирования...
 
 &nbsp;&nbsp;&nbsp;&nbsp;И тут из леса выходит новый зверь, forward.
@@ -383,6 +399,9 @@ public:
 };
 ```
 ![](diagrams/forward_beast.png)
+Команды для эксперимента
+```
+```
 &nbsp;&nbsp;&nbsp;&nbsp;О чудо! Сила перемещения переполняет нас, и всё работает так, как мы... Хотели? Да, мы этого хотели, но кто такой forward, и почему он нам помог? Оказывается, что forward приводит условное приведение, rvalue к rvalue, lvalue к lvalue. 
 
 # Итоги сравнения 
