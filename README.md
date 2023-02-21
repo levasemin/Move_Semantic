@@ -81,6 +81,7 @@ SL::SuperType<int> a = c + b;
 <p> 
     <img src="diagrams/graph_copy.png" alt="Фотография 2" width="500" height="1000">
 </p>
+
 ~~~
  make default_flag
  ./main test_move_semantic ../diagrams/graph_copy.dot
@@ -157,6 +158,7 @@ SuperType<T> &operator= (const SuperType<T> &&that);
     <img src="diagrams/graph_move.png" alt="Фотография 1" width="500" height="1000">
     <img src="diagrams/graph_wrong_move.png"    alt="Фотография 2" width="500" height="1000">
  </p>
+ 
  ~~~
   make wrong_move_semantic_flag
   ./main test_move_semantic ../diagrams/graph_wrong_move.dot
