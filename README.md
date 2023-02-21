@@ -82,7 +82,7 @@ void test_move_semantic()
 
  ```
  make default_flag
- ./main test_move_semantic diagrams/graph_copy.dot
+ ./main test_move_semantic ../diagrams/graph_copy.dot
 ```
 
 # Конструктор и оператор перемещения
@@ -149,7 +149,7 @@ object_2 = object_1;
  Команды для эксперимента:
  ```
  make wrong_copy_semantic_flag
- ./main test_move_semantic diagrams/graph_wrong_copy.dot
+ ./main test_move_semantic ../diagrams/graph_wrong_copy.dot
  ```
  
 ## Странные методы перемещения
@@ -176,7 +176,7 @@ SuperType<T> &operator= (const SuperType<T> &&that);
 Команды для эксперимента:
  ```
  make wrong_move_semantic_flag
- ./main test_move_semantic diagrams/graph_wrong_move.dot
+ ./main test_move_semantic ../diagrams/graph_wrong_move.dot
  ```
  
 # Резюмируем
