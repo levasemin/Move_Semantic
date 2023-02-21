@@ -63,12 +63,12 @@ void test_move_semantic()
 Без флага:
 ``` 
  make default
- ./main test_move_semantic diagrams/graph_no_flag.png
+ ./main test_move_semantic ../diagrams/graph_no_flag.png
 ```
 С флагом:
 ```
  make default_flag
- ./main test_move_semantic diagrams/graph_flag.png
+ ./main test_move_semantic ../diagrams/graph_flag.png
 ```
  
 # Конструктор и оператор копирования 
@@ -101,7 +101,7 @@ void test_move_semantic()
  Команды для эксперимента
  ```
  make move_semantic_flag
- ./main test_move_semantic diagrams/graph_move.dot
+ ./main test_move_semantic ../diagrams/graph_move.dot
  ```
  
 # Сравнение изменений
