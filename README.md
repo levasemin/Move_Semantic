@@ -194,7 +194,14 @@ int main()
 ~~~
  
  И не возникнет удивления, если в консоли мы увидим лог о двух rvalue ссылках. Но так не будет, консоль покажет нам:
- ![](diagrams/universal_reference.png)
+ ~~~
+ T: SL::SuperType<int>&
+ param: object_1 is SL::SuperType<int>&
+
+ T: SL::SuperType<int>
+ param: object_2 is SL::SuperType<int>&&
+ ~~~
+ 
  ~~~
  make move_semantic_flag
  ./main test_universal_reference
