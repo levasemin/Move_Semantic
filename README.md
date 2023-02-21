@@ -62,6 +62,7 @@ SL::SuperType<int> a = c + b;
     <img src="diagrams/graph_no_flag.png" alt="Фотография 1" width="500" height="500">
     <img src="diagrams/graph_flag.png"    alt="Фотография 2" width="499" height="1000">
 </p>
+
 Без флага
 ``` 
  make default
@@ -99,6 +100,7 @@ SL::SuperType<int> a = c + b;
 <p>    
     <img src="diagrams/graph_move.png"    alt="Фотография 2" width="500" height="1000">
 </p>  
+
  ```
  make move_semantic_flag
  ./main test_move_semantic ../diagrams/graph_move.dot
@@ -122,13 +124,14 @@ SuperType<T>(const SuperType<T> &that, const std::string &name = "");
 SuperType<T> &operator= (const SuperType<T> &that);
 ~~~
 &nbsp;&nbsp;&nbsp;&nbsp;Несмотря на это по ошибке можно задать эти два метода так.
-~~~
+```
 SuperType<T>(SuperType<T> &that, const std::string &name = "");
 SuperType<T> &operator= (SuperType<T> &that);
-~~~
+```
 &nbsp;&nbsp;&nbsp;&nbsp;Единственное, что изменится с неправильным вариантом, это отсутствие возможности использования конструктора и оператора с константными объектами. Во время компиляции кода мы выхватим целую простыночку ошибок, так как наш копирующий конструктор работать с const объектами не умеет, а аналог для const автоматически сгенерирован не был из-за уже определенного специфичного конструктора не для const.
 
 Команды для эксперимента
+
 ```
  make wrong_copy_semantic_flag
  ./main test_move_semantic ../diagrams/graph_wrong_copy.dot
