@@ -160,7 +160,7 @@ result = c;
 SuperType<T>(SuperType<T> &&that, const std::string &name = "");
 SuperType<T> &operator= (SuperType<T> &&that);
 ```
-Не смотря на это по ошибке ее можно задать так
+Несмотря на это по ошибке ее можно задать так
 ```
 SuperType<T>(const SuperType<T> &&that, const std::string &name = "");
 SuperType<T> &operator= (const SuperType<T> &&that);
