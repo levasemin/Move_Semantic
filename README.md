@@ -318,8 +318,24 @@ void swap_simple(T &&object1, T &&object2)
 }
 ```
 &nbsp;&nbsp;&nbsp;&nbsp;Казалось бы, исследуя мир семантики перемещения и её законов, мы можем решить, что все будет основанно на перемещениях. Если только... Если только мы передаем в функцию аргументы в стиле rvalue, так как универсальная ссылка будет rvalue только при них. Хорошо, сделаем так, как просят того от нас законы мира волшебства, и да прибудет с нами сила перемещения...
- 
-```
+
+<br> 
+    <img src="diagrams/simple_swap.png" alt="Фотография 2" width="500" height="1000" align="right"/>
+    
+~~~
+template<class T>
+void swap_simple(T &&object1, T &&object2)
+{    
+    start_function();
+    using T_ = std::remove_reference_t<T>;
+
+    T_ temp(object1);
+    temp.rename("temp");
+    object1 = object2;
+    object2 = temp;
+    end_function();
+}
+
 void test_swap_simple()
 {
     start_function();
@@ -333,9 +349,10 @@ void test_swap_simple()
 
     end_function();
 }
-``` 
-![](diagrams/simple_swap.png)
-```
+~~~
+
+<br clear="right"/>
+
 make move_semantic_flag
 ./main test_swap_simple ../diagrams/simple_swap.dot
 ```
