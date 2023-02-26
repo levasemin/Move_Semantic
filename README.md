@@ -345,7 +345,8 @@ void test_swap_simple()
     SL::SuperType<int> b(20);
     b.rename("b");
     
-    swap_simple(dynamic_cast<SL::SuperType<int> &&>(a), dynamic_cast<SL::SuperType<int> &&>(b));
+    swap_simple(dynamic_cast<SL::SuperType<int> &&>(a), 
+                dynamic_cast<SL::SuperType<int> &&>(b));
 
     end_function();
 }
