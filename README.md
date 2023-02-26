@@ -75,10 +75,41 @@ SL::SuperType<int> object_1 = object_2 + object_3;
 # Конструктор и оператор копирования 
 &nbsp;&nbsp;&nbsp;&nbsp;Если писать следуя стандартам с++98/03, то мы будем располагать лишь копирующими конструкторами, суть которых заключается в полном копировании классов с их атрибутами.
 
-<p> 
-    <img src="diagrams/graph_copy.png" alt="Фотография 2" width="500" height="1000">
-</p>
+<br> 
+    <img src="diagrams/graph_copy.png" alt="Фотография 2" width="500" height="1000" align="left"/>
+~~~
+template<class T>
+SL::SuperType<T> func(SL::SuperType<T> a, SL::SuperType<T> b)
+{
+    a.rename("func_a");
+    b.rename("func_b");
+    start_function()
+    SL::SuperType<int> c = a + b;
+    c.rename("c");
+    end_function()
+    return c;
+}
 
+void test_move_semantic()
+{
+    start_function();
+    
+    SL::SuperType<int> a(5);
+    a.rename("a");
+    SL::SuperType<int> b(14);
+    b.rename("b");
+    SL::SuperType<int> c(20);
+    c.rename("c");
+    SL::SuperType<int> result(0);
+    result.rename("result");
+
+    result = c;
+    result = func(a, b * c);
+    
+    end_function();
+}
+~~~
+<br clear="left"/>
 ~~~
  make default_flag
  ./main test_move_semantic ../diagrams/graph_copy.dot
