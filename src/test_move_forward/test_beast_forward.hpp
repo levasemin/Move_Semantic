@@ -18,7 +18,7 @@ public:
     void set_lifestyle(T&& lifestyle)
     {
         start_function()
-        lifestyle_ = std::forward<T>(lifestyle);
+        lifestyle_ = SL::forward<T>(lifestyle);
         end_function()
     }
 };
