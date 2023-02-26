@@ -128,9 +128,42 @@ void test_move_semantic()
  
 &nbsp;&nbsp;&nbsp;&nbsp;Перемещающие конструкторы и операторы присваивания менее ресурсоемкие в сравнении с копирующими, поэтому в блок схеме они горят зеленым, как наиболее желательные для вызова. 
 
-<p>    
-    <img src="diagrams/graph_move.png"    alt="Фотография 2" width="500" height="1000">
-</p>  
+<br> 
+    <img src="diagrams/graph_move.png" alt="Фотография 2" width="500" height="1000" align="right"/>
+    
+~~~
+template<class T>
+SL::SuperType<T> func(SL::SuperType<T> a, SL::SuperType<T> b)
+{
+    a.rename("func_a");
+    b.rename("func_b");
+    start_function()
+    SL::SuperType<int> c = a + b;
+    c.rename("c");
+    end_function()
+    return c;
+}
+void test_move_semantic()
+{
+    start_function();
+    
+    SL::SuperType<int> a(5);
+    a.rename("a");
+    SL::SuperType<int> b(14);
+    b.rename("b");
+    SL::SuperType<int> c(20);
+    c.rename("c");
+    SL::SuperType<int> result(0);
+    result.rename("result");
+
+    result = c;
+    result = func(a, b * c);
+    
+    end_function();
+}
+~~~
+
+<br clear="right"/>
 
  ~~~
  make move_semantic_flag
