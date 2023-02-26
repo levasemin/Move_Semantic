@@ -76,7 +76,7 @@ SL::SuperType<int> object_1 = object_2 + object_3;
 &nbsp;&nbsp;&nbsp;&nbsp;Если писать следуя стандартам с++98/03, то мы будем располагать лишь копирующими конструкторами, суть которых заключается в полном копировании классов с их атрибутами.
 
 <br> 
-    <img src="diagrams/graph_copy.png" alt="Фотография 2" width="500" height="1000" align="left"/>
+    <img src="diagrams/graph_copy.png" alt="Фотография 2" width="500" height="1000" align="right"/>
     
 ~~~
 template<class T>
@@ -110,7 +110,7 @@ void test_move_semantic()
 }
 ~~~
 
-<br clear="left"/>
+<br clear="right"/>
 
 ~~~
  make default_flag
