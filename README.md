@@ -266,6 +266,7 @@ int main()
  param: object_2 is SL::SuperType<int>&&
  ~~~
  
+ Команды для эксперимента:
  ~~~
  make move_semantic_flag
  ./main test_universal_reference
