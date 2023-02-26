@@ -89,7 +89,6 @@ SL::SuperType<T> func(SL::SuperType<T> a, SL::SuperType<T> b)
     end_function()
     return c;
 }
-
 void test_move_semantic()
 {
     start_function();
@@ -110,6 +109,7 @@ void test_move_semantic()
 }
 ~~~
 <br clear="left"/>
+
 ~~~
  make default_flag
  ./main test_move_semantic ../diagrams/graph_copy.dot
