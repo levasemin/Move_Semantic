@@ -135,7 +135,8 @@ void test_move_semantic()
     
 ~~~
 template<class T>
-SL::SuperType<T> func(SL::SuperType<T> a, SL::SuperType<T> b)
+SL::SuperType<T> 
+func(SL::SuperType<T> a, SL::SuperType<T> b)
 {
     a.rename("func_a");
     b.rename("func_b");
