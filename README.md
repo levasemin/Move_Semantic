@@ -363,7 +363,10 @@ make move_semantic_flag
 
 &nbsp;&nbsp;&nbsp;&nbsp;Проблема заключается в том, что аргументы функции ссылки rvalue, но самими rvalue они не являются, у них же есть свои имена (отличительная особенность lvalue). Что тогда делать? Ранее были определены move и forward, и кажется, что наиболее очевидная функция move должна подойти, сняв личину с аргументов.
 
-```
+<br> 
+    <img src="diagrams/move_swap.png" alt="Фотография 2" width="500" height="600" align="right"/>
+    
+~~~
 template<class T>
 void swap_move(T &&object1, T &&object2)
 {    
@@ -376,8 +379,24 @@ void swap_move(T &&object1, T &&object2)
     object2 = SL::move(temp);
     end_function();
 }
-```
-![](diagrams/move_swap.png)
+
+void test_swap_move()
+{
+    start_function();
+
+    SL::SuperType<int> a(10);
+    a.rename("a");
+    SL::SuperType<int> b(20);
+    b.rename("b");
+    
+    swap_move(dynamic_cast<SL::SuperType<int> &&>(a), 
+              dynamic_cast<SL::SuperType<int> &&>(b));
+
+    end_function();
+}
+~~~
+<br clear="right"/>
+
 ```
 make move_semantic_flag
 ./main test_swap_move ../diagrams/move_swap.dot
