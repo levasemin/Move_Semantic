@@ -354,9 +354,10 @@ void test_swap_simple()
 
 <br clear="right"/>
 
+~~~
 make move_semantic_flag
 ./main test_swap_simple ../diagrams/simple_swap.dot
-```
+~~~
 
 &nbsp;&nbsp;&nbsp;&nbsp;Однако никакого перемещения с нами не прибыло, только руки все в чем... хм, запах копирования. Но в чем проблема? Где наше перемещение, почему мы снова в мире маглов, а волшебного мира как-будто и не было?
 
