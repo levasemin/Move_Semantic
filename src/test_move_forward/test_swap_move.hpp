@@ -4,7 +4,7 @@
 #include <string>
 
 #include "../SuperType/SuperType.hpp"
-#include "../SuperType/SL.hpp"
+#include "../SuperType/move_forward.hpp"
 
 template<class T>
 void swap_move(T &&object1, T &&object2)

@@ -4,7 +4,7 @@
 #include <string>
 
 #include "../SuperType/SuperType.hpp"
-#include "../SuperType/SL.hpp"
+#include "../SuperType/move_forward.hpp"
 class Beast
 {
 public:

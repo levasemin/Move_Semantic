@@ -13,7 +13,6 @@ void start_test(const std::string &type)
         test_move_semantic();
     }
     
-    if (type == "")
     else if (type == "test_swap_simple")
     {
         test_swap_simple();
