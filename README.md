@@ -408,31 +408,33 @@ make move_semantic_flag
 class Beast
 {
 public:
-    SuperType<std::string> lifestyle_;
+    SL::SuperType<std::string> lifestyle_;
 
-    Beast() : lifestyle_("not exist") {
+    Beast() : lifestyle_("not_exist") {
         lifestyle_.rename("lifestyle_");
     }
 
     template<class T>
     void set_lifestyle(T&& lifestyle)
     {
-        lifestyle_ = move(lifestyle);
+        start_function()
+        lifestyle_ = SL::move(lifestyle);
+        end_function()
     }
 };
-
 ```
+
 &nbsp;&nbsp;&nbsp;&nbsp;Однако так ли это? Что будет, если мы напишем вот так?
 ```
-void test_move_forward()
+void test_beast_move()
 {
     start_function();
 
-    Beast lion;
-    lion.set_lifestyle(SuperType<std::string>("predator"));
+    SL::SuperType<std::string> victim("victim");
 
-    SuperType<std::string> victim("victim");
-    
+    Beast lion;
+    lion.set_lifestyle(SL::SuperType<std::string>("predator"));
+
     Beast sheep;
     sheep.set_lifestyle(victim);
     Beast cow;
@@ -455,19 +457,21 @@ make move_semantic_flag
 
 &nbsp;&nbsp;&nbsp;&nbsp;Что такое функция forward? Ранее было сказано, что у нее какое-то условное приведение и бла-бла-бла. Видимо, у нее какая-то особая миссия, давайте проверим.
 ```
-class Beast
+class Beast_2
 {
 public:
-    SuperType<std::string> lifestyle_;
+    SL::SuperType<std::string> lifestyle_;
 
-    Beast() : lifestyle_("not exist") {
+    Beast_2() : lifestyle_("not_exist") {
         lifestyle_.rename("lifestyle_");
     }
 
     template<class T>
     void set_lifestyle(T&& lifestyle)
     {
-        lifestyle_ = std::forward(lifestyle);
+        start_function()
+        lifestyle_ = SL::forward<T>(lifestyle);
+        end_function()
     }
 };
 ```
