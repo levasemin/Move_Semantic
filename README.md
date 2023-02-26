@@ -15,7 +15,8 @@
 
 ~~~
 template<class T>
-SL::SuperType<T> func(SL::SuperType<T> a, SL::SuperType<T> b)
+SL::SuperType<T> 
+func(SL::SuperType<T> a, SL::SuperType<T> b)
 {
     a.rename("func_a");
     b.rename("func_b");
@@ -80,7 +81,8 @@ SL::SuperType<int> object_1 = object_2 + object_3;
     
 ~~~
 template<class T>
-SL::SuperType<T> func(SL::SuperType<T> a, SL::SuperType<T> b)
+SL::SuperType<T> 
+func(SL::SuperType<T> a, SL::SuperType<T> b)
 {
     a.rename("func_a");
     b.rename("func_b");
