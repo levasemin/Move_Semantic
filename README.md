@@ -77,7 +77,7 @@ SL::SuperType<int> object_1 = object_2 + object_3;
 
 <br> 
     <img src="diagrams/graph_copy.png" alt="Фотография 2" width="500" height="1000" align="left"/>
-```
+~~~
 template<class T>
 SL::SuperType<T> func(SL::SuperType<T> a, SL::SuperType<T> b)
 {
@@ -89,7 +89,7 @@ SL::SuperType<T> func(SL::SuperType<T> a, SL::SuperType<T> b)
     end_function()
     return c;
 }
-```
+~~~
 <br clear="left"/>
 
 ~~~
