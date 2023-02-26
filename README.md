@@ -20,12 +20,15 @@
 template<class T>
 SuperType<T> func(SuperType<T> a, SuperType<T> b)
 {
+    start_function()
+    
     a.rename("func_a");
     b.rename("func_b");
-    start_function()
     SuperType<int> c = a + b;
     c.rename("c");
+    
     end_function()
+    
     return c;
 }
 
