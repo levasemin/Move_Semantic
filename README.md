@@ -436,7 +436,7 @@ void test_swap()
 &nbsp;&nbsp;&nbsp;&nbsp;Все работает через копирование. Если задуматься, то семантика перемещения нам бы здесь не помешала, и, кажется, уже есть в голове решение использовать move.
 
  <br> 
-    <img src="diagrams/move_swap.png" alt="Фотография 2" width="500" height="600" align="right"/>
+    <img src="diagrams/graph_swap_move.png" alt="Фотография 2" width="500" height="600" align="right"/>
     
 ~~~
 template<class T>
@@ -468,7 +468,7 @@ void test_swap_move()
 }
  
 // make move_semantic_flag
-// ./main test_swap_move ../diagrams/move_swap.dot
+// ./main test_swap_move ../diagrams/graph_swap_move.dot
 ~~~
  
 <br clear="right"/>
