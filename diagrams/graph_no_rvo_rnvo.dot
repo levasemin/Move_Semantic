@@ -6,20 +6,28 @@ subgraph "cluster_0" {
 label = test_rvo_rnvo;
 style= filled
 color = "#00000010";
-1[label="{ {name: tmp0} | {value:1} | {address: 140729393758240}} " color=""style=""];
-1[label="{ {name: object_1} | {value:1} | {address: 140729393758240}} " color=""style=""];
-2[label="{ {name: tmp1} | {value:2} | {address: 140729393758352}} " color=""style=""];
-2[label="{ {name: object_2} | {value:2} | {address: 140729393758352}} " color=""style=""];
-3[label="+" color = "" style = ""];
-edge[style = "" color = ""label = "1"]1->3;
-edge[style = "" color = ""label = "1"]2->3;
-4[label="{ {name: tmp2} | {value:3} | {address: 140729393758048}} " color=""style=""];
-edge[style = "" color = ""label = "1"]3->4;
-5[label="copy" color = "#EC7063" style = "filled"];
-edge[style = "" color = ""label = "2"]4->5;
-6[label="{ {name: tmp3} | {value:3} | {address: 140729393758464}} " color=""style=""];
-edge[style = "" color = ""label = "2"]5->6;
-6[label="{ {name: ojbect_3} | {value:3} | {address: 140729393758464}} " color=""style=""];
+1[label="{ {name: tmp0} | {value:1} | {address: 140722168938704}} " color=""style=""fontcolor=""];
+1[label="{ {name: object_1} | {value:1} | {address: 140722168938704}} " color=""style=""fontcolor=""];
+2[label="{ {name: tmp1} | {value:2} | {address: 140722168938848}} " color=""style=""fontcolor=""];
+2[label="{ {name: object_2} | {value:2} | {address: 140722168938848}} " color=""style=""fontcolor=""];
+3[label="+" color = "" style = ""fontcolor =""];
+edge[style = "" color = ""label = "1"fontcolor =""]1->3;
+edge[style = "" color = ""label = "1"fontcolor =""]2->3;
+4[label="{ {name: tmp2} | {value:3} | {address: 140722168938480}} " color=""style=""fontcolor=""];
+edge[style = "" color = ""label = "1"fontcolor =""]3->4;
+5[label="copy" color = "#EC7063" style = "filled"fontcolor =""];
+edge[style = "" color = ""label = "2"fontcolor =""]4->5;
+6[label="{ {name: tmp3} | {value:3} | {address: 140722168938992}} " color=""style=""fontcolor=""];
+edge[style = "" color = ""label = "2"fontcolor =""]5->6;
+7[label="Destructor" color = "black" style = "filled"fontcolor ="white"];
+edge[style = "" color = ""label = "3"fontcolor =""]4->7;
+6[label="{ {name: ojbect_3} | {value:3} | {address: 140722168938992}} " color=""style=""fontcolor=""];
 }
+8[label="Destructor" color = "black" style = "filled"fontcolor ="white"];
+edge[style = "" color = ""label = "4"fontcolor =""]6->8;
+9[label="Destructor" color = "black" style = "filled"fontcolor ="white"];
+edge[style = "" color = ""label = "5"fontcolor =""]2->9;
+10[label="Destructor" color = "black" style = "filled"fontcolor ="white"];
+edge[style = "" color = ""label = "6"fontcolor =""]1->10;
 label="Count of copy operation: 1
 Count of move operation: 0"}

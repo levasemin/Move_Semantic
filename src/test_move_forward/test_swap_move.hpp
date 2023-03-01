@@ -7,7 +7,7 @@
 #include "../SuperType/move_forward.hpp"
 
 template<class T>
-void swap_move(T &&object1, T &&object2)
+void swap_move(T &object1, T &object2)
 {    
     start_function();
     using T_ = std::remove_reference_t<T>;

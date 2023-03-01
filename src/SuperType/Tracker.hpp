@@ -19,6 +19,7 @@ struct style_params
     std::string color_ = "";
     std::string style_ = "";
     std::string label_ = "";
+    std::string font_color_ = "";
 };
 
 enum operations_
@@ -76,6 +77,9 @@ public:
 
     void print_edge(int id1, int id2, const style_params &style = {});
     
+    template<class T>
+    void print_destructor(SuperType<T> &object, const style_params &style);
+
     void print_open_func(const std::string &name);
 
     void print_close_func();
@@ -162,12 +166,11 @@ int Tracker::print_oper(const style_params &style)
 
     else if (style.label_ == operations_[operations_::EQ_MOVE] || style.label_ == operations_[operations_::CONSTRUCTOR_MOVE])
     {
-
         move_count_ ++;
     }
 
     ++id;
-    std::string string = std::to_string(id) + "[label=\"" + style.label_ + "\"" + " color = \"" + style.color_ + "\" " + "style = " + "\"" + style.style_ + "\"];";
+    std::string string = std::to_string(id) + "[label=\"" + style.label_ + "\"" + " color = \"" + style.color_ + "\" " + "style = " + "\"" + style.style_ + "\"" + "fontcolor =" + "\"" + style.font_color_ + "\"];";
     
     if (file_name_.size())
     {
@@ -175,6 +178,14 @@ int Tracker::print_oper(const style_params &style)
     }
 
     return id;
+}
+
+template<class T>
+void Tracker::print_destructor(SuperType<T> &object, const style_params &style)
+{
+    print_oper(style);
+    style_params style_edge = {"", "", std::to_string(step_number_++)};
+    print_edge(object.id_, id, style_edge);
 }
 
 template<class T>
@@ -188,7 +199,7 @@ void Tracker::print_node(SuperType<T> &object)
     if (file_name_.size())
     {
         file_ << object.id_ << "[label=\"{ {name: " << object.style_.label_ << "} | {value:" << object.value_ << "} | {address: " << uint64_t(&object) << "}} \" " << 
-                               "color=" << "\"" << object.style_.color_ << "\"" << "style=" << "\"" << object.style_.style_ << "\"" << "];" << std::endl;
+                               "color=" << "\"" << object.style_.color_ << "\"" << "style=" << "\"" << object.style_.style_ << "\"" << "fontcolor=" << "\"" << object.style_.font_color_ << "\"" << "];" << std::endl;
     }
 }
 
@@ -196,7 +207,7 @@ void Tracker::print_edge(int id1, int id2, const style_params &style)
 {
     if (file_name_.size())
     {
-        file_ << "edge[style = \"" << style.style_ << "\" " << "color = \"" << style.color_  << "\"" << "label = \"" + style.label_ + "\"" << "]" << std::to_string(id1) + "->" + std::to_string(id2) + ";" << std::endl;
+        file_ << "edge[style = \"" << style.style_ << "\" " << "color = \"" << style.color_  << "\"" << "label = \"" + style.label_ + "\"" + "fontcolor =" + "\"" + style.font_color_ + "\"]" << std::to_string(id1) + "->" + std::to_string(id2) + ";" << std::endl;
     }
 }
 

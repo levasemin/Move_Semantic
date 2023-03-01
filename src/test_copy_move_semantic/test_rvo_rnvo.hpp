@@ -15,6 +15,6 @@ void test_rvo_rnvo()
 
     SL::SuperType<int> object_3 = object_1 + object_2; 
     object_3.rename("ojbect_3");
-    
+
     end_function()
 }

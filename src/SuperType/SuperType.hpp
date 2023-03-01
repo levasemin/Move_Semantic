@@ -309,6 +309,8 @@ SuperType<T> &SuperType<T>::operator= (const SuperType<T> &&that)
 template<class T>
 SuperType<T>::~SuperType<T>()
 {
+    Tracker &tracker = Tracker::getInstance();
+    tracker.print_destructor(*this, {"black", "filled", "Destructor", "white"});
     //std::cout << "Destructor " << style_.label_ << std::endl;
 }    
 
