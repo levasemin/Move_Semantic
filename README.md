@@ -11,7 +11,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;Формат запуска    - ./main {название эксперимента} {путь к файлу отчета}.
  
 # Копирование и Перемещение. Часть первая.
-&nbsp;&nbsp;&nbsp;&nbsp;Первая часть исследования заключается в осознании различий семантики копирования и перемещения, а так же мест их использования. Блок схемы этой части построены на основе незамысловатого кода
+&nbsp;&nbsp;&nbsp;&nbsp;Первая часть исследования заключается в осознании различий семантики копирования и перемещения, а так же мест их использования. Блок схемы этой части построены на основе функции sum();
 
 <br> 
     <img src="diagrams/graph_naked.png" alt="Фотография 2" width="500" height="500" align="right"/>
@@ -19,7 +19,7 @@
 ~~~
 template<class T>
 SL::SuperType<T> 
-func(SL::SuperType<T> a, SL::SuperType<T> b)
+sum(SL::SuperType<T> a, SL::SuperType<T> b)
 {
     SL::SuperType<int> c = a + b;
     return c;
@@ -48,7 +48,8 @@ void test_move_semantic()
 
 ~~~
 template<class T>
-SL::SuperType<T> func(SL::SuperType<T> a, SL::SuperType<T> b)
+SL::SuperType<T> 
+sum(SL::SuperType<T> a, SL::SuperType<T> b)
 {
     start_function()
     
@@ -76,8 +77,7 @@ void test_move_semantic()
     SL::SuperType<int> result(0);
     result.rename("result");
 
-    result = c;
-    result = func(a, b * c);
+    result = sum(a, b * c);
     
     end_function();
 }
@@ -86,13 +86,67 @@ void test_move_semantic()
 <br clear="right"/>
 
 ## RVO/RNVO
-&nbsp;&nbsp;&nbsp;&nbsp;Оптимизации компилятора позволяют не создавать временный объект, который используется только для инициализации объекта такого же типа. Эта оптимизация носит название RVO/RNVO. Проще говоря:
-~~~
-SL::SuperType<int> object_1 = object_2 + object_3; 
-~~~
-При отсутствии этой оптимизации, во время работы кода будет создан дополнительный временный объект, который расположен в области определения object_1, в него будет скопирован результат операции object_2 + object_3, после этого он будет скопирован в объект object_1. Оптимизация приводит к отсутствию этого временного объекта. 
+&nbsp;&nbsp;&nbsp;&nbsp; На данном этапе мы имеем красивый граф, но для видения всей картины нам нужно окунуться еще глубже. Рассмотрим такой код.
+<br> 
+    <img src="diagrams/graph_rvo_rnvo.png" alt="Фотография 2" width="500" height="500" align="right"/>
 
-&nbsp;&nbsp;&nbsp;&nbsp;Флаг -fno-elide-constructors отключает эту оптимизацию и позволит более детально рассмотреть вызовы конструкторов копирования (перемещения) во всех случаях.
+~~~
+void test_rvo_rnvo()
+{
+    start_function()
+    
+    SL::SuperType<int> object_1(1);
+    object_1.rename("object_1");
+    SL::SuperType<int> object_2(2);
+    object_2.rename("object_2");
+
+    SL::SuperType<int> object_3 = object_1 + object_2; 
+
+    end_function()
+}
+~~~
+ 
+<br clear="right"/>
+
+&nbsp;&nbsp;&nbsp;&nbsp;Что может быть необычного в графе одной операции сложения? Стоит вспомнить, что возвращаемым объектом операции сложения является не ссылка и не указатель, а сам объект класса. Почему мы не видим создание еще одного узла для этого объекта и его копирования в object_3?
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;Оптимизации компилятора позволяют в некоторых случаях не создавать временный объект, который используется только для инициализации объекта такого же типа. Эта оптимизация носит название RVO/RNVO.
+
+&nbsp;&nbsp;&nbsp;&nbsp;Из-за существования некоторых случаев, мы не можем позволить себе закрыть глаза и надеятся, что оптимизация будет работать всегда. Флаг -fno-elide-constructors отключает эту оптимизацию и позволит более детально рассмотреть вызовы конструкторов копирования (перемещения) во всех случаях.
+
+ <br> 
+    <img src="diagrams/graph_no_rvo_rnvo.png" alt="Фотография 2" width="500" height="500" align="right"/>
+
+~~~
+void test_rvo_rnvo()
+{
+    start_function()
+    
+    SL::SuperType<int> object_1(1);
+    object_1.rename("object_1");
+    SL::SuperType<int> object_2(2);
+    object_2.rename("object_2");
+
+    SL::SuperType<int> object_3 = object_1 + object_2; 
+
+    end_function()
+}
+~~~
+
+ <br clear="right"/>
+
+Без флага
+~~~ 
+ make default
+ ./main test_rvo_rnvo ../diagrams/graph_rvo_rnvo.dot
+~~~
+С флагом:
+~~~
+ make default_flag
+ ./main test_rvo_rnvo ../diagrams/graph_no_rvo_rnvo.dot
+~~~
+ 
+Наш граф функции sum преобразится вот так.
 
 <p>
     <img src="diagrams/graph_no_flag.png" alt="Фотография 1" width="500" height="500">
@@ -110,7 +164,6 @@ SL::SuperType<int> object_1 = object_2 + object_3;
  ./main test_move_semantic ../diagrams/graph_flag.dot
 ~~~
 
- 
 ## Конструктор и оператор копирования 
 &nbsp;&nbsp;&nbsp;&nbsp;Если писать следуя стандартам с++98/03, то мы будем располагать лишь правилом трех, гласящим об определении копирующего конструктора, копирующего присваивания и деструктора. Суть заключается в полном копировании классов с их атрибутами.
 
