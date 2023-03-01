@@ -502,6 +502,7 @@ public:
 
  <br> 
    <img src="diagrams/graph_beast.png" alt="Фотография 2" width="500" height="600" align="right"/>
+ 
 ~~~
 class Beast
 {
