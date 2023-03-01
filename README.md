@@ -371,17 +371,17 @@ int main()
 &nbsp;&nbsp;&nbsp;&nbsp;Зачем же они нужны, если они "ничего не делают"? Оказывается, это не совсем так. 
  
 Move выполняет безусловное приведение своего аргумента к rvalue.
-```
+~~~
 template <typename T>
 decltype(auto) move(T &&param)
 {
     using ReturnType = std::remove_reference_t<T>&&;
     return static_cast<ReturnType>(param);
 }
-```
+~~~
 
 Forward выполняет приведение при определенных условиях.
-```
+~~~
 template <typename T>
 T&& forward(std::remove_reference_t<T>& x) noexcept
 {
@@ -470,6 +470,7 @@ void test_swap_move()
 // make move_semantic_flag
 // ./main test_swap_move ../diagrams/move_swap.dot
 ~~~
+ 
 <br clear="right"/>
 
 &nbsp;&nbsp;&nbsp;&nbsp; Отлично, копирования больше нет. Какая же крутая функция move, что может с помощью своей волшебной палочки, дубинки, заставить кого угодно быть rvalue. 
