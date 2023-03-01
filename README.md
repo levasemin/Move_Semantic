@@ -104,14 +104,13 @@ void test_rvo_rnvo()
 
     end_function()
 }
+ 
+// make default
+// ./main test_rvo_rnvo ../diagrams/graph_rvo_rnvo.dot
 ~~~
  
 <br clear="right"/>
 
-~~~
-make default
-./main test_rvo_rnvo ../diagrams/graph_rvo_rnvo.dot
-~~~
 &nbsp;&nbsp;&nbsp;&nbsp;Что может быть необычного в графе одной операции сложения? Стоит вспомнить, что возвращаемым объектом операции сложения является не ссылка и не указатель, а сам объект класса. Почему мы не видим создание еще одного узла для этого объекта и его копирования в object_3?
  
 &nbsp;&nbsp;&nbsp;&nbsp;Оптимизации компилятора позволяют в некоторых случаях не создавать временный объект, который используется только для инициализации объекта такого же типа. Эта оптимизация носит название RVO/RNVO. Из-за существования некоторых случаев, мы не можем позволить себе закрыть глаза и надеятся, что оптимизация будет работать всегда. 
@@ -135,14 +134,12 @@ void test_rvo_rnvo()
 
     end_function()
 }
+
+//  make default_flag
+// ./main test_rvo_rnvo ../diagrams/graph_no_rvo_rnvo.dot
 ~~~
 
 <br clear="right"/>
-
-~~~
- make default_flag
- ./main test_rvo_rnvo ../diagrams/graph_no_rvo_rnvo.dot
-~~~
  
 Наш граф функции sum преобразится вот так.
 
@@ -203,14 +200,13 @@ void test_move_semantic()
     
     end_function();
 }
+ 
+// make default_flag
+// ./main test_move_semantic ../diagrams/graph_copy.dot
 ~~~
 
 <br clear="right"/>
 
-~~~
-make default_flag
-./main test_move_semantic ../diagrams/graph_copy.dot
-~~~
 
 Полное копирование является ресурсоемкой операцией, поэтому в блок схеме она выделена красным, как нежелательные блоки в программе, хотя в некоторых случаях их избежать нельзя.
 
@@ -259,15 +255,13 @@ void test_move_semantic()
     
     end_function();
 }
+
+// make move_semantic_flag
+// ./main test_move_semantic ../diagrams/graph_move.dot
 ~~~
 
 <br clear="right"/>
 
- ~~~
- make move_semantic_flag
- ./main test_move_semantic ../diagrams/graph_move.dot
- ~~~
- 
 ## Сравнение изменений
 &nbsp;&nbsp;&nbsp;&nbsp;Несмотря на лучшую производительность компилятор не заменил всю копирующую семантику на перемещающую, так как она становится альтернативой, только когда речь заходит об объектах типа rvalue, выступающих в роли объектов для инициализации или присваивания. Если внимательно посмотреть на код, то становится ясно, что в некоторых случаях без копирования обойтись нельзя.
 
