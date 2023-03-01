@@ -33,7 +33,6 @@ void test_move_semantic()
     SL::SuperType<int> c(20);
     SL::SuperType<int> result(0);
 
-    result = c;
     result = func(a, b * c);
 }
 ~~~
@@ -442,14 +441,12 @@ void test_swap_simple()
 
     end_function();
 }
+
+// make move_semantic_flag
+// ./main test_swap_simple ../diagrams/simple_swap.dot
 ~~~
 
 <br clear="right"/>
-
-~~~
-make move_semantic_flag
-./main test_swap_simple ../diagrams/simple_swap.dot
-~~~
 
 &nbsp;&nbsp;&nbsp;&nbsp;Однако никакого перемещения с нами не прибыло, только руки все в чем... хм, запах копирования. Но в чем проблема? Где наше перемещение, почему мы снова в мире маглов, а волшебного мира как-будто и не было?
 
@@ -486,19 +483,20 @@ void test_swap_move()
 
     end_function();
 }
+ 
+// make move_semantic_flag
+// ./main test_swap_move ../diagrams/move_swap.dot
 ~~~
 <br clear="right"/>
 
-```
-make move_semantic_flag
-./main test_swap_move ../diagrams/move_swap.dot
-```
+
 О чудо! Сила перемещения снова с нами, и все работает так, как мы и хотели. Move, кажется, сторонник грубой силы, и ее инструмент, волшебная палочка, больше похожа на дубинку, и под её влиянием любой станет rvalue. Любой станет rvalue? И везде воцарится перемещение, наш граф будет гореть зеленым, а мы будем покруче Гарри Поттера, ибо волшебство будет всегда с нами, да ещё какое...
 
 ## Forward
 
 &nbsp;&nbsp;&nbsp;&nbsp;Ну что ж, сейчас мы сделаем "красиво", написав мини класс Beast с функцией set_lifestyle(), можно подумать, натравим move на все и вся, пусть везде будет волшебство и счастье.
-```
+
+~~~
 class Beast
 {
 public:
@@ -516,10 +514,11 @@ public:
         end_function()
     }
 };
-```
+~~~
 
 &nbsp;&nbsp;&nbsp;&nbsp;Однако так ли это? Что будет, если мы напишем вот так?
-```
+
+~~~
 void test_beast_move()
 {
     start_function();
@@ -536,13 +535,13 @@ void test_beast_move()
 
     end_function();
 }
-```
+
+// make move_semantic_flag 
+// ./main test_beast_move ../diagrams/move_beast.dot
+~~~
+ 
 &nbsp;&nbsp;&nbsp;&nbsp;Вжух! 
 ![](diagrams/move_beast.png)
-```
-make move_semantic_flag 
-./main test_beast_move ../diagrams/move_beast.dot
-```
 
 &nbsp;&nbsp;&nbsp;&nbsp;И мы разбились о собственное мировоззрение, кажется, что move переборщивает с прибабахом. Ранее перемещение объяснялось на примере мертвых, и это не спроста. Приведение к rvalue это подстать убийству, rvalue это мертвый объект, которому в этом мире ничего уже не надо, это "мародерство". То, чем мы занимаемся, это "грабеж средь бела дня" без задней мысли о том, что будет с тем, у кого мы украли. Неужели придется запереть move до лучших времен очевидного swap, а самим сидеть в скучном мире копирования...
 
@@ -567,12 +566,13 @@ public:
         end_function()
     }
 };
-```
+ 
+// make move_semantic_flag
+// ./main test_beast_forward ../diagrams/forward_beast.png
+~~~
+
 ![](diagrams/forward_beast.png)
-```
- make move_semantic_flag
- ./main test_beast_forward ../diagrams/forward_beast.png
-```
+
 &nbsp;&nbsp;&nbsp;&nbsp;О чудо! Сила перемещения переполняет нас, и всё работает так, как мы... Хотели? Да, мы этого хотели, но кто такой forward, и почему он нам помог? Оказывается, что forward делает условное приведение, rvalue к rvalue, lvalue к lvalue. 
 
 &nbsp;&nbsp;&nbsp;&nbsp;На этом моменте можно в полной мере осознать смысл универсальной ссылки, который мог быть непонятен ранее. Идея заклчючается в возможности оптимизации кода там, где это возможно, в случае с Beast_2 с функцией set_lifestyle(). Благодаря этому типу ссылки мы получили возможность изменение lifestyle_ с помощью разных семантик, не дублируя функцию для lvalue и rvalue.
