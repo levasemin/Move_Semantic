@@ -394,7 +394,7 @@ T&& forward(std::remove_reference_t<T>& x) noexcept
 Разберем простейший пример функции swap.
  
 <br> 
-    <img src="diagrams/simple_swap.png" alt="Фотография 2" width="500" height="600" align="right"/>
+    <img src="diagrams/graph_swap.png" alt="Фотография 2" width="500" height="600" align="right"/>
     
 ~~~
 template<class T>
@@ -428,7 +428,7 @@ void test_swap()
 }
 
 // make move_semantic_flag
-// ./main test_swap ../diagrams/swap.dot
+// ./main test_swap ../diagrams/graph_swap.dot
 ~~~
 
 <br clear="right"/>
