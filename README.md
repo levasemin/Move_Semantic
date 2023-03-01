@@ -14,7 +14,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;Первая часть исследования заключается в осознании различий семантики копирования и перемещения, а так же мест их использования. Блок схемы этой части построены на основе незамысловатого кода
 
 <br> 
-    <img src="diagrams/graph_naked.png" alt="Фотография 2" width="500" height="1000" align="right"/>
+    <img src="diagrams/graph_naked.png" alt="Фотография 2" width="500" height="500" align="right"/>
+    
 ~~~
 template<class T>
 SL::SuperType<T> 
@@ -36,6 +37,7 @@ void test_move_semantic()
     result = func(a, b * c);
 }
 ~~~
+
 <br clear="right"/>
 
 Для нормального отображения графа нам придется добавить еще функций. Необходимо переименовать узлы с переменными с помощью метода SuperType<T>::rename("object") и выделить функций с помощью макроса start_function() в начале функции и end_function() в её конце.
