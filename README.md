@@ -33,7 +33,6 @@ void test_move_semantic()
     SL::SuperType<int> c(20);
     SL::SuperType<int> result(0);
 
-    result = c;
     result = func(a, b * c);
 }
 ~~~
@@ -104,17 +103,18 @@ void test_rvo_rnvo()
 
     end_function()
 }
+ 
+// make default
+// ./main test_rvo_rnvo ../diagrams/graph_rvo_rnvo.dot
 ~~~
  
 <br clear="right"/>
 
-~~~
-make default
-./main test_rvo_rnvo ../diagrams/graph_rvo_rnvo.dot
-~~~
 &nbsp;&nbsp;&nbsp;&nbsp;Что может быть необычного в графе одной операции сложения? Стоит вспомнить, что возвращаемым объектом операции сложения является не ссылка и не указатель, а сам объект класса. Почему мы не видим создание еще одного узла для этого объекта и его копирования в object_3?
  
-&nbsp;&nbsp;&nbsp;&nbsp;Оптимизации компилятора позволяют в некоторых случаях не создавать временный объект, который используется только для инициализации объекта такого же типа. Эта оптимизация носит название RVO/RNVO. Из-за существования некоторых случаев, мы не можем позволить себе закрыть глаза и надеятся, что оптимизация будет работать всегда. Флаг -fno-elide-constructors отключает эту оптимизацию и позволит более детально рассмотреть вызовы конструкторов копирования (перемещения) во всех случаях.
+&nbsp;&nbsp;&nbsp;&nbsp;Оптимизации компилятора позволяют в некоторых случаях не создавать временный объект, который используется только для инициализации объекта такого же типа. Эта оптимизация носит название RVO/RNVO. Из-за существования некоторых случаев, мы не можем позволить себе закрыть глаза и надеятся, что оптимизация будет работать всегда. 
+
+&nbsp;&nbsp;&nbsp;&nbsp;Флаг -fno-elide-constructors отключает эту оптимизацию и позволит более детально рассмотреть вызовы конструкторов копирования (перемещения) во всех случаях.
 
  <br> 
     <img src="diagrams/graph_no_rvo_rnvo.png" alt="Фотография 2" width="500" height="500" align="right"/>
@@ -133,14 +133,12 @@ void test_rvo_rnvo()
 
     end_function()
 }
+
+//  make default_flag
+// ./main test_rvo_rnvo ../diagrams/graph_no_rvo_rnvo.dot
 ~~~
 
 <br clear="right"/>
-
-~~~
- make default_flag
- ./main test_rvo_rnvo ../diagrams/graph_no_rvo_rnvo.dot
-~~~
  
 Наш граф функции sum преобразится вот так.
 
@@ -201,14 +199,13 @@ void test_move_semantic()
     
     end_function();
 }
+ 
+// make default_flag
+// ./main test_move_semantic ../diagrams/graph_copy.dot
 ~~~
 
 <br clear="right"/>
 
-~~~
-make default_flag
-./main test_move_semantic ../diagrams/graph_copy.dot
-~~~
 
 Полное копирование является ресурсоемкой операцией, поэтому в блок схеме она выделена красным, как нежелательные блоки в программе, хотя в некоторых случаях их избежать нельзя.
 
@@ -257,15 +254,13 @@ void test_move_semantic()
     
     end_function();
 }
+
+// make move_semantic_flag
+// ./main test_move_semantic ../diagrams/graph_move.dot
 ~~~
 
 <br clear="right"/>
 
- ~~~
- make move_semantic_flag
- ./main test_move_semantic ../diagrams/graph_move.dot
- ~~~
- 
 ## Сравнение изменений
 &nbsp;&nbsp;&nbsp;&nbsp;Несмотря на лучшую производительность компилятор не заменил всю копирующую семантику на перемещающую, так как она становится альтернативой, только когда речь заходит об объектах типа rvalue, выступающих в роли объектов для инициализации или присваивания. Если внимательно посмотреть на код, то становится ясно, что в некоторых случаях без копирования обойтись нельзя.
 
@@ -274,9 +269,9 @@ void test_move_semantic()
     <img src="diagrams/graph_move.png" alt="Фотография 2" width="480" height="1000">
 </p>
 
-## Странные вариации семантики копирования и перемещения
+## Ошибочные вариации семантики копирования и перемещения
 
-### Странные методы копирования
+### Ошибочные методы копирования
 
 &nbsp;&nbsp;&nbsp;&nbsp;Стандартным способом объявления копирующих конструктора и оператора присваивания является такой код:
 ~~~
@@ -297,7 +292,7 @@ SuperType<T> &operator= (SuperType<T> &that);
  ./main test_move_semantic ../diagrams/graph_wrong_copy.dot
 ~~~
  
-### Странные методы перемещения
+### Ошибочные методы перемещения
 
 &nbsp;&nbsp;&nbsp;&nbsp;Аналогично с кодом для семантики перемещения.
 Перемещающие методы обычно выглядят так 
@@ -350,6 +345,9 @@ int main()
     func(object_1, "object_1");
     func(SuperType<int>(100500), "object_2");
 }
+
+// make move_semantic_flag
+// ./main test_universal_reference
 ~~~
  
  И не возникнет удивления, если в консоли мы увидим лог о двух rvalue ссылках. Но так не будет, консоль покажет нам:
@@ -361,11 +359,6 @@ int main()
  param: object_2 is SL::SuperType<int>&&
  ~~~
  
- Команды для эксперимента:
- ~~~
- make move_semantic_flag
- ./main test_universal_reference
- ~~~
 Её поведение объясняется на примере флюгера, чье положение зависит от направления ветра. Ссылка становится lvalue или rvalue в зависимости от того, какие параметры ей придут.
  
  # Move vs Forward. Часть третья.
@@ -378,61 +371,48 @@ int main()
 &nbsp;&nbsp;&nbsp;&nbsp;Зачем же они нужны, если они "ничего не делают"? Оказывается, это не совсем так. 
  
 Move выполняет безусловное приведение своего аргумента к rvalue.
-```
+~~~
 template <typename T>
 decltype(auto) move(T &&param)
 {
     using ReturnType = std::remove_reference_t<T>&&;
     return static_cast<ReturnType>(param);
 }
-```
+~~~
 
 Forward выполняет приведение при определенных условиях.
-```
+~~~
 template <typename T>
 T&& forward(std::remove_reference_t<T>& x) noexcept
 {
     return static_cast<T &&>(x);
 }
-```
+~~~
 
 ## Move
 
 Разберем простейший пример функции swap.
-```
-template<class T>
-void swap_simple(T &&object1, T &&object2)
-{    
-    start_function();
-    using T_ = std::remove_reference_t<T>;
-
-    T_ temp(object1);
-    temp.rename("temp");
-    object1 = object2;
-    object2 = temp;
-    end_function();
-}
-```
-&nbsp;&nbsp;&nbsp;&nbsp;Казалось бы, исследуя мир семантики перемещения и её законов, мы можем решить, что все будет основанно на перемещениях. Если только... Если только мы передаем в функцию аргументы в стиле rvalue, так как универсальная ссылка будет rvalue только при них. Хорошо, сделаем так, как просят того от нас законы мира волшебства, и да прибудет с нами сила перемещения...
-
+ 
 <br> 
-    <img src="diagrams/simple_swap.png" alt="Фотография 2" width="500" height="600" align="right"/>
+    <img src="diagrams/graph_swap.png" alt="Фотография 2" width="500" height="600" align="right"/>
     
 ~~~
 template<class T>
-void swap_simple(T &&object1, T &&object2)
+void swap(T &object1, T &object2)
 {    
     start_function();
-    using T_ = std::remove_reference_t<T>;
+ 
+ using T_ = std::remove_reference_t<T>;
 
     T_ temp(object1);
     temp.rename("temp");
     object1 = object2;
     object2 = temp;
+ 
     end_function();
 }
 
-void test_swap_simple()
+void test_swap()
 {
     start_function();
 
@@ -446,21 +426,17 @@ void test_swap_simple()
 
     end_function();
 }
+
+// make move_semantic_flag
+// ./main test_swap ../diagrams/graph_swap.dot
 ~~~
 
 <br clear="right"/>
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;Все работает через копирование. Если задуматься, то семантика перемещения нам бы здесь не помешала, и, кажется, уже есть в голове решение использовать move.
 
-~~~
-make move_semantic_flag
-./main test_swap_simple ../diagrams/simple_swap.dot
-~~~
-
-&nbsp;&nbsp;&nbsp;&nbsp;Однако никакого перемещения с нами не прибыло, только руки все в чем... хм, запах копирования. Но в чем проблема? Где наше перемещение, почему мы снова в мире маглов, а волшебного мира как-будто и не было?
-
-&nbsp;&nbsp;&nbsp;&nbsp;Проблема заключается в том, что аргументы функции ссылки rvalue, но самими rvalue они не являются, у них же есть свои имена (отличительная особенность lvalue). Что тогда делать? Ранее были определены move и forward, и кажется, что наиболее очевидная функция move должна подойти, сняв личину с аргументов.
-
-<br> 
-    <img src="diagrams/move_swap.png" alt="Фотография 2" width="500" height="600" align="right"/>
+ <br> 
+    <img src="diagrams/graph_swap_move.png" alt="Фотография 2" width="500" height="600" align="right"/>
     
 ~~~
 template<class T>
@@ -490,19 +466,18 @@ void test_swap_move()
 
     end_function();
 }
+ 
+// make move_semantic_flag
+// ./main test_swap_move ../diagrams/graph_swap_move.dot
 ~~~
+ 
 <br clear="right"/>
 
-```
-make move_semantic_flag
-./main test_swap_move ../diagrams/move_swap.dot
-```
-О чудо! Сила перемещения снова с нами, и все работает так, как мы и хотели. Move, кажется, сторонник грубой силы, и ее инструмент, волшебная палочка, больше похожа на дубинку, и под её влиянием любой станет rvalue. Любой станет rvalue? И везде воцарится перемещение, наш граф будет гореть зеленым, а мы будем покруче Гарри Поттера, ибо волшебство будет всегда с нами, да ещё какое...
+&nbsp;&nbsp;&nbsp;&nbsp; Отлично, копирования больше нет. Какая же крутая функция move, что может с помощью своей волшебной палочки, дубинки, заставить кого угодно быть rvalue. 
 
-## Forward
-
-&nbsp;&nbsp;&nbsp;&nbsp;Ну что ж, сейчас мы сделаем "красиво", написав мини класс Beast с функцией set_lifestyle(), можно подумать, натравим move на все и вся, пусть везде будет волшебство и счастье.
-```
+ ## Forward
+ &nbsp;&nbsp;&nbsp;&nbsp;Напишем простой класс Beast.
+ ~~~
 class Beast
 {
 public:
@@ -516,15 +491,42 @@ public:
     void set_lifestyle(T&& lifestyle)
     {
         start_function()
-        lifestyle_ = SL::move(lifestyle);
+ 
+        lifestyle_ = lifestyle;
+ 
         end_function()
     }
 };
-```
+~~~
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;Казалось бы, исследуя мир семантики перемещения и её законов, мы можем решить, что все будет основанно на перемещениях. Если только... Если только мы передаем в функцию аргументы в стиле rvalue, так как универсальная ссылка будет rvalue только при них. Хорошо, сделаем так, как просят того от нас законы мира волшебства, и да прибудет с нами сила перемещения...
 
-&nbsp;&nbsp;&nbsp;&nbsp;Однако так ли это? Что будет, если мы напишем вот так?
-```
-void test_beast_move()
+ <br> 
+   <img src="diagrams/graph_beast.png" alt="Фотография 2" width="500" height="600" align="right"/>
+ 
+~~~
+class Beast
+{
+public:
+    SL::SuperType<std::string> lifestyle_;
+
+    Beast() : lifestyle_("not_exist") {
+        lifestyle_.rename("lifestyle_");
+    }
+
+    template<class T>
+    void set_lifestyle(T&& lifestyle)
+    {
+        start_function()
+
+        lifestyle_ = lifestyle;
+        
+        end_function()
+    }
+};
+
+
+void test_beast()
 {
     start_function();
 
@@ -534,32 +536,81 @@ void test_beast_move()
     lion.set_lifestyle(SL::SuperType<std::string>("predator"));
 
     Beast sheep;
-    sheep.set_lifestyle(victim);
+    sheep.set_lifestyle(std::move(victim));
+
     Beast cow;
     cow.set_lifestyle(victim);
-
+    
     end_function();
 }
-```
-&nbsp;&nbsp;&nbsp;&nbsp;Вжух! 
-![](diagrams/move_beast.png)
-```
-make move_semantic_flag 
-./main test_beast_move ../diagrams/move_beast.dot
-```
+ 
+// make move_semantic_flag
+// ./main test_beast ../diagrams/graph_beast.dot 
+~~~
 
-&nbsp;&nbsp;&nbsp;&nbsp;И мы разбились о собственное мировоззрение, кажется, что move переборщивает с прибабахом. Ранее перемещение объяснялось на примере мертвых, и это не спроста. Приведение к rvalue это подстать убийству, rvalue это мертвый объект, которому в этом мире ничего уже не надо, это "мародерство". То, чем мы занимаемся, это "грабеж средь бела дня" без задней мысли о том, что будет с тем, у кого мы украли. Неужели придется запереть move до лучших времен очевидного swap, а самим сидеть в скучном мире копирования...
+ <br clear="right"/>
+ 
+ &nbsp;&nbsp;&nbsp;&nbsp;Однако никакого перемещения с нами не прибыло, только руки все в чем... хм, запах копирования. Но в чем проблема? Где наше перемещение, почему мы снова в мире маглов, а волшебного мира как-будто и не было?
 
-&nbsp;&nbsp;&nbsp;&nbsp;И тут из леса выходит новый зверь, forward.
+&nbsp;&nbsp;&nbsp;&nbsp;Проблема заключается в том, что аргументы функции ссылки rvalue, но самими rvalue они не являются, у них же есть свои имена (отличительная особенность lvalue). Что тогда делать? Мы снова вспоминаем про супер move, который позволит нам даже аргументы функции не приводить к rvalue.
 
-&nbsp;&nbsp;&nbsp;&nbsp;Что такое функция forward? Ранее было сказано, что у нее какое-то условное приведение и бла-бла-бла. Видимо, у нее какая-то особая миссия, давайте проверим.
-```
-class Beast_2
+~~~
+class Beast_move
 {
 public:
     SL::SuperType<std::string> lifestyle_;
 
-    Beast_2() : lifestyle_("not_exist") {
+    Beast_move() : lifestyle_("not_exist") {
+        lifestyle_.rename("lifestyle_");
+    }
+
+    template<class T>
+    void set_lifestyle(T&& lifestyle)
+    {
+        start_function()
+        lifestyle_ = SL::move(lifestyle);
+        end_function()
+    }
+};
+
+
+void test_beast_move()
+{
+    start_function();
+
+    SL::SuperType<std::string> victim("victim");
+
+    Beast_move lion;
+    lion.set_lifestyle(SL::SuperType<std::string>("predator"));
+
+    Beast_move sheep;
+    sheep.set_lifestyle(victim);
+
+    Beast_move cow;
+    cow.set_lifestyle(victim);
+
+    end_function();
+}
+ 
+// make move_semantic_flag 
+// ./main test_beast_move ../diagrams/graph_beast_move.dot
+~~~
+ 
+![](diagrams/graph_beast_move.png)
+ 
+Move спасает мир, но какой ценой... Ценой всего. Move переборщивает с прибабахом. Ранее перемещение объяснялось на примере мертвых, и это не спроста. Приведение к rvalue это подстать убийству, rvalue это мертвый объект, которому в этом мире ничего уже не надо, это "мародерство". То, чем мы занимаемся, это "грабеж средь бела дня" без задней мысли о том, что будет с тем, у кого мы украли. Неужели придется запереть move до лучших времен очевидного swap, а самим сидеть в скучном мире копирования...
+
+## Forward
+
+&nbsp;&nbsp;&nbsp;&nbsp;И тут из леса выходит новый зверь, forward. Что такое функция forward? Ранее было сказано, что у нее какое-то условное приведение и бла-бла-бла. Видимо, у нее какая-то особая миссия, давайте проверим.
+
+~~~
+class Beast_forward
+{
+public:
+    SL::SuperType<std::string> lifestyle_;
+
+    Beast_forward() : lifestyle_("not_exist") {
         lifestyle_.rename("lifestyle_");
     }
 
@@ -571,15 +622,37 @@ public:
         end_function()
     }
 };
-```
-![](diagrams/forward_beast.png)
-```
- make move_semantic_flag
- ./main test_beast_forward ../diagrams/forward_beast.png
-```
+
+
+void test_beast_forward()
+{
+    start_function();
+
+    SL::SuperType<std::string> victim("victim");
+
+    Beast_forward lion;
+    lion.set_lifestyle(SL::SuperType<std::string>("predator"));
+
+    Beast_forward sheep;
+    sheep.set_lifestyle(victim);
+
+    Beast_forward cow;
+    cow.set_lifestyle(victim);
+    
+    end_function();
+}
+
+// make move_semantic_flag
+// ./main test_beast_forward ../diagrams/graph_beast_forward.dot
+~~~
+ 
+<br clear="right"/>
+
+![](diagrams/graph_beast_forward.png)
+
 &nbsp;&nbsp;&nbsp;&nbsp;О чудо! Сила перемещения переполняет нас, и всё работает так, как мы... Хотели? Да, мы этого хотели, но кто такой forward, и почему он нам помог? Оказывается, что forward делает условное приведение, rvalue к rvalue, lvalue к lvalue. 
 
-&nbsp;&nbsp;&nbsp;&nbsp;На этом моменте можно в полной мере осознать смысл универсальной ссылки, который мог быть непонятен ранее. Идея заклчючается в возможности оптимизации кода там, где это возможно, в случае с Beast_2 с функцией set_lifestyle(). Благодаря этому типу ссылки мы получили возможность изменение lifestyle_ с помощью разных семантик, не дублируя функцию для lvalue и rvalue.
+&nbsp;&nbsp;&nbsp;&nbsp;На этом моменте можно в полной мере осознать смысл универсальной ссылки, который мог быть непонятен ранее. Идея заклчючается в возможности оптимизации кода там, где это возможно, в случае с Beast с функцией set_lifestyle(). Благодаря этому типу ссылки мы получили возможность изменение lifestyle_ с помощью разных семантик, не дублируя функцию для lvalue и rvalue.
 
 ## Итоги сравнения 
 
