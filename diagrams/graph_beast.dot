@@ -1,0 +1,59 @@
+digraph G{
+trankdir=HR;
+node[shape=Mrecord];
+
+subgraph "cluster_0" {
+label = test_beast;
+style= filled
+color = "#00000010";
+1[label="{ {name: tmp0} | {value:victim} | {address: 140731496004464}} " color=""style=""fontcolor=""];
+2[label="{ {name: tmp1} | {value:not_exist} | {address: 140731496004640}} " color=""style=""fontcolor=""];
+2[label="{ {name: lifestyle_} | {value:not_exist} | {address: 140731496004640}} " color=""style=""fontcolor=""];
+3[label="{ {name: tmp2} | {value:predator} | {address: 140731496004992}} " color=""style=""fontcolor=""];
+subgraph "cluster_1" {
+label = set_lifestyle;
+style= filled
+color = "#00000010";
+4[label="= (copy)" color = "#EC7063" style = "filled"fontcolor =""];
+edge[style = "" color = ""label = "1"fontcolor =""]2->4;
+edge[style = "dashed" color = ""label = "1"fontcolor =""]3->4;
+5[label="{ {name: lifestyle_} | {value:predator} | {address: 140731496004640}} " color=""style=""fontcolor=""];
+edge[style = "" color = ""label = "1"fontcolor =""]4->5;
+}
+6[label="Destructor" color = "black" style = "filled"fontcolor ="white"];
+edge[style = "" color = ""label = "2"fontcolor =""]3->6;
+7[label="{ {name: tmp3} | {value:not_exist} | {address: 140731496004816}} " color=""style=""fontcolor=""];
+7[label="{ {name: lifestyle_} | {value:not_exist} | {address: 140731496004816}} " color=""style=""fontcolor=""];
+subgraph "cluster_2" {
+label = set_lifestyle;
+style= filled
+color = "#00000010";
+8[label="= (copy)" color = "#EC7063" style = "filled"fontcolor =""];
+edge[style = "" color = ""label = "3"fontcolor =""]7->8;
+edge[style = "dashed" color = ""label = "3"fontcolor =""]1->8;
+9[label="{ {name: lifestyle_} | {value:victim} | {address: 140731496004816}} " color=""style=""fontcolor=""];
+edge[style = "" color = ""label = "3"fontcolor =""]8->9;
+}
+10[label="{ {name: tmp4} | {value:not_exist} | {address: 140731496004992}} " color=""style=""fontcolor=""];
+10[label="{ {name: lifestyle_} | {value:not_exist} | {address: 140731496004992}} " color=""style=""fontcolor=""];
+subgraph "cluster_3" {
+label = set_lifestyle;
+style= filled
+color = "#00000010";
+11[label="= (copy)" color = "#EC7063" style = "filled"fontcolor =""];
+edge[style = "" color = ""label = "4"fontcolor =""]10->11;
+edge[style = "dashed" color = ""label = "4"fontcolor =""]1->11;
+12[label="{ {name: lifestyle_} | {value:victim} | {address: 140731496004992}} " color=""style=""fontcolor=""];
+edge[style = "" color = ""label = "4"fontcolor =""]11->12;
+}
+}
+13[label="Destructor" color = "black" style = "filled"fontcolor ="white"];
+edge[style = "" color = ""label = "5"fontcolor =""]12->13;
+14[label="Destructor" color = "black" style = "filled"fontcolor ="white"];
+edge[style = "" color = ""label = "6"fontcolor =""]9->14;
+15[label="Destructor" color = "black" style = "filled"fontcolor ="white"];
+edge[style = "" color = ""label = "7"fontcolor =""]5->15;
+16[label="Destructor" color = "black" style = "filled"fontcolor ="white"];
+edge[style = "" color = ""label = "8"fontcolor =""]1->16;
+label="Count of copy operation: 3
+Count of move operation: 0"}
