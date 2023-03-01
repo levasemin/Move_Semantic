@@ -45,6 +45,7 @@ void test_move_semantic()
 
 <br> 
     <img src="diagrams/graph_copy.png" alt="Фотография 2" width="500" height="500" align="right"/>
+
 ~~~
 template<class T>
 SL::SuperType<T> func(SL::SuperType<T> a, SL::SuperType<T> b)
@@ -81,6 +82,7 @@ void test_move_semantic()
     end_function();
 }
 ~~~
+ 
 <br clear="right"/>
 
 ## RVO/RNVO
