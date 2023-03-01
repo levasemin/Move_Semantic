@@ -477,7 +477,8 @@ void test_swap_move()
 
  ## Forward
  &nbsp;&nbsp;&nbsp;&nbsp;Напишем простой класс Beast.
- ~~~
+
+~~~
 class Beast
 {
 public:
@@ -543,6 +544,7 @@ void test_beast()
 // make move_semantic_flag
 // ./main test_beast ../diagrams/graph_beast.dot 
 ~~~
+ 
 ![](diagrams/graph_beast.png)
  
  &nbsp;&nbsp;&nbsp;&nbsp;Однако никакого перемещения с нами не прибыло, только руки все в чем... хм, запах копирования. Но в чем проблема? Где наше перемещение, почему мы снова в мире маглов, а волшебного мира как-будто и не было?
