@@ -108,11 +108,13 @@ void test_rvo_rnvo()
  
 <br clear="right"/>
 
+~~~
+make default
+./main test_rvo_rnvo ../diagrams/graph_rvo_rnvo.dot
+~~~
 &nbsp;&nbsp;&nbsp;&nbsp;Что может быть необычного в графе одной операции сложения? Стоит вспомнить, что возвращаемым объектом операции сложения является не ссылка и не указатель, а сам объект класса. Почему мы не видим создание еще одного узла для этого объекта и его копирования в object_3?
  
-&nbsp;&nbsp;&nbsp;&nbsp;Оптимизации компилятора позволяют в некоторых случаях не создавать временный объект, который используется только для инициализации объекта такого же типа. Эта оптимизация носит название RVO/RNVO.
-
-&nbsp;&nbsp;&nbsp;&nbsp;Из-за существования некоторых случаев, мы не можем позволить себе закрыть глаза и надеятся, что оптимизация будет работать всегда. Флаг -fno-elide-constructors отключает эту оптимизацию и позволит более детально рассмотреть вызовы конструкторов копирования (перемещения) во всех случаях.
+&nbsp;&nbsp;&nbsp;&nbsp;Оптимизации компилятора позволяют в некоторых случаях не создавать временный объект, который используется только для инициализации объекта такого же типа. Эта оптимизация носит название RVO/RNVO. Из-за существования некоторых случаев, мы не можем позволить себе закрыть глаза и надеятся, что оптимизация будет работать всегда. Флаг -fno-elide-constructors отключает эту оптимизацию и позволит более детально рассмотреть вызовы конструкторов копирования (перемещения) во всех случаях.
 
  <br> 
     <img src="diagrams/graph_no_rvo_rnvo.png" alt="Фотография 2" width="500" height="500" align="right"/>
@@ -133,14 +135,8 @@ void test_rvo_rnvo()
 }
 ~~~
 
- <br clear="right"/>
+<br clear="right"/>
 
-Без флага
-~~~ 
- make default
- ./main test_rvo_rnvo ../diagrams/graph_rvo_rnvo.dot
-~~~
-С флагом:
 ~~~
  make default_flag
  ./main test_rvo_rnvo ../diagrams/graph_no_rvo_rnvo.dot
@@ -173,16 +169,21 @@ void test_rvo_rnvo()
 ~~~
 template<class T>
 SL::SuperType<T> 
-func(SL::SuperType<T> a, SL::SuperType<T> b)
+sum(SL::SuperType<T> a, SL::SuperType<T> b)
 {
+    start_function()
+    
     a.rename("func_a");
     b.rename("func_b");
-    start_function()
+
     SL::SuperType<int> c = a + b;
     c.rename("c");
+   
     end_function()
+   
     return c;
 }
+
 void test_move_semantic()
 {
     start_function();
@@ -196,8 +197,7 @@ void test_move_semantic()
     SL::SuperType<int> result(0);
     result.rename("result");
 
-    result = c;
-    result = func(a, b * c);
+    result = sum(a, b * c);
     
     end_function();
 }
@@ -225,16 +225,21 @@ make default_flag
 ~~~
 template<class T>
 SL::SuperType<T> 
-func(SL::SuperType<T> a, SL::SuperType<T> b)
+sum(SL::SuperType<T> a, SL::SuperType<T> b)
 {
+    start_function()
+    
     a.rename("func_a");
     b.rename("func_b");
-    start_function()
+
     SL::SuperType<int> c = a + b;
     c.rename("c");
+   
     end_function()
+   
     return c;
 }
+
 void test_move_semantic()
 {
     start_function();
@@ -248,8 +253,7 @@ void test_move_semantic()
     SL::SuperType<int> result(0);
     result.rename("result");
 
-    result = c;
-    result = func(a, b * c);
+    result = sum(a, b * c);
     
     end_function();
 }
