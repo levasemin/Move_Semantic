@@ -42,7 +42,7 @@ void test_move_semantic()
 Эти изменения придадут большего понимания графа.
 
 <br> 
-    <img src="diagrams/graph_copy.png" alt="Фотография 2" width="500" height="1000" align="right"/>
+    <img src="diagrams/graph_copy.png" alt="Фотография 2" width="500" height="500" align="right"/>
 ~~~
 template<class T>
 SL::SuperType<T> func(SL::SuperType<T> a, SL::SuperType<T> b)
