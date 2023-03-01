@@ -173,16 +173,21 @@ void test_rvo_rnvo()
 ~~~
 template<class T>
 SL::SuperType<T> 
-func(SL::SuperType<T> a, SL::SuperType<T> b)
+sum(SL::SuperType<T> a, SL::SuperType<T> b)
 {
+    start_function()
+    
     a.rename("func_a");
     b.rename("func_b");
-    start_function()
+
     SL::SuperType<int> c = a + b;
     c.rename("c");
+   
     end_function()
+   
     return c;
 }
+
 void test_move_semantic()
 {
     start_function();
@@ -196,8 +201,7 @@ void test_move_semantic()
     SL::SuperType<int> result(0);
     result.rename("result");
 
-    result = c;
-    result = func(a, b * c);
+    result = sum(a, b * c);
     
     end_function();
 }
@@ -225,16 +229,21 @@ make default_flag
 ~~~
 template<class T>
 SL::SuperType<T> 
-func(SL::SuperType<T> a, SL::SuperType<T> b)
+sum(SL::SuperType<T> a, SL::SuperType<T> b)
 {
+    start_function()
+    
     a.rename("func_a");
     b.rename("func_b");
-    start_function()
+
     SL::SuperType<int> c = a + b;
     c.rename("c");
+   
     end_function()
+   
     return c;
 }
+
 void test_move_semantic()
 {
     start_function();
@@ -248,8 +257,7 @@ void test_move_semantic()
     SL::SuperType<int> result(0);
     result.rename("result");
 
-    result = c;
-    result = func(a, b * c);
+    result = sum(a, b * c);
     
     end_function();
 }
