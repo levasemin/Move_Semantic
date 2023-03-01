@@ -14,6 +14,13 @@ namespace SL
 template <class T>
 class SuperType;
 
+struct style_params
+{
+    std::string color_ = "";
+    std::string style_ = "";
+    std::string label_ = "";
+};
+
 enum operations_
 {
     MONO_ADD,
@@ -40,16 +47,11 @@ enum operations_
     CONSTRUCTOR_MOVE
 };
 
-struct style_params
-{
-    std::string color_ = "";
-    std::string style_ = "";
-    std::string label_ = "";
-};
-
 class Tracker
 {
 public:
+
+    
     static Tracker &getInstance()
     {
         static Tracker tracker;

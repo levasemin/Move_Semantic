@@ -155,8 +155,6 @@ SuperType<T>::SuperType(const SuperType<T> &that): value_(that.value_), style_({
     style_.label_ = "tmp" + std::to_string(number_);
     number_++;
 
-    style_.style_ = "filled";
-
     if (log_)
     {
         //std::cout << "Copy constructor " << style_.label_ << std::endl; 
@@ -194,8 +192,6 @@ SuperType<T>::SuperType(SuperType<T> &&that): value_(std::move(that.value_)), st
 {    
     style_.label_ = "tmp" + std::to_string(number_);
     number_++;
-
-    style_.style_ = "filled";
 
     if (log_)
     {
@@ -238,8 +234,6 @@ SuperType<T>::SuperType(SuperType<T> &that): value_(that.value_), style_({})
     style_.label_ = "tmp" + std::to_string(number_);
     number_++;
 
-    style_.style_ = "filled";
-
     if (log_)
     {
         //std::cout << "Copy constructor " << style_.label_ << std::endl; 
@@ -278,8 +272,6 @@ SuperType<T>::SuperType(const SuperType<T> &&that): value_(that.value_), style_(
 {    
     style_.label_ = "tmp" + std::to_string(number_);
     number_++;
-
-    style_.style_ = "filled";
 
     if (log_)
     {
