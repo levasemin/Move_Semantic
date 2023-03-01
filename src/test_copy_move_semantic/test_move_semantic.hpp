@@ -5,7 +5,7 @@
 #include "../SuperType/SuperType.hpp"
 
 template<class T>
-SL::SuperType<T> func(SL::SuperType<T> a, SL::SuperType<T> b)
+SL::SuperType<T> sum(SL::SuperType<T> a, SL::SuperType<T> b)
 {
     start_function()
     
@@ -33,8 +33,7 @@ void test_move_semantic()
     SL::SuperType<int> result(0);
     result.rename("result");
 
-    result = c;
-    result = func(a, b * c);
+    result = sum(a, b * c);
     
     end_function();
 }

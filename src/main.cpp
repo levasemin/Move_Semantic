@@ -1,5 +1,5 @@
 #include "test_copy_move_semantic/test_move_semantic.hpp"
-#include "test_copy_move_semantic/test_wrong_copy_semantic.hpp"
+#include "test_copy_move_semantic/test_rvo_rnvo.hpp"
 #include "test_move_forward/test_swap_simple.hpp"
 #include "test_move_forward/test_swap_move.hpp"
 #include "test_move_forward/test_beast_move.hpp"
@@ -13,6 +13,11 @@ void start_test(const std::string &type)
         test_move_semantic();
     }
     
+    else if (type == "test_rvo_rnvo")
+    {
+        test_rvo_rnvo();
+    }
+
     else if (type == "test_swap_simple")
     {
         test_swap_simple();
