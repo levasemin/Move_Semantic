@@ -7,12 +7,16 @@
 template<class T>
 SL::SuperType<T> func(SL::SuperType<T> a, SL::SuperType<T> b)
 {
+    start_function()
+    
     a.rename("func_a");
     b.rename("func_b");
-    start_function()
+
     SL::SuperType<int> c = a + b;
     c.rename("c");
+   
     end_function()
+   
     return c;
 }
 
