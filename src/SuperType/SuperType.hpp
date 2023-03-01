@@ -210,7 +210,7 @@ SuperType<T> &SuperType<T>::operator= (SuperType<T> &&that)
 {
     if (this != &that)
     {
-        this->value_ = std::move(that.value_);
+        this->value_ = SL::move(that.value_);
         
         if (log_)
         {
