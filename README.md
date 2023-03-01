@@ -345,6 +345,9 @@ int main()
     func(object_1, "object_1");
     func(SuperType<int>(100500), "object_2");
 }
+
+// make move_semantic_flag
+// ./main test_universal_reference
 ~~~
  
  И не возникнет удивления, если в консоли мы увидим лог о двух rvalue ссылках. Но так не будет, консоль покажет нам:
@@ -356,11 +359,6 @@ int main()
  param: object_2 is SL::SuperType<int>&&
  ~~~
  
- Команды для эксперимента:
- ~~~
- make move_semantic_flag
- ./main test_universal_reference
- ~~~
 Её поведение объясняется на примере флюгера, чье положение зависит от направления ветра. Ссылка становится lvalue или rvalue в зависимости от того, какие параметры ей придут.
  
  # Move vs Forward. Часть третья.
@@ -566,7 +564,23 @@ public:
         end_function()
     }
 };
- 
+
+void test_beast_forward()
+{
+    start_function();
+
+    SL::SuperType<std::string> victim("victim");
+
+    Beast lion;
+    lion.set_lifestyle(SL::SuperType<std::string>("predator"));
+
+    Beast sheep;
+    sheep.set_lifestyle(victim);
+    Beast cow;
+    cow.set_lifestyle(victim);
+
+    end_function();
+}
 // make move_semantic_flag
 // ./main test_beast_forward ../diagrams/forward_beast.png
 ~~~
