@@ -43,7 +43,7 @@ void test_move_semantic()
 Эти изменения придадут большего понимания графа.
 
 <br> 
-    <img src="diagrams/graph_nice.png" alt="Фотография 2" width="650" height="500" align="right"/>
+    <img src="diagrams/graph_nice.png" alt="Фотография 2"  align="right"/>
 
 ~~~
 template<class T>
