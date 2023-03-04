@@ -144,7 +144,7 @@ void test_rvo_rnvo()
 
 <p>
     <img src="diagrams/graph_no_flag.png" alt="Фотография 1" width="500" height="500">
-    <img src="diagrams/graph_flag.png"    alt="Фотография 2" width="499" height="1000">
+    <img src="diagrams/graph_flag.png"    alt="Фотография 2" width="500" height="1000">
 </p>
 
 Без флага
