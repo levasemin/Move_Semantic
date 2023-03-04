@@ -440,15 +440,15 @@ void test_swap()
     
 ~~~
 template<class T>
-void swap_move(T &&object1, T &&object2)
+void swap_move(T &object1, T &object2)
 {    
     start_function();
-    using T_ = std::remove_reference_t<T>;
-
+ 
     T_ temp(SL::move(object1));
     temp.rename("temp");
     object1 = SL::move(object2);
     object2 = SL::move(temp);
+    
     end_function();
 }
 
@@ -460,9 +460,8 @@ void test_swap_move()
     a.rename("a");
     SL::SuperType<int> b(20);
     b.rename("b");
-    
-    swap_move(dynamic_cast<SL::SuperType<int> &&>(a), 
-              dynamic_cast<SL::SuperType<int> &&>(b));
+
+    swap_move(a, b);
 
     end_function();
 }
