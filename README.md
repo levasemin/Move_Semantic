@@ -39,7 +39,12 @@ void test_move_semantic()
 
 <br clear="right"/>
 
-Для нормального отображения графа нам придется добавить еще функций. Необходимо переименовать узлы с переменными с помощью метода SuperType<T>::rename(const std::string &name) и выделить функции с помощью макроса start_function() и end_function().
+Для нормального отображения графа нам придется добавить еще функций: 
+
+* SuperType<T>::rename(const std::string &name) - переименовать узел для объекта 
+
+ * start_function() и end_function() - выделить фунцию в графе
+ 
 Эти изменения придадут большего понимания графа.
 
 <br> 
@@ -50,35 +55,35 @@ template<class T>
 SL::SuperType<T> 
 sum(SL::SuperType<T> a, SL::SuperType<T> b)
 {
-    start_function()
+    start_function(); // начало функции для трекинга
     
-    a.rename("func_a");
-    b.rename("func_b");
+    a.rename("func_a"); // переименование узла объекта
+    b.rename("func_b"); // переименование узла объекта
 
     SL::SuperType<int> c = a + b;
-    c.rename("c");
+    c.rename("c"); // переименование узла объекта
    
-    end_function()
+    end_function(); // конец функции для трекинга
    
     return c;
 }
 
 void test_move_semantic()
 {
-    start_function();
+    start_function(); // начало функции для трекинга
     
     SL::SuperType<int> a(5);
-    a.rename("a");
+    a.rename("a"); // переименование узла объекта
     SL::SuperType<int> b(14);
-    b.rename("b");
+    b.rename("b"); // переименование узла объекта
     SL::SuperType<int> c(20);
-    c.rename("c");
+    c.rename("c"); // переименование узла объекта
     SL::SuperType<int> result(0);
-    result.rename("result");
+    result.rename("result"); // переименование узла объекта
 
     result = sum(a, b * c);
     
-    end_function();
+    end_function(); // конец функции для трекинга
 }
 ~~~
  
@@ -92,16 +97,16 @@ void test_move_semantic()
 ~~~
 void test_rvo_rnvo()
 {
-    start_function()
+    start_function(); // начало функции для трекинга
     
     SL::SuperType<int> object_1(1);
-    object_1.rename("object_1");
+    object_1.rename("object_1"); // переименование узла объекта
     SL::SuperType<int> object_2(2);
-    object_2.rename("object_2");
+    object_2.rename("object_2"); // переименование узла объекта
 
     SL::SuperType<int> object_3 = object_1 + object_2; 
 
-    end_function()
+    end_function(); // конец функции для трекинга
 }
  
 // make default
@@ -122,16 +127,16 @@ void test_rvo_rnvo()
 ~~~
 void test_rvo_rnvo()
 {
-    start_function()
+    start_function(); // начало функции для трекинга
     
     SL::SuperType<int> object_1(1);
-    object_1.rename("object_1");
+    object_1.rename("object_1"); // переименование узла объекта
     SL::SuperType<int> object_2(2);
-    object_2.rename("object_2");
+    object_2.rename("object_2"); // переименование узла объекта
 
     SL::SuperType<int> object_3 = object_1 + object_2; 
 
-    end_function()
+    end_function(); // конец функции для трекинга
 }
 
 //  make default_flag
@@ -169,35 +174,35 @@ template<class T>
 SL::SuperType<T> 
 sum(SL::SuperType<T> a, SL::SuperType<T> b)
 {
-    start_function()
+    start_function(); // начало функции для трекинга
     
-    a.rename("func_a");
-    b.rename("func_b");
+    a.rename("func_a"); // переименование узла объекта
+    b.rename("func_b"); // переименование узла объекта
 
     SL::SuperType<int> c = a + b;
     c.rename("c");
    
-    end_function()
+    end_function(); // конец функции для трекинга
    
     return c;
 }
 
 void test_move_semantic()
 {
-    start_function();
+    start_function(); // начало функции для трекинга
     
     SL::SuperType<int> a(5);
-    a.rename("a");
+    a.rename("a"); // переименование узла объекта
     SL::SuperType<int> b(14);
-    b.rename("b");
+    b.rename("b"); // переименование узла объекта
     SL::SuperType<int> c(20);
-    c.rename("c");
+    c.rename("c"); // переименование узла объекта
     SL::SuperType<int> result(0);
-    result.rename("result");
+    result.rename("result"); // переименование узла объекта
 
     result = sum(a, b * c);
     
-    end_function();
+    end_function(); // конец функции для трекинга
 }
  
 // make default_flag
@@ -224,35 +229,35 @@ template<class T>
 SL::SuperType<T> 
 sum(SL::SuperType<T> a, SL::SuperType<T> b)
 {
-    start_function()
+    start_function(); // начало функции для трекинга
     
-    a.rename("func_a");
-    b.rename("func_b");
+    a.rename("func_a"); // переименование узла объекта
+    b.rename("func_b"); // переименование узла объекта
 
     SL::SuperType<int> c = a + b;
-    c.rename("c");
+    c.rename("c"); // переименование узла объекта
    
-    end_function()
+    end_function(); // конец функции для трекинга
    
     return c;
 }
 
 void test_move_semantic()
 {
-    start_function();
+    start_function(); // начало функции для трекинга
     
     SL::SuperType<int> a(5);
-    a.rename("a");
+    a.rename("a"); // переименование узла объекта
     SL::SuperType<int> b(14);
-    b.rename("b");
+    b.rename("b"); // переименование узла объекта
     SL::SuperType<int> c(20);
-    c.rename("c");
+    c.rename("c"); // переименование узла объекта
     SL::SuperType<int> result(0);
-    result.rename("result");
+    result.rename("result"); // переименование узла объекта
 
     result = sum(a, b * c);
     
-    end_function();
+    end_function(); // конец функции для трекинга
 }
 
 // make move_semantic_flag
@@ -400,31 +405,31 @@ T&& forward(std::remove_reference_t<T>& x) noexcept
 template<class T>
 void swap(T &object1, T &object2)
 {    
-    start_function();
+    start_function(); // начало функции для трекинга
  
  using T_ = std::remove_reference_t<T>;
 
     T_ temp(object1);
-    temp.rename("temp");
+    temp.rename("temp"); // переименование узла объекта
     object1 = object2;
     object2 = temp;
  
-    end_function();
+    end_function(); // конец функции для трекинга
 }
 
 void test_swap()
 {
-    start_function();
+    start_function(); // начало функции для трекинга
 
     SL::SuperType<int> a(10);
-    a.rename("a");
+    a.rename("a"); // переименование узла объекта
     SL::SuperType<int> b(20);
-    b.rename("b");
+    b.rename("b"); // переименование узла объекта
     
     swap_simple(dynamic_cast<SL::SuperType<int> &&>(a), 
                 dynamic_cast<SL::SuperType<int> &&>(b));
 
-    end_function();
+    end_function(); // конец функции для трекинга
 }
 
 // make move_semantic_flag
@@ -442,28 +447,28 @@ void test_swap()
 template<class T>
 void swap_move(T &object1, T &object2)
 {    
-    start_function();
+    start_function(); // начало функции для трекинга
  
     T_ temp(SL::move(object1));
-    temp.rename("temp");
+    temp.rename("temp"); // переименование узла объекта
     object1 = SL::move(object2);
     object2 = SL::move(temp);
     
-    end_function();
+    end_function(); // конец функции для трекинга
 }
 
 void test_swap_move()
 {
-    start_function();
+    start_function(); // начало функции для трекинга
 
     SL::SuperType<int> a(10);
-    a.rename("a");
+    a.rename("a"); // переименование узла объекта
     SL::SuperType<int> b(20);
-    b.rename("b");
+    b.rename("b"); // переименование узла объекта
 
     swap_move(a, b);
 
-    end_function();
+    end_function(); // конец функции для трекинга
 }
  
 // make move_semantic_flag
@@ -484,17 +489,17 @@ public:
     SL::SuperType<std::string> lifestyle_;
 
     Beast() : lifestyle_("not_exist") {
-        lifestyle_.rename("lifestyle_");
+        lifestyle_.rename("lifestyle_"); // переименование узла объекта
     }
 
     template<class T>
     void set_lifestyle(T&& lifestyle)
     {
-        start_function()
+        start_function(); // начало функции для трекинга
  
         lifestyle_ = lifestyle;
  
-        end_function()
+        end_function(); // конец функции для трекинга
     }
 };
 ~~~
@@ -508,24 +513,24 @@ public:
     SL::SuperType<std::string> lifestyle_;
 
     Beast() : lifestyle_("not_exist") {
-        lifestyle_.rename("lifestyle_");
+        lifestyle_.rename("lifestyle_"); // переименование узла объекта
     }
 
     template<class T>
     void set_lifestyle(T&& lifestyle)
     {
-        start_function()
+        start_function(); // начало функции для трекинга
 
         lifestyle_ = lifestyle;
         
-        end_function()
+        end_function(); // конец функции для трекинга
     }
 };
 
 
 void test_beast()
 {
-    start_function();
+    start_function(); // начало функции для трекинга
 
     SL::SuperType<std::string> victim("victim");
 
@@ -538,7 +543,7 @@ void test_beast()
     Beast cow;
     cow.set_lifestyle(SL::move(victim));
     
-    end_function();
+    end_function(); // конец функции для трекинга
 }
  
 // make move_semantic_flag
@@ -564,16 +569,18 @@ public:
     template<class T>
     void set_lifestyle(T&& lifestyle)
     {
-        start_function()
+        start_function(); // начало функции для трекинга
+ 
         lifestyle_ = SL::move(lifestyle);
-        end_function()
+ 
+        end_function(); // конец функции для трекинга
     }
 };
 
 
 void test_beast_move()
 {
-    start_function();
+    start_function(); // начало функции для трекинга
 
     SL::SuperType<std::string> victim("victim");
 
@@ -586,7 +593,7 @@ void test_beast_move()
     Beast_move cow;
     cow.set_lifestyle(victim);
 
-    end_function();
+    end_function(); // конец функции для трекинга
 }
  
 // make move_semantic_flag 
@@ -608,22 +615,24 @@ public:
     SL::SuperType<std::string> lifestyle_;
 
     Beast_forward() : lifestyle_("not_exist") {
-        lifestyle_.rename("lifestyle_");
+        lifestyle_.rename("lifestyle_"); // переименование узла объекта
     }
 
     template<class T>
     void set_lifestyle(T&& lifestyle)
     {
-        start_function()
+        start_function(); // начало функции для трекинга
+ 
         lifestyle_ = SL::forward<T>(lifestyle);
-        end_function()
+ 
+        end_function(); // конец функции для трекинга
     }
 };
 
 
 void test_beast_forward()
 {
-    start_function();
+    start_function(); // начало функции для трекинга
 
     SL::SuperType<std::string> victim("victim");
 
@@ -636,7 +645,7 @@ void test_beast_forward()
     Beast_forward cow;
     cow.set_lifestyle(victim);
     
-    end_function();
+    end_function(); // конец функции для трекинга
 }
 
 // make move_semantic_flag
