@@ -1,1 +1,7 @@
-rubish.txt
+experiments/copy_move/build
+experiments/forward_vs_move/build
+experiments/move_function/build
+experiments/rvo_rnvo/build
+experiments/special_functions/build
+experiments/universal_reference/build
+experiments/wrong_copy_move/build
