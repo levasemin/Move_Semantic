@@ -1,0 +1,9 @@
+mkdir build
+
+make default_flag
+make move_semantic_flag
+
+cd build
+
+./main_copy test_move_semantic graph_copy
+./main_move test_move_semantic graph_move

@@ -1,0 +1,6 @@
+mkdir build
+make default
+cd build
+./main test_move_semantic_naked graph_naked
+
+./main test_move_semantic graph_nice

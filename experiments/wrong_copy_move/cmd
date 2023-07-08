@@ -1,0 +1,7 @@
+mkdir build
+
+make wrong_move_semantic_flag
+
+cd build
+
+./main_wrong_move test_move_semantic graph_wrong_move

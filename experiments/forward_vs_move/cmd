@@ -1,0 +1,7 @@
+mkdir build
+make move_semantic_flag
+cd build
+
+./main test_beast graph_beast
+./main test_beast_move graph_beast_move
+./main test_beast_forward graph_beast_forward

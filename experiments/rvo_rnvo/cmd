@@ -1,0 +1,9 @@
+mkdir build
+
+make default
+make default_flag
+
+cd build
+
+./main test_rvo_rnvo graph_no_flag
+./main_flag test_rvo_rnvo graph_flag

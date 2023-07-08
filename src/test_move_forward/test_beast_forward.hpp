@@ -3,8 +3,8 @@
 #include <iostream>
 #include <string>
 
-#include "../SuperType/SuperType.hpp"
-#include "../SuperType/move_forward.hpp"
+#include "SuperType.hpp"
+#include "move_forward.hpp"
 
 class Beast_forward
 {

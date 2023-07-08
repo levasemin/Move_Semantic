@@ -1,0 +1,8 @@
+mkdir build
+
+make move_semantic_flag
+
+cd build
+
+./main test_swap graph_swap
+./main test_swap_move graph_swap_move

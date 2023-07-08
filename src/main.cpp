@@ -1,15 +1,21 @@
-#include "test_copy_move_semantic/test_move_semantic.hpp"
-#include "test_copy_move_semantic/test_rvo_rnvo.hpp"
-#include "test_move_forward/test_swap.hpp"
-#include "test_move_forward/test_swap_move.hpp"
-#include "test_move_forward/test_beast.hpp"
-#include "test_move_forward/test_beast_move.hpp"
-#include "test_move_forward/test_beast_forward.hpp"
-#include "test_universal_reference/universal_reference.hpp"
+#include "test_move_semantic_naked.hpp"
+#include "test_move_semantic.hpp"
+#include "test_rvo_rnvo.hpp"
+#include "test_swap.hpp"
+#include "test_swap_move.hpp"
+#include "test_beast.hpp"
+#include "test_beast_move.hpp"
+#include "test_beast_forward.hpp"
+#include "universal_reference.hpp"
 
 void start_test(const std::string &type)
 {
-    if (type == "test_move_semantic")
+    if (type == "test_move_semantic_naked")
+    {
+        test_move_semantic_naked();
+    }
+
+    else if (type == "test_move_semantic")
     {
         test_move_semantic();
     }

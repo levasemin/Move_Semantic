@@ -1,0 +1,46 @@
+digraph G{
+trankdir=HR;
+node[shape=Mrecord];
+
+subgraph "cluster_0" {
+label = test_move_semantic;
+style = filled
+color = "#00000010";
+1[label="{ {name: tmp0} | {value:5} | {address: 140721507805696}} " color=""style=""fontcolor=""];
+1[label="{ {name: a} | {value:5} | {address: 140721507805696}} " color=""style=""fontcolor=""];
+2[label="{ {name: tmp1} | {value:14} | {address: 140721507805840}} " color=""style=""fontcolor=""];
+2[label="{ {name: b} | {value:14} | {address: 140721507805840}} " color=""style=""fontcolor=""];
+3[label="{ {name: tmp2} | {value:20} | {address: 140721507805984}} " color=""style=""fontcolor=""];
+3[label="{ {name: c} | {value:20} | {address: 140721507805984}} " color=""style=""fontcolor=""];
+4[label="{ {name: tmp3} | {value:0} | {address: 140721507806128}} " color=""style=""fontcolor=""];
+4[label="{ {name: result} | {value:0} | {address: 140721507806128}} " color=""style=""fontcolor=""];
+5[label = "*" color = "" style = "" fontcolor = "" ];
+edge[style = "" color = ""label = "1"fontcolor = ""]2->5;
+edge[style = "" color = ""label = "1"fontcolor = ""]3->5;
+6[label="{ {name: tmp4} | {value:280} | {address: 140721507806272}} " color=""style=""fontcolor=""];
+edge[style = "" color = ""label = "1"fontcolor = ""]5->6;
+7[label = "copy" color = "#EC7063" style = "filled" fontcolor = "" ];
+edge[style = "" color = ""label = "2"fontcolor = ""]1->7;
+8[label="{ {name: tmp5} | {value:5} | {address: 140721507806416}} " color=""style=""fontcolor=""];
+edge[style = "" color = ""label = "2"fontcolor = ""]7->8;
+subgraph "cluster_1" {
+label = sum;
+style = filled
+color = "#00000010";
+8[label="{ {name: func_a} | {value:5} | {address: 140721507806416}} " color=""style=""fontcolor=""];
+6[label="{ {name: func_b} | {value:280} | {address: 140721507806272}} " color=""style=""fontcolor=""];
+9[label = "+" color = "" style = "" fontcolor = "" ];
+edge[style = "" color = ""label = "3"fontcolor = ""]8->9;
+edge[style = "" color = ""label = "3"fontcolor = ""]6->9;
+10[label="{ {name: tmp6} | {value:285} | {address: 140721507806560}} " color=""style=""fontcolor=""];
+edge[style = "" color = ""label = "3"fontcolor = ""]9->10;
+10[label="{ {name: c} | {value:285} | {address: 140721507806560}} " color=""style=""fontcolor=""];
+}
+11[label = "= (copy)" color = "#EC7063" style = "filled" fontcolor = "" ];
+edge[style = "" color = ""label = "4"fontcolor = ""]4->11;
+edge[style = "dashed" color = ""label = "4"fontcolor = ""]10->11;
+12[label="{ {name: result} | {value:285} | {address: 140721507806128}} " color=""style=""fontcolor=""];
+edge[style = "" color = ""label = "4"fontcolor = ""]11->12;
+}
+label="Count of copy operation: 2
+Count of move operation: 0"}

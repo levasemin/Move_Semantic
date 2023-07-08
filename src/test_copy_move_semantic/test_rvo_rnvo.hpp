@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../SuperType/SuperType.hpp"
+#include "SuperType.hpp"
 
 void test_rvo_rnvo()
 {

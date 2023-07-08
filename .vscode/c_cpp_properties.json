@@ -3,10 +3,14 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/src/SuperType/**",
+                "${workspaceFolder}/src/test_copy_move_semantic/**",
+                "${workspaceFolder}/src/test_move_forward/**",
+                "${workspaceFolder}/src/test_universal_reference/**"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/gcc",
+            "compilerPath": "/usr/bin/g++-12",
             "cStandard": "gnu17",
             "cppStandard": "gnu++14",
             "intelliSenseMode": "linux-gcc-x64"

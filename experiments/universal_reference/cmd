@@ -1,0 +1,7 @@
+mkdir build
+
+make move_semantic_flag
+
+cd build
+
+./main test_universal_reference

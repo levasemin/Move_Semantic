@@ -170,11 +170,16 @@ int Tracker::print_oper(const style_params &style)
     }
 
     ++id;
-    std::string string = std::to_string(id) + "[label=\"" + style.label_ + "\"" + " color = \"" + style.color_ + "\" " + "style = " + "\"" + style.style_ + "\"" + "fontcolor =" + "\"" + style.font_color_ + "\"];";
     
     if (file_name_.size())
     {
-        file_ << string << std::endl;
+        file_   << std::to_string(id)
+                << "[" 
+                    << "label = \""     << style.label_      << "\" " 
+                    << "color = \""     << style.color_      << "\" " 
+                    << "style = \""     << style.style_      << "\" " 
+                    << "fontcolor = \"" << style.font_color_ << "\" "
+                << "];" << std::endl;
     }
 
     return id;
@@ -198,8 +203,17 @@ void Tracker::print_node(SuperType<T> &object)
     
     if (file_name_.size())
     {
-        file_ << object.id_ << "[label=\"{ {name: " << object.style_.label_ << "} | {value:" << object.value_ << "} | {address: " << uint64_t(&object) << "}} \" " << 
-                               "color=" << "\"" << object.style_.color_ << "\"" << "style=" << "\"" << object.style_.style_ << "\"" << "fontcolor=" << "\"" << object.style_.font_color_ << "\"" << "];" << std::endl;
+        file_   << object.id_ 
+                << "["
+                    <<"label=\"{ " 
+                        << "{name: " << object.style_.label_ << "} | "
+                        << "{value:" << object.value_ << "} | "
+                        << "{address: " << uint64_t(&object) << "}"
+                    <<"} \" " 
+                    << "color=" << "\"" << object.style_.color_ << "\"" 
+                    << "style=" << "\"" << object.style_.style_ << "\"" 
+                    << "fontcolor=" << "\"" << object.style_.font_color_ << "\"" 
+                << "];" << std::endl;
     }
 }
 
@@ -207,7 +221,12 @@ void Tracker::print_edge(int id1, int id2, const style_params &style)
 {
     if (file_name_.size())
     {
-        file_ << "edge[style = \"" << style.style_ << "\" " << "color = \"" << style.color_  << "\"" << "label = \"" + style.label_ + "\"" + "fontcolor =" + "\"" + style.font_color_ + "\"]" << std::to_string(id1) + "->" + std::to_string(id2) + ";" << std::endl;
+        file_ << "edge["
+              << "style = \""  << style.style_ << "\" " 
+              << "color = \""  << style.color_ << "\"" 
+              << "label = \""  << style.label_ << "\"" 
+              << "fontcolor = \"" << style.font_color_ <<"\"]" 
+              << std::to_string(id1) << "->" << std::to_string(id2) << ";" << std::endl;
     }
 }
 
@@ -215,10 +234,10 @@ void Tracker::print_open_func(const std::string &name)
 {
     if (file_name_.size())
     {
-        file_ << "subgraph " << "\"cluster_" << func_id << "\" {" << std::endl;
-        file_ << "label = " << name << ";" << std::endl; 
-        file_ << "style= filled" << std::endl;
-        file_ << "color = " << "\"" << "#00000010" << "\";" << std::endl;
+        file_ << "subgraph " << "\"cluster_" << func_id << "\" {" << std::endl
+              << "label = " << name << ";" << std::endl
+              << "style = filled" << std::endl
+              << "color = " << "\"" << "#00000010" << "\";" << std::endl;
     }
 
     func_id++;
@@ -245,9 +264,9 @@ void Tracker::open_file(const std::string &file_name)
     }
 
     file_name_ = file_name;
-    file_name_.erase(file_name_.end()-4, file_name_.end());
-
-    file_.open(file_name);
+    
+    system("mkdir ../dot");
+    file_.open("../dot/" + file_name + ".dot");
 
     if (file_name.size())
     {
@@ -264,7 +283,8 @@ void Tracker::close_file()
     {
         file_ << "}";
         file_.close();
-        system(("dot -T png " + file_name_ + ".dot > " + file_name_  + ".png").c_str());
+
+        system(("dot -T png ../dot/" + file_name_ + ".dot > " + "../" + file_name_  + ".png").c_str());
     }
 }
 
