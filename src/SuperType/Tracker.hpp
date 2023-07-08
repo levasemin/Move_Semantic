@@ -208,7 +208,7 @@ void Tracker::print_node(SuperType<T> &object)
                     <<"label=\"{ " 
                         << "{name: " << object.style_.label_ << "} | "
                         << "{value:" << object.value_ << "} | "
-                        << "{address: " << uint64_t(&object) << "}"
+                        << "{address: ..." << (uint64_t(&object) % 1000000) << "}"
                     <<"} \" " 
                     << "color=" << "\"" << object.style_.color_ << "\"" 
                     << "style=" << "\"" << object.style_.style_ << "\"" 
@@ -283,8 +283,9 @@ void Tracker::close_file()
     {
         file_ << "}";
         file_.close();
-
-        system(("dot -T png ../dot/" + file_name_ + ".dot > " + "../" + file_name_  + ".png").c_str());
+        
+        system("mkdir ../png");
+        system(("dot -T png ../dot/" + file_name_ + ".dot > " + "../png/" + file_name_  + ".png").c_str());
     }
 }
 

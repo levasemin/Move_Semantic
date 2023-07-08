@@ -5,3 +5,6 @@ experiments/rvo_rnvo/build
 experiments/special_functions/build
 experiments/universal_reference/build
 experiments/wrong_copy_move/build
+.vscode
+.VSCodeCounter
+README.md

@@ -6,16 +6,16 @@ subgraph "cluster_0" {
 label = test_rvo_rnvo;
 style = filled
 color = "#00000010";
-1[label="{ {name: tmp0} | {value:1} | {address: 140727801691600}} " color=""style=""fontcolor=""];
-1[label="{ {name: object_1} | {value:1} | {address: 140727801691600}} " color=""style=""fontcolor=""];
-2[label="{ {name: tmp1} | {value:2} | {address: 140727801691744}} " color=""style=""fontcolor=""];
-2[label="{ {name: object_2} | {value:2} | {address: 140727801691744}} " color=""style=""fontcolor=""];
+1[label="{ {name: tmp0} | {value:1} | {address: ...51136}} " color=""style=""fontcolor=""];
+1[label="{ {name: object_1} | {value:1} | {address: ...51136}} " color=""style=""fontcolor=""];
+2[label="{ {name: tmp1} | {value:2} | {address: ...51280}} " color=""style=""fontcolor=""];
+2[label="{ {name: object_2} | {value:2} | {address: ...51280}} " color=""style=""fontcolor=""];
 3[label = "+" color = "" style = "" fontcolor = "" ];
 edge[style = "" color = ""label = "1"fontcolor = ""]1->3;
 edge[style = "" color = ""label = "1"fontcolor = ""]2->3;
-4[label="{ {name: tmp2} | {value:3} | {address: 140727801691888}} " color=""style=""fontcolor=""];
+4[label="{ {name: tmp2} | {value:3} | {address: ...51424}} " color=""style=""fontcolor=""];
 edge[style = "" color = ""label = "1"fontcolor = ""]3->4;
-4[label="{ {name: ojbect_3} | {value:3} | {address: 140727801691888}} " color=""style=""fontcolor=""];
+4[label="{ {name: ojbect_3} | {value:3} | {address: ...51424}} " color=""style=""fontcolor=""];
 }
 label="Count of copy operation: 0
 Count of move operation: 0"}

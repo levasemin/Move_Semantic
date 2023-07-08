@@ -6,52 +6,52 @@ subgraph "cluster_0" {
 label = test_move_semantic;
 style = filled
 color = "#00000010";
-1[label="{ {name: tmp0} | {value:5} | {address: 140734001754352}} " color=""style=""fontcolor=""];
-1[label="{ {name: a} | {value:5} | {address: 140734001754352}} " color=""style=""fontcolor=""];
-2[label="{ {name: tmp1} | {value:14} | {address: 140734001754496}} " color=""style=""fontcolor=""];
-2[label="{ {name: b} | {value:14} | {address: 140734001754496}} " color=""style=""fontcolor=""];
-3[label="{ {name: tmp2} | {value:20} | {address: 140734001754640}} " color=""style=""fontcolor=""];
-3[label="{ {name: c} | {value:20} | {address: 140734001754640}} " color=""style=""fontcolor=""];
-4[label="{ {name: tmp3} | {value:0} | {address: 140734001754784}} " color=""style=""fontcolor=""];
-4[label="{ {name: result} | {value:0} | {address: 140734001754784}} " color=""style=""fontcolor=""];
+1[label="{ {name: tmp0} | {value:5} | {address: ...326672}} " color=""style=""fontcolor=""];
+1[label="{ {name: a} | {value:5} | {address: ...326672}} " color=""style=""fontcolor=""];
+2[label="{ {name: tmp1} | {value:14} | {address: ...326816}} " color=""style=""fontcolor=""];
+2[label="{ {name: b} | {value:14} | {address: ...326816}} " color=""style=""fontcolor=""];
+3[label="{ {name: tmp2} | {value:20} | {address: ...326960}} " color=""style=""fontcolor=""];
+3[label="{ {name: c} | {value:20} | {address: ...326960}} " color=""style=""fontcolor=""];
+4[label="{ {name: tmp3} | {value:0} | {address: ...327104}} " color=""style=""fontcolor=""];
+4[label="{ {name: result} | {value:0} | {address: ...327104}} " color=""style=""fontcolor=""];
 5[label = "*" color = "" style = "" fontcolor = "" ];
 edge[style = "" color = ""label = "1"fontcolor = ""]2->5;
 edge[style = "" color = ""label = "1"fontcolor = ""]3->5;
-6[label="{ {name: tmp4} | {value:280} | {address: 140734001754144}} " color=""style=""fontcolor=""];
+6[label="{ {name: tmp4} | {value:280} | {address: ...326464}} " color=""style=""fontcolor=""];
 edge[style = "" color = ""label = "1"fontcolor = ""]5->6;
 7[label = "move" color = "#EC7063" style = "filled" fontcolor = "" ];
 edge[style = "" color = ""label = "2"fontcolor = ""]6->7;
-8[label="{ {name: tmp5} | {value:280} | {address: 140734001754928}} " color=""style=""fontcolor=""];
+8[label="{ {name: tmp5} | {value:280} | {address: ...327248}} " color=""style=""fontcolor=""];
 edge[style = "" color = ""label = "2"fontcolor = ""]7->8;
 9[label = "copy" color = "#EC7063" style = "filled" fontcolor = "" ];
 edge[style = "" color = ""label = "3"fontcolor = ""]1->9;
-10[label="{ {name: tmp6} | {value:5} | {address: 140734001755072}} " color=""style=""fontcolor=""];
+10[label="{ {name: tmp6} | {value:5} | {address: ...327392}} " color=""style=""fontcolor=""];
 edge[style = "" color = ""label = "3"fontcolor = ""]9->10;
 subgraph "cluster_1" {
 label = sum;
 style = filled
 color = "#00000010";
-10[label="{ {name: func_a} | {value:5} | {address: 140734001755072}} " color=""style=""fontcolor=""];
-8[label="{ {name: func_b} | {value:280} | {address: 140734001754928}} " color=""style=""fontcolor=""];
+10[label="{ {name: func_a} | {value:5} | {address: ...327392}} " color=""style=""fontcolor=""];
+8[label="{ {name: func_b} | {value:280} | {address: ...327248}} " color=""style=""fontcolor=""];
 11[label = "+" color = "" style = "" fontcolor = "" ];
 edge[style = "" color = ""label = "4"fontcolor = ""]10->11;
 edge[style = "" color = ""label = "4"fontcolor = ""]8->11;
-12[label="{ {name: tmp7} | {value:285} | {address: 140734001753888}} " color=""style=""fontcolor=""];
+12[label="{ {name: tmp7} | {value:285} | {address: ...326208}} " color=""style=""fontcolor=""];
 edge[style = "" color = ""label = "4"fontcolor = ""]11->12;
 13[label = "move" color = "#EC7063" style = "filled" fontcolor = "" ];
 edge[style = "" color = ""label = "5"fontcolor = ""]12->13;
-14[label="{ {name: tmp8} | {value:285} | {address: 140734001754160}} " color=""style=""fontcolor=""];
+14[label="{ {name: tmp8} | {value:285} | {address: ...326480}} " color=""style=""fontcolor=""];
 edge[style = "" color = ""label = "5"fontcolor = ""]13->14;
-14[label="{ {name: c} | {value:285} | {address: 140734001754160}} " color=""style=""fontcolor=""];
+14[label="{ {name: c} | {value:285} | {address: ...326480}} " color=""style=""fontcolor=""];
 }
 15[label = "move" color = "#EC7063" style = "filled" fontcolor = "" ];
 edge[style = "" color = ""label = "6"fontcolor = ""]14->15;
-16[label="{ {name: tmp9} | {value:285} | {address: 140734001755216}} " color=""style=""fontcolor=""];
+16[label="{ {name: tmp9} | {value:285} | {address: ...327536}} " color=""style=""fontcolor=""];
 edge[style = "" color = ""label = "6"fontcolor = ""]15->16;
 17[label = "= (move)" color = "#EC7063" style = "filled" fontcolor = "" ];
 edge[style = "" color = ""label = "7"fontcolor = ""]4->17;
 edge[style = "dashed" color = ""label = "7"fontcolor = ""]16->17;
-18[label="{ {name: result} | {value:285} | {address: 140734001754784}} " color=""style=""fontcolor=""];
+18[label="{ {name: result} | {value:285} | {address: ...327104}} " color=""style=""fontcolor=""];
 edge[style = "" color = ""label = "7"fontcolor = ""]17->18;
 }
 label="Count of copy operation: 1
